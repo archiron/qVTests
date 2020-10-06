@@ -277,6 +277,31 @@ def get_answer3(text2prompt, tab):
 
     return temp
 
+def get_answer4(text2prompt):
+    quitLoop = True
+    print('')
+    while ( quitLoop ):
+        rel = raw_input(text2prompt)
+        #rel = input(text2prompt)  # Python 3
+        if rel == 'q':
+            exit()
+        elif rel == 'b':
+            quitLoop = False
+            temp = ''
+        elif rel == 'd':
+            quitLoop = False
+            temp = 'd'
+        elif rel == 'a':
+            quitLoop = False
+            temp = 'a'
+        elif rel == 'c':
+            quitLoop = False
+            temp = 'c'
+        else:
+            print('vous avez tapé : %s' % rel)
+
+    return temp
+
 def check_comparisonChoice(self, t1, t2, it_comp, t_choice):
     #print('tablo : %s' % t1)
     if ((len(t1 )>0) and (len(t1)<=len(t2))):
@@ -503,9 +528,25 @@ def fonction_10(self):
     print_tab_3(self.default_dataset, self.color_nb)
     print('those with %s are not selected' % (colorText('0', 'blue')))
     print('those with %s are selected' % (colorText('1', self.color_nb)))
-    #text_to_prompt= "number of the validation type, [" + colorText('b', self.color) + "]ack or [" + colorText('q', self.color) +"]uit. ? "
+    text_to_prompt = "you can use the [" + colorText('d', self.color) + "]efault selected datasets, [" + colorText('b', self.color) + "]ack or [" + colorText('q', self.color) +"]uit.\n "
+    text_to_prompt += "you can [" + colorText('a', self.color) + "]dd datasets from those non selected, or [" + colorText('c', self.color) + "]hose between the common datasets : "
 
-    #self.validationChoice = get_answer3(text_to_prompt, self.validations) #
+
+    self.dts = get_answer4(text_to_prompt) #
+    if ( self.dts == ''): # back
+        return 9
+    elif ( self.dts == 'a'): # default
+        return 10
+    elif ( self.dts == 'c'): # default
+        return 10
+    elif ( self.dts == 'd'): # default
+        self.datasets = []
+        for item in self.default_dataset:
+            if item[1] == 1:
+                self.datasets.append(item[0])
+        print('datasets : ')
+        print(self.datasets)
+        return 10
 
     return 10
 

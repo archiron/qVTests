@@ -37,6 +37,7 @@ class quickVal():
         self.comparisons = comparisons
         self.validations = validations
         self.default_dataset = []
+        self.datasets = []
 
         self.web_location = [DataLocation(self)[0][2],
                            DataLocation(self)[1][2]]
@@ -71,6 +72,7 @@ class quickVal():
         # insert dataset choice
         self.gev_tmp.append(self.comparisonChoice)
         self.gev_tmp.append(self.validationChoice)
+        self.gev_tmp.append(self.datasets)
         print(self.gev_tmp)
         self.Gev.append(self.gev_tmp)
         print(self.Gev)
@@ -81,16 +83,12 @@ class quickVal():
         print('suite ...')
         #stop
 
-        print('')
-        print('DataSets default')
-        print(self.default_dataset)
-
         # Comparison of the datasets lists
         print(' ')
         print('Common datasets')
 
         self.commonDatasets = set(self.datasetsList_1).intersection(set(self.datasetsList_2))
         self.commonDatasets = list(self.commonDatasets) # get the common datasets for the comparisons
-        print_tab_1(self.commonDatasets, self.color_nb)
+        #print_tab_1(self.commonDatasets, self.color_nb)
 
         print('end of run')
