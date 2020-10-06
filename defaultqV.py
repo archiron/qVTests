@@ -21,6 +21,7 @@ datasets_default = ['TTbar_14TeV', 'ZEE_14']
 ##############################################
 
 comparisons = ['FullvsFull', 'FastvsFast', 'FastvsFull']
-validations = ['RECO', 'PU25', 'PUpmx25', 'miniAOD'] # PU25 instead of PU25ns to take news HGal cases into account. 
+validations = ['RECO', 'PU25', 'PUpmx25', 'miniAOD'] # PU25 instead of PU25ns to take news HGal cases into account.
 
-color = 'green' # color for the shell highlights ## perhaps unused
+color = 'green' # color for the shell highlights #
+color_nb = 'lightyellow'

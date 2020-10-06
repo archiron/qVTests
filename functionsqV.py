@@ -9,6 +9,7 @@ import numpy as np
 sys.path.append('/afs/cern.ch/user/a/archiron/lbin/ChiLib')
 
 from networkFunctions import list_search_1, cmd_load_files
+from datasetsqV import *
 
 def sub_releases(tab_files):
     i = 0
@@ -19,7 +20,7 @@ def sub_releases(tab_files):
         i += 1
     temp = sorted(set(temp), reverse=True)
     return temp
-    
+
 def sub_releases2(release, tab_files):
     import re
     i = 0
@@ -33,7 +34,7 @@ def sub_releases2(release, tab_files):
         i += 1
     temp = sorted(set(temp)) # , reverse=True
     return temp
-    
+
 def sub_releases3(release, tab_files):
     import re
     i = 0
@@ -46,7 +47,7 @@ def sub_releases3(release, tab_files):
         i += 1
     temp = sorted(set(temp)) # , reverse=True
     return temp
-    
+
 def explode_item(item):
     # initial file name : DQM_V0001_R000000001__RelValTTbar_13__CMSSW_7_4_0_pre8-PUpmx50ns_MCRUN2_74_V6_gs_pre7-v1__DQMIO.root
     # prefix in DQM_V0001_R000000001__ removed : RelValTTbar_13__CMSSW_7_4_0_pre8-PUpmx50ns_MCRUN2_74_V6_gs_pre7-v1__DQMIO.root
@@ -54,7 +55,7 @@ def explode_item(item):
     # new prefix in RelVal removed : TTbar_13__CMSSW_7_4_0_pre8-PUpmx50ns_MCRUN2_74_V6_gs_pre7-v1
     # splitting with __ : TTbar_13 CMSSW_7_4_0_pre8-PUpmx50ns_MCRUN2_74_V6_gs_pre7-v1
     # splitting second term with - : TTbar_13 CMSSW_7_4_0_pre8 PUpmx50ns_MCRUN2_74_V6_gs_pre7-v1
-    
+
     #print('item : ', item)
     temp_item = item[22:] # DQM_V0001_R000000001__ removed
     #print('item 22 : ', temp_item)
@@ -77,7 +78,7 @@ def screen_clear():
     else:
         # for windows platfrom
         _ = os.system('cls')
-    
+
 def check_terminal_size(self):
     #print("Number of columns and Rows: ", self.terminal_size())
     if (terminal_size()[0] < 150): # too less cols
@@ -88,7 +89,7 @@ def check_terminal_size(self):
         exit()
     else:
         print('terminal size OK.')
-    
+
 def terminal_size():
     import fcntl, termios, struct
     th, tw, hp, wp = struct.unpack('HHHH',
@@ -96,14 +97,17 @@ def terminal_size():
         struct.pack('HHHH', 0, 0, 0, 0)))
     return tw, th
 
-def affiche_1(i, tab): # not used
-    print('%50s [%2d]' % (tab[i], i))
+def affiche_1(i, tab, color): # not used
+    #print('%50s [%2d]' % (tab[i], i))
+    print('%50s [%s]' % (tab[i], colorText(str(i), color)))
 
-def affiche_2(i, tab): # not used
-    print('%50s [%2d] %50s [%2d]' % (tab[i], i, tab[i+1], i+1))
+def affiche_2(i, tab, color): # not used
+    #print('%50s [%2d] %50s [%2d]' % (tab[i], i, tab[i+1], i+1))
+    print('%50s [%s] %50s [%s]' % ( tab[i], colorText(str(i), color), tab[i+1], colorText(str(i+1), color) ) )
 
-def affiche_3(i, tab): # not used
-    print('%50s [%2d] %50s [%2d] %50s [%2d]' % (tab[i], i, tab[i+1], i+1, tab[i+2], i+2))
+def affiche_3(i, tab, color): # not used
+    #print('%50s [%2d] %50s [%2d] %50s [%2d]' % (tab[i], i, tab[i+1], i+1, tab[i+2], i+2))
+    print('%50s [%s] %50s [%s] %50s [%s]' % ( tab[i], colorText(str(i), color), tab[i+1], colorText(str(i+1), color), tab[i+2], colorText(str(i+2), color) ) )
 
 def changeColor(color):
     # 30:noir ; 31:rouge; 32:vert; 33:orange; 34:bleu; 35:violet; 36:turquoise; 37:blanc
@@ -124,23 +128,45 @@ def changeColor(color):
         return '[36m'
     elif (color == 'turquoise'):
         return '[37m'
+    elif (color == 'lightyellow'):
+        return '[93m'
     else:
         return '[30m'
 
-def print_tab(tab):
+def print_tab_3(tab, color): # only for datasets
+    print('')
+
+    for i in range(0, len(tab), 2):
+        #print( tab[i][0], str(tab[i][1]) )
+        #print( tab[i+1][0], str(tab[i+1][1]) )
+        color0 = color
+        color1 = color
+        if ( tab[i][1] == 0):
+            color0 = 'blue'
+        if ( tab[i+1][1] == 0):
+            color1 = 'blue'
+        print('%40s [%s] %40s [%s]' % (tab[i][0], colorText(str(tab[i][1]), color0), tab[i+1][0], colorText(str(tab[i+1][1]), color1)))
+
+def print_tab_2(tab, color): # only for tab with 2 elements
+    print('')
+    for i in range(0, len(tab)):
+        #print(' [%d] %50s' % (i, tab[i]))
+        print('[%s] %50s' % (colorText(str(i), color), tab[i]))
+
+def print_tab_1(tab, color):
     print('')
     if ((len(tab) % 2) == 0):
         for i in range(0, len(tab), 2):
-            affiche_2(i, tab)
+            affiche_2(i, tab, color)
     elif ((len(tab) % 3) == 0):
         for i in range(0, len(tab), 3):
-            affiche_3(i, tab)
+            affiche_3(i, tab, color)
     else: # general case
         for i in range(0, len(tab), 2):
             if (i+1 == len(tab)):
                 print('%50s [%2d]' % (tab[i], i))
-            else: # 
-                affiche_2(i, tab)
+            else: #
+                affiche_2(i, tab, color)
 
 def colorText(sometext, color):
     return '\033' + changeColor(color) + sometext + '\033[0m'
@@ -158,9 +184,28 @@ def createDTSname(self, it_comp, it_val):
         print('pas de module %s' % name)
     return
 
+def get_answerText(text2prompt):
+    quitLoop = True
+    print('')
+    while ( quitLoop ):
+        rel = raw_input(text2prompt)
+        #rel = input(text2prompt)  # Python 3
+        if rel == 'q':
+            exit()
+        elif rel == 'b':
+            quitLoop = False
+            text = 'back'
+        else:
+            print('vous avez tapé : %s' % rel)
+            quitLoop = False
+            text = rel
+
+    return text
+
 def get_answer1(text2prompt, tab):
     quitLoop = True
-    while ( quitLoop ): 
+    print('')
+    while ( quitLoop ):
         rel = raw_input(text2prompt)
         #rel = input(text2prompt)  # Python 3
         if rel == 'q':
@@ -170,7 +215,7 @@ def get_answer1(text2prompt, tab):
         irel = ''
         try:
             irel = int(rel)
-            if ( irel >= 0 and irel < len(tab) ): 
+            if ( irel >= 0 and irel < len(tab) ):
                 quitLoop = False
                 temp = tab[int(rel)]
             else:
@@ -178,12 +223,37 @@ def get_answer1(text2prompt, tab):
                 quitLoop = True
         except:
             print('%s is not a number' % rel)
-            
+
     return temp
 
 def get_answer2(text2prompt, tab):
     quitLoop = True
-    while ( quitLoop ): 
+    print('')
+    while ( quitLoop ):
+        rel = raw_input(text2prompt)
+        #rel = input(text2prompt)  # Python 3
+        if rel == 'q':
+            exit()
+        else:
+            print('vous avez tapé : %s' % rel)
+        irel = ''
+        try:
+            irel = int(rel)
+            if ( irel >= 0 and irel < len(tab) ):
+                quitLoop = False
+                temp = tab[int(rel)]
+            else:
+                print('%d is not into the range [0:%d]' % (irel, len(tab)-1))
+                quitLoop = True
+        except:
+            print('%s is not a number' % rel)
+
+    return temp
+
+def get_answer3(text2prompt, tab):
+    quitLoop = True
+    print('')
+    while ( quitLoop ):
         rel = raw_input(text2prompt)
         #rel = input(text2prompt)  # Python 3
         if rel == 'q':
@@ -196,7 +266,7 @@ def get_answer2(text2prompt, tab):
         irel = ''
         try:
             irel = int(rel)
-            if ( irel >= 0 and irel < len(tab) ): 
+            if ( irel >= 0 and irel < len(tab) ):
                 quitLoop = False
                 temp = tab[int(rel)]
             else:
@@ -204,7 +274,7 @@ def get_answer2(text2prompt, tab):
                 quitLoop = True
         except:
             print('%s is not a number' % rel)
-            
+
     return temp
 
 def check_comparisonChoice(self, t1, t2, it_comp, t_choice):
@@ -219,7 +289,7 @@ def check_comparisonChoice(self, t1, t2, it_comp, t_choice):
                 irel = int(it)
                 print(type(it))
                 print(type(irel))
-                if ( irel >= 0 and irel < len(t2) ): 
+                if ( irel >= 0 and irel < len(t2) ):
                     # test with lengths of lists (self.rel_Full, self.ref_Fast, self.rel_PU, ...)
                     if t_choice == 'val':
                         a = check_listLengths(self, t2[irel], it_comp)
@@ -241,9 +311,9 @@ def check_comparisonChoice(self, t1, t2, it_comp, t_choice):
         print('t1 : %d - t2 : %d' % (len(t1), len(t2)))
     return temp
 
-def get_comparisonAnswer(self, text2prompt, tab, it_comp, t_choice):
+def get_comparisonAnswer(self, text2prompt, tab, it_comp, t_choice): # not used ?
     quitLoop = True
-    while ( quitLoop ): 
+    while ( quitLoop ):
         rel = raw_input(text2prompt)
         #rel = input(text2prompt)  # Python 3
         if rel == 'q':
@@ -269,11 +339,24 @@ def extractFrom(nb):
 def fonction_1(self):
     screen_clear()
     print('vous appelez la fonction 1')
-    # get the list for RELEASE
-    print_tab(self.list_0)
+    print_tab_2(self.web_location, self.color_nb)
+    #print('==')
 
-    text_to_prompt= "number of the release family or [" + colorText('q', self.color) +"]uit. ? " 
-    self.releaseFamily = get_answer1(text_to_prompt, self.list_0)
+    text_to_prompt= "number of the folder choice or [" + colorText('q', self.color) +"]uit. ? "
+    self.location = get_answer1(text_to_prompt, self.web_location)
+    print('WEB LOCATION : %s' % colorText(self.location, 'blue')) # now we have the web folder location
+    #self.gev_tmp.append(self.location) # seems to be inefficient
+    sleep(1)
+    return 1
+
+def fonction_2(self):
+    screen_clear()
+    print('vous appelez la fonction 2')
+    # get the list for RELEASE
+    print_tab_1(self.list_0, self.color_nb)
+
+    text_to_prompt= "number of the RELEASE family or [" + colorText('q', self.color) +"]uit. ? "
+    self.releaseFamily = get_answer3(text_to_prompt, self.list_0)
     print('RELEASE FAMILY : %s' % colorText(self.releaseFamily, 'blue')) # now we have the release family
     sleep(1)
 
@@ -282,19 +365,19 @@ def fonction_1(self):
     self.releasesList_1 = list_search_1(self.releaseFamily) # all the releases
     print('there is %d files for %s' % (len(self.releasesList_1), self.releaseFamily))
     self.releaseFamily2 = self.releaseFamily[:-1] # not used ?
-        
+
     self.releasesList_2 = sub_releases(self.releasesList_1) # extract the releases CMSSW_X_Y_Z...
     #for item in self.releasesList_2:
     #    print(item)
 
-    return 1
+    return 2
 
-def fonction_2(self):
+def fonction_3(self):
     screen_clear()
-    print('vous appelez la fonction 2')
-    print_tab(self.releasesList_2)
-    text_to_prompt= "number of the release, [" + colorText('b', self.color) + "]ack or [" + colorText('q', self.color) +"]uit. ? " 
-    self.release = get_answer2(text_to_prompt, self.releasesList_2)
+    print('vous appelez la fonction 3')
+    print_tab_1(self.releasesList_2, self.color_nb)
+    text_to_prompt= "number of the RELEASE, [" + colorText('b', self.color) + "]ack or [" + colorText('q', self.color) +"]uit. ? "
+    self.release = get_answer3(text_to_prompt, self.releasesList_2)
 
     if self.release != '':
         print('RELEASE : %s' % self.release) # now we have the release
@@ -302,21 +385,21 @@ def fonction_2(self):
         print('')
         self.releasesList_3 = sub_releases3(self.release, self.releasesList_1) # extract the list of the root files for the chosen release
         self.datasetsList_1 = sub_releases2(self.release, self.releasesList_3) # extract the datasets of the root files for the chosen release
-        return 2
+        return 3
     else:
-        return 0
+        return 1
 
-def fonction_3(self):
+def fonction_4(self):
     screen_clear()
-    print('vous appelez la fonction 3')
-    text_to_prompt= "Reference family for the validation " 
-    print(text_to_prompt)  # 
+    print('vous appelez la fonction 4')
+    text_to_prompt= "Reference family for the validation "
+    print(text_to_prompt)  #
 
     # get the list for REFERENCE
-    print_tab(self.list_0)
+    print_tab_1(self.list_0, self.color_nb)
 
-    text_to_prompt= "number of the reference family, [" + colorText('b', self.color) + "]ack or [" + colorText('q', self.color) +"]uit. ? " 
-    self.referenceFamily = get_answer2(text_to_prompt, self.list_0)
+    text_to_prompt= "number of the REFERENCE family, [" + colorText('b', self.color) + "]ack or [" + colorText('q', self.color) +"]uit. ? "
+    self.referenceFamily = get_answer3(text_to_prompt, self.list_0)
     if self.referenceFamily != '':
         print('REFERENCE FAMILY : %s' % colorText(self.referenceFamily, 'blue')) # now we have the reference family
         sleep(1)
@@ -326,76 +409,105 @@ def fonction_3(self):
         self.referencesList_1 = list_search_1(self.referenceFamily) # all the references
         print('there is %d files for %s' % (len(self.referencesList_1), self.referenceFamily))
         self.referenceFamily2 = self.referenceFamily[:-1] # not used ?
-        
-        self.referencesList_2 = sub_releases(self.referencesList_1) # extract the references CMSSW_X_Y_Z...
-        return 3
-    else:
-        return 1
-        
-def fonction_4(self):
-    screen_clear()
-    print('vous appelez la fonction 4')
-    print_tab(self.referencesList_2)
-    text_to_prompt= "number of the reference, [" + colorText('b', self.color) + "]ack or [" + colorText('q', self.color) +"]uit. ? " 
-    self.reference = get_answer2(text_to_prompt, self.referencesList_2)
 
-    if self.reference != '':
-        print('REFERENCE : %s' % self.reference) # now we have the reference
-        print('')
-        self.referencesList_3 = sub_releases3(self.reference, self.referencesList_1) # extract the list of the root files for the chosen reference
-        self.datasetsList_2 = sub_releases2(self.reference, self.referencesList_3) # extract the datasets of the root files for the chosen reference
+        self.referencesList_2 = sub_releases(self.referencesList_1) # extract the references CMSSW_X_Y_Z...
         return 4
     else:
         return 2
 
 def fonction_5(self):
     screen_clear()
-    # choose the comparison to to (Full/Fast/...)
-    print(self.comparisons)
-    print('')
-    text_to_prompt= "numbers of the comparisons, [" + colorText('b', self.color) + "]ack or [" + colorText('q', self.color) +"]uit. ? " 
-    print_tab(self.comparisons)
-    self.comparisonChoice = get_comparisonAnswer(self, text_to_prompt, self.comparisons, '', 'comp') # get a tuple with the comparison choice
-    if (len(self.comparisonChoice) == 0):
-        print("Sorry, no valid choice.")
-        return 3
-        #exit()
-    else:                                                                                  
-        self.comparisonChoice = list(self.comparisonChoice)
+    print('vous appelez la fonction 5')
+    print_tab_1(self.referencesList_2, self.color_nb)
+    text_to_prompt= "number of the REFERENCE, [" + colorText('b', self.color) + "]ack or [" + colorText('q', self.color) +"]uit. ? "
+    self.reference = get_answer3(text_to_prompt, self.referencesList_2)
+
+    if self.reference != '':
+        print('REFERENCE : %s' % self.reference) # now we have the reference
+        print('')
+        self.referencesList_3 = sub_releases3(self.reference, self.referencesList_1) # extract the list of the root files for the chosen reference
+        self.datasetsList_2 = sub_releases2(self.reference, self.referencesList_3) # extract the datasets of the root files for the chosen reference
         return 5
+    else:
+        return 3
 
 def fonction_6(self):
-    self.tabGlobal = []
+    screen_clear()
+    print('vous appelez la fonction 6')
+    # web folder name customization
+    # text to add into folder name for release
 
-    # extract rel/ref lists corresponding to it_comp/it_val values from self.releasesList_3/self.referencesList_3
-    getFilesList(self)
-    for it_comp in self.comparisonChoice: # for each choice in [FastvsFast, FullvsFull, FastvsFull]
-        t_comp = it_comp.split('vs') # t_comp[0] for self.releasesList_3 & t_comp[1] for self.referencesList_3
-        print('it_comp')
-        print(t_comp)
-        # choose the validations to be done (RECO/PU25ns/...)
-        #screen_clear()
-        print(self.validations)
-        print('')
-        text_to_prompt= "numbers of the validations to be done for " + colorText(it_comp, 'blue') + " or [q]uit. ? " 
-        print_tab(self.validations)
-        self.validationsChoice = get_comparisonAnswer(self, text_to_prompt, self.validations, it_comp, 'val') # get a tuple with the validations choice
-        if len(self.validationsChoice) == 0:
+    print('')
+    text_to_prompt= "input a RELEASE folder extension (hit return for none), [" + colorText('b', self.color) + "]ack or [" + colorText('q', self.color) +"]uit. ? "
+
+    self.releaseExtent = get_answerText(text_to_prompt) # get a text
+    if (len(self.releaseExtent) == 0):
+        print("no extension for release.")
+        return 6
+    else:
+        if (self.releaseExtent == 'back'):
             return 4
-        print(it_comp)
-        for it_val in self.validationsChoice: # for each choice in (RECO/PU25ns/...)
-            # load datasets from default datasets
-            dts = createDTSname(self, it_comp, it_val) # look for datasets for each case
-            for item in dts:
-                if item[1] == 1:
-                    print(colorText(item[0], 'blue'))
-                else:
-                    print([item[0]])
-            sleep(1)
-            #print(dts)
-            self.tabGlobal.append([it_comp, it_val, dts]) 
-                
-    return 6
+        else:
+            print('extension for release : %s' % self.releaseExtent)
+            return 6
+
+def fonction_7(self):
+    screen_clear()
+    print('vous appelez la fonction 7')
+    # web folder name customization
+    # text to add into folder name for reference
+
+    print('')
+    text_to_prompt= "input a REFERENCE folder extension(hit return for none), [" + colorText('b', self.color) + "]ack or [" + colorText('q', self.color) +"]uit. ? "
+
+    self.referenceExtent = get_answerText(text_to_prompt) # get a text
+    if (len(self.referenceExtent) == 0):
+        print("no extension for reference.")
+        return 7
+    else:
+        if (self.referenceExtent == 'back'):
+            return 5
+        else:
+            print('extension for reference : %s' % self.referenceExtent)
+            return 7
+
+def fonction_8(self):
+    screen_clear()
+    print('vous appelez la fonction 8')
+    # comparison choice
+    print_tab_1(self.comparisons, self.color_nb)
+    text_to_prompt= "number of the comparison type, [" + colorText('b', self.color) + "]ack or [" + colorText('q', self.color) +"]uit. ? "
+
+    self.comparisonChoice = get_answer3(text_to_prompt, self.comparisons) #
+
+    return 8
+
+def fonction_9(self):
+    screen_clear()
+    print('vous appelez la fonction 9')
+    # validation choice
+    print_tab_1(self.validations, self.color_nb)
+    text_to_prompt= "number of the validation type, [" + colorText('b', self.color) + "]ack or [" + colorText('q', self.color) +"]uit. ? "
+
+    self.validationChoice = get_answer3(text_to_prompt, self.validations) #
+
+    return 9
+
+def fonction_10(self):
+    screen_clear()
+    print('vous appelez la fonction 10')
+    # datasets choice
+    fieldname = 'DataSetsFilter_' + self.comparisonChoice + self.validationChoice
+    print('datasets default')
+    self.default_dataset = DataSetsFilter(self, fieldname)
+    print_tab_3(self.default_dataset, self.color_nb)
+    print('those with %s are not selected' % (colorText('0', 'blue')))
+    print('those with %s are selected' % (colorText('1', self.color_nb)))
+    #text_to_prompt= "number of the validation type, [" + colorText('b', self.color) + "]ack or [" + colorText('q', self.color) +"]uit. ? "
+
+    #self.validationChoice = get_answer3(text_to_prompt, self.validations) #
+
+    return 10
 
 def getFilesList(self):
     # case release
