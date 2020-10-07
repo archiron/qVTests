@@ -302,6 +302,31 @@ def get_answer4(text2prompt):
 
     return temp
 
+def get_answer5(text2prompt):
+    quitLoop = True
+    print('')
+    while ( quitLoop ):
+        rel = raw_input(text2prompt)
+        #rel = input(text2prompt)  # Python 3
+        temp = ''
+
+        if rel == 'q':
+            exit()
+        elif rel == 'b':
+            print('back')
+            quitLoop = False
+            temp = ''
+        elif rel == 'y':
+            quitLoop = False
+            temp = 'y'
+        elif rel == 'n':
+            quitLoop = False
+            temp = 'n'
+        else:
+            print('vous avez tapé : %s' % rel)
+
+    return temp
+
 def check_comparisonChoice(self, t1, t2, it_comp, t_choice):
     #print('tablo : %s' % t1)
     if ((len(t1 )>0) and (len(t1)<=len(t2))):
@@ -531,7 +556,6 @@ def fonction_10(self):
     text_to_prompt = "you can use the [" + colorText('d', self.color) + "]efault selected datasets, [" + colorText('b', self.color) + "]ack or [" + colorText('q', self.color) +"]uit.\n "
     text_to_prompt += "you can [" + colorText('a', self.color) + "]dd datasets from those non selected, or [" + colorText('c', self.color) + "]hose between the common datasets : "
 
-
     self.dts = get_answer4(text_to_prompt) #
     if ( self.dts == ''): # back
         return 9
@@ -549,6 +573,31 @@ def fonction_10(self):
         return 10
 
     return 10
+
+def fonction_11(self):
+    screen_clear()
+    print('vous appelez la fonction 11')
+    # DB Flag choice
+    if testZEE(self.datasets):
+        text_to_prompt= "use Decision Box for ZEE, [" + colorText('y', self.color) + "]es/[" + colorText('n', self.color) + "o] [" + colorText('b', self.color) + "]ack or [" + colorText('q', self.color) +"]uit. ? "
+        DB_flag = get_answer5(text_to_prompt) #
+        print('DB flag : %s' % DB_flag)
+    else:
+        DB_flag = 'n'
+
+    if DB_flag == '':
+        return 9
+    elif DB_flag == 'y':
+        for item in self.datasets:
+            if item != 'ZEE_14':
+                self.DB_flags.append('False')
+            else:
+                self.DB_flags.append('True')
+        return 11
+    elif DB_flag == 'n':
+        for i in range(0, len(self.datasets)):
+            self.DB_flags.append('False')
+        return 11
 
 def getFilesList(self):
     # case release
@@ -649,3 +698,10 @@ def check_listLengths(self, value, it_comp):
         return [True, l1, l2]
     else:
         return [False, l1, l2]
+
+def testZEE(tab):
+    test = False
+    for item in tab:
+        if item == 'ZEE_14':
+            test = 'True'
+    return test

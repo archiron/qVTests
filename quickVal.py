@@ -38,6 +38,7 @@ class quickVal():
         self.validations = validations
         self.default_dataset = []
         self.datasets = []
+        self.DB_flags = []
 
         self.web_location = [DataLocation(self)[0][2],
                            DataLocation(self)[1][2]]
@@ -55,7 +56,7 @@ class quickVal():
         i_back = 1
         while (i_back != 0):
             table=getattr(sys.modules[__name__], "fonction_%s" % str(i_back))(self)
-            i_back = (table + 1) % 11
+            i_back = (table + 1) % 12
             print('i_back : %d' % i_back)
             # include the differents choices into Gev
 
@@ -73,6 +74,7 @@ class quickVal():
         self.gev_tmp.append(self.comparisonChoice)
         self.gev_tmp.append(self.validationChoice)
         self.gev_tmp.append(self.datasets)
+        self.gev_tmp.append(self.DB_flags)
         print(self.gev_tmp)
         self.Gev.append(self.gev_tmp)
         print(self.Gev)
