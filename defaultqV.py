@@ -15,11 +15,6 @@ KS_path_local = '/eos/project/c/cmsweb/www/egamma/validation/Electrons/Store/KS_
 KS_path_web = 'http://cms-egamma.web.cern.ch/cms-egamma/validation/Electrons/Store/KS_Curves/'
 #############################################################################
 
-################## datasets ##################
-#datasets_default = ['TTbar_13', 'ZEE_13']
-datasets_default = ['TTbar_14TeV', 'ZEE_14']
-##############################################
-
 comparisons = ['FullvsFull', 'FastvsFast', 'FastvsFull']
 validations = ['RECO', 'PU25', 'PUpmx25', 'miniAOD'] # PU25 instead of PU25ns to take news HGal cases into account.
 

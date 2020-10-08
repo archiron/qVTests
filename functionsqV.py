@@ -202,7 +202,7 @@ def get_answerText(text2prompt):
 
     return text
 
-def get_answer1(text2prompt, tab):
+def get_answer1(text2prompt, tab1, tab2):
     quitLoop = True
     print('')
     while ( quitLoop ):
@@ -215,16 +215,17 @@ def get_answer1(text2prompt, tab):
         irel = ''
         try:
             irel = int(rel)
-            if ( irel >= 0 and irel < len(tab) ):
+            if ( irel >= 0 and irel < len(tab1) ):
                 quitLoop = False
-                temp = tab[int(rel)]
+                temp1 = tab1[int(rel)]
+                temp2 = tab2[int(rel)]
             else:
                 print('%d is not into the range [0:%d]' % (irel, len(tab)-1))
                 quitLoop = True
         except:
             print('%s is not a number' % rel)
 
-    return temp
+    return temp1, temp2
 
 def get_answer2(text2prompt, tab):
     quitLoop = True
@@ -393,7 +394,7 @@ def fonction_1(self):
     #print('==')
 
     text_to_prompt= "number of the folder choice or [" + colorText('q', self.color) +"]uit. ? "
-    self.location = get_answer1(text_to_prompt, self.web_location)
+    self.location, self.extension = get_answer1(text_to_prompt, self.web_location, self.web_extension)
     print('WEB LOCATION : %s' % colorText(self.location, 'blue')) # now we have the web folder location
     #self.gev_tmp.append(self.location) # seems to be inefficient
     sleep(1)
@@ -577,6 +578,17 @@ def fonction_10(self):
 def fonction_11(self):
     screen_clear()
     print('vous appelez la fonction 11')
+    # add dataset from defaults
+    #print_tab_1(self.validations, self.color_nb)
+    #text_to_prompt= "number of the validation type, [" + colorText('b', self.color) + "]ack or [" + colorText('q', self.color) +"]uit. ? "
+
+    #self.validationChoice = get_answer3(text_to_prompt, self.validations) #
+
+    return 11
+
+def fonction_12(self):
+    screen_clear()
+    print('vous appelez la fonction 12')
     # DB Flag choice
     if testZEE(self.datasets):
         text_to_prompt= "use Decision Box for ZEE, [" + colorText('y', self.color) + "]es/[" + colorText('n', self.color) + "o] [" + colorText('b', self.color) + "]ack or [" + colorText('q', self.color) +"]uit. ? "
@@ -593,11 +605,11 @@ def fonction_11(self):
                 self.DB_flags.append('False')
             else:
                 self.DB_flags.append('True')
-        return 11
+        return 12
     elif DB_flag == 'n':
         for i in range(0, len(self.datasets)):
             self.DB_flags.append('False')
-        return 11
+        return 12
 
 def getFilesList(self):
     # case release
