@@ -141,16 +141,15 @@ def print_tab_4(tab, color):
 def print_tab_3(tab, color): # only for datasets
     print('')
 
-    for i in range(0, len(tab), 2):
-        #print( tab[i][0], str(tab[i][1]) )
-        #print( tab[i+1][0], str(tab[i+1][1]) )
+    for i in range(0, len(tab), 1):
         color0 = color
         color1 = color
         if ( tab[i][1] == 0):
             color0 = 'blue'
-        if ( tab[i+1][1] == 0):
-            color1 = 'blue'
-        print('%40s [%s] %40s [%s]' % (tab[i][0], colorText(str(tab[i][1]), color0), tab[i+1][0], colorText(str(tab[i+1][1]), color1)))
+        #if ( tab[i+1][1] == 0): # 2 datasets per line
+        #    color1 = 'blue'
+        #print('%40s [%s] %40s [%s]' % (tab[i][0], colorText(str(tab[i][1]), color0), tab[i+1][0], colorText(str(tab[i+1][1]), color1))) # 2 datasets per line
+        print('%40s [%s]' % ( tab[i][0], colorText(str(tab[i][1]), color0) )) # 1 dataset per line
 
 def print_tab_2(tab, color): # only for tab with 2 elements
     print('')
@@ -553,7 +552,9 @@ def fonction_10(self):
     screen_clear()
     print('vous appelez la fonction 10')
     # datasets choice
-    fieldname = 'DataSetsFilter_' + self.comparisonChoice + self.validationChoice
+    fieldname = 'DataSetsFilter_' + self.comparisonChoice + self.validationChoice[0]
+    if self.validationChoice[1] == 'miniAOD':
+        fieldname = 'DataSetsFilter_' + self.comparisonChoice + self.validationChoice[1]
     print('datasets default')
     self.default_dataset = DataSetsFilter(self, fieldname)
     print_tab_3(self.default_dataset, self.color_nb)
