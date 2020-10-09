@@ -39,19 +39,16 @@ class quickVal():
         self.default_dataset = []
         self.datasets = []
         self.DB_flags = []
-
         self.web_location = [DataLocation(self)[0][2],
                            DataLocation(self)[1][2]]
         self.web_extension = [DataLocation(self)[0][3],
                            DataLocation(self)[1][3]]
-        #print(self.web_location)
-        #print(self.web_extension)
-        #print('data location : ')
-        #print(DataLocation(self))
-        sleep(1)
-
         self.Gev = [] # table for validations
         self.gev_tmp = []
+        self.releasesList_4 = []
+        self.referencesList_4 = []
+        self.releasesGT = []
+        self.referencesGT = []
 
         i_back = 1
         while (i_back != 0):
@@ -104,8 +101,99 @@ class quickVal():
                 configFile.write(str(elem[1]) + ' , # relref_extent\n')
                 configFile.write(str(elem[2]) + ' , # datasets\n')
                 configFile.write('\'' + str(elem[3]) + '\' , # choice\n')
-                configFile.write('\'' + str(elem[4]) + '\' , # relrefValtype RECO vs RECO\n')
+                configFile.write(str(elem[4]) + ' , # relrefValtype RECO vs RECO\n')
+                # GT
+                # ROOT files
+                configFile.write(str(self.DB_flags) + ', # DB flag\n')
+                configFile.write('\n')
             configFile.write('#############################################################################\n')
             configFile.write('\n')
+
+        # Comparison of the datasets lists
+        """
+        print(' ')
+        print('Common datasets')
+
+        self.commonDatasets = set(self.datasetsList_1).intersection(set(self.datasetsList_2))
+        self.commonDatasets = list(self.commonDatasets) # get the common datasets for the comparisons
+        print(self.commonDatasets)
+
+        # Comparison of the datasets lists
+        print(' ')
+        print('List_2')
+
+        print(self.releasesList_2)
+        print('')
+        print(self.referencesList_2)
+
+        print('')
+        print('List_3')
+        print(self.releasesList_3)
+        print('')
+        print(self.referencesList_3)
+        """
+
+        # ROOT files extraction for selected datasets
+        for i, dts in enumerate(self.datasets):
+            tmp_rel = []
+            tmp_ref = []
+            tmp_rel.append(dts)
+            tmp_ref.append(dts)
+            print(dts)
+            for file in self.releasesList_3:
+                if re.search(dts, file):
+                    if re.search(self.release, file):
+                        print(self.release, ' ', file)
+                        tmp_rel.append(str(file))
+                    else:
+                        print(self.reference, ' ', file)
+                        tmp_ref.append(str(file))
+            for file in self.referencesList_3:
+                if re.search(dts, file):
+                    if re.search(self.release, file):
+                        print(self.release, ' ', file)
+                        tmp_rel.append(str(file))
+                    else:
+                        print(self.reference, ' ', file)
+                        tmp_ref.append(str(file))
+            self.releasesList_4.append(tmp_rel)
+            self.referencesList_4.append(tmp_ref)
+        print('')
+        # GT extraction from lists
+        for elem in self.releasesList_4:
+            gt_tmp = []
+            gt_tmp.append(elem[0])
+            for i in range(1, len(elem)):
+                aa = explode_item(elem[i])
+                print(aa)
+                for dts in self.datasets:
+                    if re.search(dts, aa[0]):
+                        gt_tmp.append(aa[2])
+            self.releasesGT.append(gt_tmp)
+        for elem in self.referencesList_4:
+            gt_tmp = []
+            gt_tmp.append(elem[0])
+            for i in range(1, len(elem)):
+                aa = explode_item(elem[i])
+                print(aa)
+                for dts in self.datasets:
+                    if re.search(dts, aa[0]):
+                        gt_tmp.append(aa[2])
+            self.referencesGT.append(gt_tmp)
+        print('')
+
+        """print('List_4')
+        for elem in self.releasesList_4:
+            print(elem)
+        print('')
+        for elem in self.referencesList_4:
+            print(elem)
+        """
+        print('GT')
+        for elem in self.releasesGT:
+            print(elem)
+        print('')
+        for elem in self.referencesGT:
+            print(elem)
 
         print('end of run')
