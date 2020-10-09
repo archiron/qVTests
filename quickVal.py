@@ -109,91 +109,52 @@ class quickVal():
             configFile.write('#############################################################################\n')
             configFile.write('\n')
 
-        # Comparison of the datasets lists
-        """
-        print(' ')
-        print('Common datasets')
-
-        self.commonDatasets = set(self.datasetsList_1).intersection(set(self.datasetsList_2))
-        self.commonDatasets = list(self.commonDatasets) # get the common datasets for the comparisons
-        print(self.commonDatasets)
-
-        # Comparison of the datasets lists
-        print(' ')
-        print('List_2')
-
-        print(self.releasesList_2)
-        print('')
-        print(self.referencesList_2)
-
-        print('')
-        print('List_3')
-        print(self.releasesList_3)
-        print('')
-        print(self.referencesList_3)
-        """
-
         # ROOT files extraction for selected datasets
-        for i, dts in enumerate(self.datasets):
-            tmp_rel = []
-            tmp_ref = []
-            tmp_rel.append(dts)
-            tmp_ref.append(dts)
-            print(dts)
-            for file in self.releasesList_3:
-                if re.search(dts, file):
-                    if re.search(self.release, file):
-                        print(self.release, ' ', file)
-                        tmp_rel.append(str(file))
-                    else:
-                        print(self.reference, ' ', file)
-                        tmp_ref.append(str(file))
-            for file in self.referencesList_3:
-                if re.search(dts, file):
-                    if re.search(self.release, file):
-                        print(self.release, ' ', file)
-                        tmp_rel.append(str(file))
-                    else:
-                        print(self.reference, ' ', file)
-                        tmp_ref.append(str(file))
-            self.releasesList_4.append(tmp_rel)
-            self.referencesList_4.append(tmp_ref)
+        rootFilesExtraction(self)
         print('')
         # GT extraction from lists
         for elem in self.releasesList_4:
             gt_tmp = []
-            gt_tmp.append(elem[0])
+            #gt_tmp.append(elem[0])
             for i in range(1, len(elem)):
                 aa = explode_item(elem[i])
                 print(aa)
                 for dts in self.datasets:
                     if re.search(dts, aa[0]):
                         gt_tmp.append(aa[2])
+            gt_tmp = sorted(set(gt_tmp))
+            gt_tmp.insert(0, elem[0])
             self.releasesGT.append(gt_tmp)
         for elem in self.referencesList_4:
             gt_tmp = []
-            gt_tmp.append(elem[0])
+            #gt_tmp.append(elem[0])
             for i in range(1, len(elem)):
                 aa = explode_item(elem[i])
                 print(aa)
                 for dts in self.datasets:
                     if re.search(dts, aa[0]):
                         gt_tmp.append(aa[2])
+            #print(sorted(set(gt_tmp)))
+            gt_tmp = sorted(set(gt_tmp))
+            gt_tmp.insert(0, elem[0])
+            #print(gt_tmp)
             self.referencesGT.append(gt_tmp)
         print('')
-
-        """print('List_4')
-        for elem in self.releasesList_4:
-            print(elem)
-        print('')
-        for elem in self.referencesList_4:
-            print(elem)
-        """
         print('GT')
         for elem in self.releasesGT:
             print(elem)
         print('')
         for elem in self.referencesGT:
+            print(elem)
+        self.releasesGT1 = []
+        self.referencesGT1 = []
+        GlobalTagsExtraction(self)
+
+        print('***')
+        for elem in self.releasesGT1:
+            print(elem)
+        print('')
+        for elem in self.referencesGT1:
             print(elem)
 
         print('end of run')

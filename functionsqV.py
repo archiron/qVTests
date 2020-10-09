@@ -723,3 +723,47 @@ def testZEE(tab):
         if item == 'ZEE_14':
             test = 'True'
     return test
+
+def rootFilesExtraction(self):
+    # ROOT files extraction for selected datasets
+    for i, dts in enumerate(self.datasets):
+        tmp_rel = []
+        tmp_ref = []
+        tmp_rel.append(dts)
+        tmp_ref.append(dts)
+        for file in self.releasesList_3:
+            if re.search(dts, file):
+                if re.search(self.release, file):
+                    tmp_rel.append(str(file))
+                else:
+                    tmp_ref.append(str(file))
+        for file in self.referencesList_3:
+            if re.search(dts, file):
+                if re.search(self.release, file):
+                    tmp_rel.append(str(file))
+                else:
+                    tmp_ref.append(str(file))
+        self.releasesList_4.append(tmp_rel)
+        self.referencesList_4.append(tmp_ref)
+
+def GlobalTagsExtraction(self):
+    for elem in self.releasesList_4:
+        gt_tmp = []
+        for i in range(1, len(elem)):
+            aa = explode_item(elem[i])
+            for dts in self.datasets:
+                if re.search(dts, aa[0]):
+                    gt_tmp.append(aa[2])
+        gt_tmp = sorted(set(gt_tmp))
+        gt_tmp.insert(0, elem[0])
+        self.releasesGT1.append(gt_tmp)
+    for elem in self.referencesList_4:
+        gt_tmp = []
+        for i in range(1, len(elem)):
+            aa = explode_item(elem[i])
+            for dts in self.datasets:
+                if re.search(dts, aa[0]):
+                    gt_tmp.append(aa[2])
+        gt_tmp = sorted(set(gt_tmp))
+        gt_tmp.insert(0, elem[0])
+        self.referencesGT1.append(gt_tmp)
