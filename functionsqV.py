@@ -133,6 +133,11 @@ def changeColor(color):
     else:
         return '[30m'
 
+def print_tab_4(tab, color):
+    print('')
+    for i in range(0, len(tab)):
+        print('[%s] %s vs %s' % (colorText(str(i), color), tab[i][0], tab[i][1]))
+
 def print_tab_3(tab, color): # only for datasets
     print('')
 
@@ -537,7 +542,7 @@ def fonction_9(self):
     screen_clear()
     print('vous appelez la fonction 9')
     # validation choice
-    print_tab_1(self.validations, self.color_nb)
+    print_tab_4(self.validations, self.color_nb)
     text_to_prompt= "number of the validation type, [" + colorText('b', self.color) + "]ack or [" + colorText('q', self.color) +"]uit. ? "
 
     self.validationChoice = get_answer3(text_to_prompt, self.validations) #
