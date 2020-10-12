@@ -7,12 +7,6 @@
 
 # new way to load datasets items into the menu. datasets are presented as [name, True/False] with True/False the default choice to be checked or not.
 
-#def LocationFilter(self):
-#    import sys
-#
-#    table=getattr(sys.modules[__name__], "DataLocation")(self)
-#    return table
-
 def DataLocation(self):
     '''
     WARNING : if you add/remove a line for a path

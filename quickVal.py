@@ -1,8 +1,7 @@
 #! /usr/bin/env python
 #-*-coding: utf-8 -*-
 
-import os,sys #,subprocess,shutil
-#import urllib2
+import os,sys 
 import re
 from time import sleep
 
@@ -64,7 +63,6 @@ class quickVal():
         text_to_prompt = 'release extension : ' + colorText(self.releaseExtent, 'blue') + ' - reference extension : ' + colorText(self.referenceExtent, 'blue')
         print(text_to_prompt)
         print('')
-        #self.Gev.append([self.location, self.extension])
         self.gev_tmp.append([str(self.release), str(self.reference)])
         self.gev_tmp.append([str(self.releaseExtent), str(self.referenceExtent)])
         self.gev_tmp.append(str(self.datasets))
