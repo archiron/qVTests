@@ -1,14 +1,14 @@
 #! /usr/bin/env python
 #-*-coding: utf-8 -*-
 
-import os,sys,subprocess, shutil
+import os,sys #,subprocess, shutil
 import re
 from time import sleep
-import numpy as np
+#import numpy as np
 
 sys.path.append('/afs/cern.ch/user/a/archiron/lbin/ChiLib')
 
-from networkFunctions import list_search_1, cmd_load_files
+from networkFunctions import list_search_1 #, cmd_load_files
 from datasetsqV import *
 
 def sub_releases(tab_files):
@@ -95,7 +95,7 @@ def terminal_size():
     th, tw, hp, wp = struct.unpack('HHHH',
         fcntl.ioctl(0, termios.TIOCGWINSZ,
         struct.pack('HHHH', 0, 0, 0, 0)))
-    return tw, th
+    return tw, th, hp, wp
 
 def affiche_1(i, tab, color): # not used
     #print('%50s [%2d]' % (tab[i], i))
@@ -143,7 +143,7 @@ def print_tab_3(tab, color): # only for datasets
 
     for i in range(0, len(tab), 1):
         color0 = color
-        color1 = color
+        #color1 = color
         if ( tab[i][1] == 0):
             color0 = 'blue'
         #if ( tab[i+1][1] == 0): # 2 datasets per line
@@ -175,18 +175,18 @@ def print_tab_1(tab, color):
 def colorText(sometext, color):
     return '\033' + changeColor(color) + sometext + '\033[0m'
 
-def createDTSname(self, it_comp, it_val):
-    name = ''
-    print('it_comp : %s - it_val : %s' % (it_comp, it_val))
-    name = 'DataSetsFilter_' + it_comp + it_val
+#def createDTSname(self, it_comp, it_val):
+#    name = ''
+#    print('it_comp : %s - it_val : %s' % (it_comp, it_val))
+#    name = 'DataSetsFilter_' + it_comp + it_val
 
-    from datasetsqV import DataSetsFilter
-    try:
-        table = DataSetsFilter(self, name)
-        return table
-    except:
-        print('pas de module %s' % name)
-    return
+#    from datasetsqV import DataSetsFilter
+#    try:
+#        table = DataSetsFilter(self, name)
+#        return table
+#    except:
+#        print('pas de module %s' % name)
+#    return
 
 def get_answerText(text2prompt):
     quitLoop = True
@@ -332,64 +332,64 @@ def get_answer5(text2prompt):
 
     return temp
 
-def check_comparisonChoice(self, t1, t2, it_comp, t_choice):
-    #print('tablo : %s' % t1)
-    if ((len(t1 )>0) and (len(t1)<=len(t2))):
-        #print('longueurs OK')
-        temp = []
-        for it in t1:
-            #print(it)
-            irel = ''
-            try:
-                irel = int(it)
-                print(type(it))
-                print(type(irel))
-                if ( irel >= 0 and irel < len(t2) ):
-                    # test with lengths of lists (self.rel_Full, self.ref_Fast, self.rel_PU, ...)
-                    if t_choice == 'val':
-                        a = check_listLengths(self, t2[irel], it_comp)
-                        print(a)
-                        if a[0]:
-                            temp.append(t2[irel])
-                        else:
-                            print('no enough file for %s comparison, re[%d] - ref[%d]' % (t2[irel], a[1], a[2]))
-                    else:
-                        temp.append(t2[int(it)])
-                else:
-                    print('%d is not into the range [0:%d]' % (irel, len(t2)-1))
-                # need to  test if all nbs are differents
-            except:
-                print('%s is not a number in check_comparisonChoice for %s' % (it, t_choice))
-        temp = np.unique(temp)
-    else:
-        print('lengths does not match')
-        print('t1 : %d - t2 : %d' % (len(t1), len(t2)))
-    return temp
+#def check_comparisonChoice(self, t1, t2, it_comp, t_choice):
+#    #print('tablo : %s' % t1)
+#    if ((len(t1 )>0) and (len(t1)<=len(t2))):
+#        #print('longueurs OK')
+#        temp = []
+#        for it in t1:
+#            #print(it)
+#            irel = ''
+#            try:
+#                irel = int(it)
+#                print(type(it))
+#                print(type(irel))
+#                if ( irel >= 0 and irel < len(t2) ):
+#                    # test with lengths of lists (self.rel_Full, self.ref_Fast, self.rel_PU, ...)
+#                    if t_choice == 'val':
+#                        a = check_listLengths(self, t2[irel], it_comp)
+#                        print(a)
+#                        if a[0]:
+#                            temp.append(t2[irel])
+#                        else:
+#                            print('no enough file for %s comparison, re[%d] - ref[%d]' % (t2[irel], a[1], a[2]))
+#                    else:
+#                        temp.append(t2[int(it)])
+#                else:
+#                    print('%d is not into the range [0:%d]' % (irel, len(t2)-1))
+#                # need to  test if all nbs are differents
+#            except:
+#                print('%s is not a number in check_comparisonChoice for %s' % (it, t_choice))
+#        temp = np.unique(temp)
+#    else:
+#        print('lengths does not match')
+#        print('t1 : %d - t2 : %d' % (len(t1), len(t2)))
+#    return temp
 
-def get_comparisonAnswer(self, text2prompt, tab, it_comp, t_choice): # not used ?
-    quitLoop = True
-    while ( quitLoop ):
-        rel = raw_input(text2prompt)
-        #rel = input(text2prompt)  # Python 3
-        if rel == 'q':
-            exit()
-        elif rel == 'b':
-            quitLoop = False
-            tabl = []
-        else:
-            quitLoop = False
-            tablo = extractFrom(rel)
-            tabl = check_comparisonChoice(self, tablo, tab, it_comp, t_choice)
-            print(tabl)
+#def get_comparisonAnswer(self, text2prompt, tab, it_comp, t_choice): # not used ?
+#    quitLoop = True
+#    while ( quitLoop ):
+#        rel = raw_input(text2prompt)
+#        #rel = input(text2prompt)  # Python 3
+#        if rel == 'q':
+#            exit()
+#        elif rel == 'b':
+#            quitLoop = False
+#            tabl = []
+#        else:
+#            quitLoop = False
+#            tablo = extractFrom(rel)
+#            tabl = check_comparisonChoice(self, tablo, tab, it_comp, t_choice)
+#            print(tabl)
+#
+#    return tabl
 
-    return tabl
-
-def extractFrom(nb):
-    print(nb)
-    t = []
-    for i in range(0, len(nb)):
-        t.append(nb[i])
-    return t
+#def extractFrom(nb):
+#    print(nb)
+#    t = []
+#    for i in range(0, len(nb)):
+#        t.append(nb[i])
+#    return t
 
 def fonction_1(self):
     screen_clear()
@@ -419,7 +419,7 @@ def fonction_2(self):
 
     self.releasesList_1 = list_search_1(self.releaseFamily) # all the releases
     print('there is %d files for %s' % (len(self.releasesList_1), self.releaseFamily))
-    self.releaseFamily2 = self.releaseFamily[:-1] # not used ?
+    #self.releaseFamily2 = self.releaseFamily[:-1] # not used ?
 
     self.releasesList_2 = sub_releases(self.releasesList_1) # extract the releases CMSSW_X_Y_Z...
     #for item in self.releasesList_2:
@@ -463,7 +463,7 @@ def fonction_4(self):
 
         self.referencesList_1 = list_search_1(self.referenceFamily) # all the references
         print('there is %d files for %s' % (len(self.referencesList_1), self.referenceFamily))
-        self.referenceFamily2 = self.referenceFamily[:-1] # not used ?
+        #self.referenceFamily2 = self.referenceFamily[:-1] # not used ?
 
         self.referencesList_2 = sub_releases(self.referencesList_1) # extract the references CMSSW_X_Y_Z...
         return 4
@@ -617,105 +617,105 @@ def fonction_12(self):
             self.DB_flags.append('False')
         return 12
 
-def getFilesList(self):
-    # case release
-    self.rel_FullRECO, self.rel_FullPU, self.rel_Fullpmx, self.rel_FastRECO, self.rel_FastPU, self.rel_Fastpmx = extractFilesList(self.releasesList_3)
-    # case reference
-    self.ref_FullRECO, self.ref_FullPU, self.ref_Fullpmx, self.ref_FastRECO, self.ref_FastPU, self.ref_Fastpmx = extractFilesList(self.referencesList_3)
-    print('len rel_FullRECO : %d - len ref_Full : %d' % (len(self.rel_FullRECO), len(self.ref_FullRECO)))
-    print('len rel_FullPU : %d - len ref_FullPU : %d' % (len(self.rel_FullPU), len(self.ref_FullPU)))
-    print('len rel_Fullpmx : %d - len ref_Fullpmx : %d' % (len(self.rel_Fullpmx), len(self.ref_Fullpmx)))
-    print('len rel_FastRECO : %d - len ref_FastRECO : %d' % (len(self.rel_FastRECO), len(self.ref_FastRECO)))
-    print('len rel_FastPU : %d - len ref_FastPU : %d' % (len(self.rel_FastPU), len(self.ref_FastPU)))
-    print('len rel_Fastpmx : %d - len ref_Fastpmx : %d' % (len(self.rel_Fastpmx), len(self.ref_Fastpmx)))
+#def getFilesList(self):
+#    # case release
+#    self.rel_FullRECO, self.rel_FullPU, self.rel_Fullpmx, self.rel_FastRECO, self.rel_FastPU, self.rel_Fastpmx = extractFilesList(self.releasesList_3)
+#    # case reference
+#    self.ref_FullRECO, self.ref_FullPU, self.ref_Fullpmx, self.ref_FastRECO, self.ref_FastPU, self.ref_Fastpmx = extractFilesList(self.referencesList_3)
+#    print('len rel_FullRECO : %d - len ref_Full : %d' % (len(self.rel_FullRECO), len(self.ref_FullRECO)))
+#    print('len rel_FullPU : %d - len ref_FullPU : %d' % (len(self.rel_FullPU), len(self.ref_FullPU)))
+#    print('len rel_Fullpmx : %d - len ref_Fullpmx : %d' % (len(self.rel_Fullpmx), len(self.ref_Fullpmx)))
+#    print('len rel_FastRECO : %d - len ref_FastRECO : %d' % (len(self.rel_FastRECO), len(self.ref_FastRECO)))
+#    print('len rel_FastPU : %d - len ref_FastPU : %d' % (len(self.rel_FastPU), len(self.ref_FastPU)))
+#    print('len rel_Fastpmx : %d - len ref_Fastpmx : %d' % (len(self.rel_Fastpmx), len(self.ref_Fastpmx)))
+#
+#    return
 
-    return
+#def extractFilesList(tab):
+#    temp_Fast = []
+#    temp_FastallPU = []
+#    temp_FastPU = []
+#    temp_FastRECO = []
+#    temp_Fastpmx = []
+#    temp_noFast = []
+#    temp_allPU = []
+#    temp_FullRECO = []
+#    temp_FullPU = []
+#    temp_Fullpmx = []
+#
+#    for it in tab:
+#        if ( re.search('fast', it) or re.search('Fast', it)):
+#            temp_Fast.append(it)
+#        else: # no Fast
+#            temp_noFast.append(it)
+#    for it in temp_noFast:
+#        if ( re.search('PU', it) and not re.search('NoPU', it) ):
+#            temp_allPU.append(it)
+#        else: # no Fast
+#            temp_FullRECO.append(it)
+#    for it in temp_allPU:
+#        if ( re.search('pmx', it) or re.search('Pmx', it)):
+#            temp_Fullpmx.append(it)
+#        else: # no Fast
+#            temp_FullPU.append(it)
+#    for it in temp_Fast:
+#        if ( re.search('PU', it) and not re.search('NoPU', it) ):
+#            temp_FastallPU.append(it)
+#        else: # no Fast
+#            temp_FastRECO.append(it)
+#    for it in temp_FastallPU:
+#        if ( re.search('pmx', it) or re.search('Pmx', it)):
+#            temp_Fastpmx.append(it)
+#        else: # no Fast
+#            temp_FastPU.append(it)
+#    return temp_FullRECO, temp_FullPU, temp_Fullpmx, temp_FastRECO, temp_FastPU, temp_Fastpmx
 
-def extractFilesList(tab):
-    temp_Fast = []
-    temp_FastallPU = []
-    temp_FastPU = []
-    temp_FastRECO = []
-    temp_Fastpmx = []
-    temp_noFast = []
-    temp_allPU = []
-    temp_FullRECO = []
-    temp_FullPU = []
-    temp_Fullpmx = []
-
-    for it in tab:
-        if ( re.search('fast', it) or re.search('Fast', it)):
-            temp_Fast.append(it)
-        else: # no Fast
-            temp_noFast.append(it)
-    for it in temp_noFast:
-        if ( re.search('PU', it) and not re.search('NoPU', it) ):
-            temp_allPU.append(it)
-        else: # no Fast
-            temp_FullRECO.append(it)
-    for it in temp_allPU:
-        if ( re.search('pmx', it) or re.search('Pmx', it)):
-            temp_Fullpmx.append(it)
-        else: # no Fast
-            temp_FullPU.append(it)
-    for it in temp_Fast:
-        if ( re.search('PU', it) and not re.search('NoPU', it) ):
-            temp_FastallPU.append(it)
-        else: # no Fast
-            temp_FastRECO.append(it)
-    for it in temp_FastallPU:
-        if ( re.search('pmx', it) or re.search('Pmx', it)):
-            temp_Fastpmx.append(it)
-        else: # no Fast
-            temp_FastPU.append(it)
-    return temp_FullRECO, temp_FullPU, temp_Fullpmx, temp_FastRECO, temp_FastPU, temp_Fastpmx
-
-def check_listLengths(self, value, it_comp):
-    print('value to test : %s' % value)
-    print('len rel_FullRECO : %d - len ref_Full : %d' % (len(self.rel_FullRECO), len(self.ref_FullRECO)))
-    print('len rel_FullPU : %d - len ref_FullPU : %d' % (len(self.rel_FullPU), len(self.ref_FullPU)))
-    print('len rel_Fullpmx : %d - len ref_Fullpmx : %d' % (len(self.rel_Fullpmx), len(self.ref_Fullpmx)))
-    print('len rel_FastRECO : %d - len ref_FastRECO : %d' % (len(self.rel_FastRECO), len(self.ref_FastRECO)))
-    print('len rel_FastPU : %d - len ref_FastPU : %d' % (len(self.rel_FastPU), len(self.ref_FastPU)))
-    print('len rel_Fastpmx : %d - len ref_Fastpmx : %d' % (len(self.rel_Fastpmx), len(self.ref_Fastpmx)))
-    # WARNING : must be identical to validations list in the default.py file
-    if value == 'RECO':
-        if it_comp == 'FullvsFull':
-            l1 = len(self.rel_FullRECO)
-            l2 = len(self.ref_FullRECO)
-        elif it_comp == 'FastvsFast':
-            l1 = len(self.rel_FastRECO)
-            l2 = len(self.ref_FastRECO)
-        else: # FastvsFull
-            l1 = len(self.rel_FastRECO)
-            l2 = len(self.ref_FullRECO)
-    elif value == 'PU25':
-        if it_comp == 'FullvsFull':
-            l1 = len(self.rel_FullPU)
-            l2 = len(self.ref_FullPU)
-        elif it_comp == 'FastvsFast':
-            l1 = len(self.rel_FastPU)
-            l2 = len(self.ref_FastPU)
-        else: # FastvsFull
-            l1 = len(self.rel_FastPU)
-            l2 = len(self.ref_FullPU)
-    elif value == 'PUpmx25':
-        if it_comp == 'FullvsFull':
-            print('OK')
-            l1 = len(self.rel_Fullpmx)
-            l2 = len(self.ref_Fullpmx)
-            print(l1, l2)
-        elif it_comp == 'FastvsFast':
-            l1 = len(self.rel_Fastpmx)
-            l2 = len(self.ref_Fastpmx)
-        else: # FastvsFull
-            l1 = len(self.rel_Fastpmx)
-            l2 = len(self.ref_Fullpmx)
-    print('[l1, l2] : [%d, %d]' % (l1, l2))
-    if l1*l2 > 0:
-        return [True, l1, l2]
-    else:
-        return [False, l1, l2]
+#def check_listLengths(self, value, it_comp):
+#    print('value to test : %s' % value)
+#    print('len rel_FullRECO : %d - len ref_Full : %d' % (len(self.rel_FullRECO), len(self.ref_FullRECO)))
+#    print('len rel_FullPU : %d - len ref_FullPU : %d' % (len(self.rel_FullPU), len(self.ref_FullPU)))
+#    print('len rel_Fullpmx : %d - len ref_Fullpmx : %d' % (len(self.rel_Fullpmx), len(self.ref_Fullpmx)))
+#    print('len rel_FastRECO : %d - len ref_FastRECO : %d' % (len(self.rel_FastRECO), len(self.ref_FastRECO)))
+#    print('len rel_FastPU : %d - len ref_FastPU : %d' % (len(self.rel_FastPU), len(self.ref_FastPU)))
+#    print('len rel_Fastpmx : %d - len ref_Fastpmx : %d' % (len(self.rel_Fastpmx), len(self.ref_Fastpmx)))
+#    # WARNING : must be identical to validations list in the default.py file
+#    if value == 'RECO':
+#        if it_comp == 'FullvsFull':
+#            l1 = len(self.rel_FullRECO)
+#            l2 = len(self.ref_FullRECO)
+#        elif it_comp == 'FastvsFast':
+#            l1 = len(self.rel_FastRECO)
+#            l2 = len(self.ref_FastRECO)
+#        else: # FastvsFull
+#            l1 = len(self.rel_FastRECO)
+#            l2 = len(self.ref_FullRECO)
+#    elif value == 'PU25':
+#        if it_comp == 'FullvsFull':
+#            l1 = len(self.rel_FullPU)
+#            l2 = len(self.ref_FullPU)
+#        elif it_comp == 'FastvsFast':
+#            l1 = len(self.rel_FastPU)
+#            l2 = len(self.ref_FastPU)
+#        else: # FastvsFull
+#            l1 = len(self.rel_FastPU)
+#            l2 = len(self.ref_FullPU)
+#    elif value == 'PUpmx25':
+#        if it_comp == 'FullvsFull':
+#            print('OK')
+#            l1 = len(self.rel_Fullpmx)
+#            l2 = len(self.ref_Fullpmx)
+#            print(l1, l2)
+#        elif it_comp == 'FastvsFast':
+#            l1 = len(self.rel_Fastpmx)
+#            l2 = len(self.ref_Fastpmx)
+#        else: # FastvsFull
+#            l1 = len(self.rel_Fastpmx)
+#            l2 = len(self.ref_Fullpmx)
+#    print('[l1, l2] : [%d, %d]' % (l1, l2))
+#    if l1*l2 > 0:
+#        return [True, l1, l2]
+#    else:
+#        return [False, l1, l2]
 
 def testZEE(tab):
     test = False

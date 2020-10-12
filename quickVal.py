@@ -1,15 +1,15 @@
 #! /usr/bin/env python
 #-*-coding: utf-8 -*-
 
-import os,sys,subprocess,shutil
-import urllib2
+import os,sys #,subprocess,shutil
+#import urllib2
 import re
 from time import sleep
 
 sys.path.append('/afs/cern.ch/user/a/archiron/lbin/ChiLib')
 
-from networkFunctions import list_search_0, list_search_1, cmd_load_files
-from functions import getDataSet, analyzeDTS
+from networkFunctions import list_search_0, list_search_1#, cmd_load_files
+#from functions import getDataSet, analyzeDTS
 from functionsqV import *
 from defaultqV import *
 #from datasetsqV import *
@@ -82,7 +82,7 @@ class quickVal():
         try:
             configFile = open('configFile.py', 'w+') #
         except IOError:
-            print "Could not open file!"
+            print("Could not open file!")
         if configFile:
             configFile.write('#! /usr/bin/env python\n')
             configFile.write('#-*-coding: utf-8 -*-\n')
