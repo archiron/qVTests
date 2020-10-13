@@ -63,7 +63,7 @@ def DataSetsFilter_FastvsFullRECO(self):
     ]
     return table
 
-def DataSetsFilter_FullvsFullPU25(self):
+def DataSetsFilter_FullvsFullPU(self):
     table=[
     ["TTbar_13", 0],
     ["ZEE_13", 0],
@@ -72,35 +72,35 @@ def DataSetsFilter_FullvsFullPU25(self):
     ]
     return table
 
-def DataSetsFilter_FastvsFastPU25(self):
+def DataSetsFilter_FastvsFastPU(self):
     table=[
     ["TTbar_13", 1],
     ["ZEE_13", 1],
     ]
     return table
 
-def DataSetsFilter_FastvsFullPU25(self):
+def DataSetsFilter_FastvsFullPU(self):
     table=[
     ["TTbar_13", 1],
     ["ZEE_13", 1],
     ]
     return table
 
-def DataSetsFilter_FullvsFullPUpmx25(self):
+def DataSetsFilter_FullvsFullpmx(self):
     table=[
     ["TTbar_13", 1],
     ["ZEE_13", 1],
     ]
     return table
 
-def DataSetsFilter_FastvsFastPUpmx25(self):
+def DataSetsFilter_FastvsFastpmx(self):
     table=[
     ["TTbar_13", 1],
     ["ZEE_13", 1],
     ]
     return table
 
-def DataSetsFilter_FastvsFullPUpmx25(self):
+def DataSetsFilter_FastvsFullpmx(self):
     table=[
     ["TTbar_13", 1],
     ["ZEE_13", 1],

@@ -98,15 +98,15 @@ def terminal_size():
 
 def affiche_1(i, tab, color): # not used
     #print('%50s [%2d]' % (tab[i], i))
-    print('%50s [%s]' % (tab[i], colorText(str(i), color)))
+    print('%40s [%s]' % (tab[i], colorText(str(i), color)))
 
 def affiche_2(i, tab, color): # not used
     #print('%50s [%2d] %50s [%2d]' % (tab[i], i, tab[i+1], i+1))
-    print('%50s [%s] %50s [%s]' % ( tab[i], colorText(str(i), color), tab[i+1], colorText(str(i+1), color) ) )
+    print('%40s [%s] %40s [%s]' % ( tab[i], colorText(str(i), color), tab[i+1], colorText(str(i+1), color) ) )
 
 def affiche_3(i, tab, color): # not used
     #print('%50s [%2d] %50s [%2d] %50s [%2d]' % (tab[i], i, tab[i+1], i+1, tab[i+2], i+2))
-    print('%50s [%s] %50s [%s] %50s [%s]' % ( tab[i], colorText(str(i), color), tab[i+1], colorText(str(i+1), color), tab[i+2], colorText(str(i+2), color) ) )
+    print('%40s [%s] %40s [%s] %40s [%s]' % ( tab[i], colorText(str(i), color), tab[i+1], colorText(str(i+1), color), tab[i+2], colorText(str(i+2), color) ) )
 
 def changeColor(color):
     # 30:noir ; 31:rouge; 32:vert; 33:orange; 34:bleu; 35:violet; 36:turquoise; 37:blanc
@@ -145,16 +145,13 @@ def print_tab_3(tab, color): # only for datasets
         #color1 = color
         if ( tab[i][1] == 0):
             color0 = 'blue'
-        #if ( tab[i+1][1] == 0): # 2 datasets per line
-        #    color1 = 'blue'
-        #print('%40s [%s] %40s [%s]' % (tab[i][0], colorText(str(tab[i][1]), color0), tab[i+1][0], colorText(str(tab[i+1][1]), color1))) # 2 datasets per line
         print('%40s [%s]' % ( tab[i][0], colorText(str(tab[i][1]), color0) )) # 1 dataset per line
 
 def print_tab_2(tab, color): # only for tab with 2 elements
     print('')
     for i in range(0, len(tab)):
         #print(' [%d] %50s' % (i, tab[i]))
-        print('[%s] %50s' % (colorText(str(i), color), tab[i]))
+        print('[%s] %40s' % (colorText(str(i), color), tab[i]))
 
 def print_tab_1(tab, color):
     print('')
@@ -457,7 +454,7 @@ def fonction_8(self):
     screen_clear()
     print('vous appelez la fonction 8')
     # comparison choice
-    print_tab_1(self.comparisons, self.color_nb)
+    print_tab_4(self.comparisons, self.color_nb)
     text_to_prompt= "number of the comparison type, [" + colorText('b', self.color) + "]ack or [" + colorText('q', self.color) +"]uit. ? "
 
     self.comparisonChoice = get_answer3(text_to_prompt, self.comparisons) #
@@ -479,10 +476,10 @@ def fonction_10(self):
     screen_clear()
     print('vous appelez la fonction 10')
     # datasets choice
-    fieldname = 'DataSetsFilter_' + self.comparisonChoice + self.validationChoice[0]
+    fieldname = 'DataSetsFilter_' + self.comparisonChoice[0] + 'vs' + self.comparisonChoice[1] + self.validationChoice[0]
     if self.validationChoice[1] == 'miniAOD':
-        fieldname = 'DataSetsFilter_' + self.comparisonChoice + self.validationChoice[1]
-    print('datasets default')
+        fieldname = 'DataSetsFilter_' + self.comparisonChoice[0] + 'vs' + self.comparisonChoice[1] + self.validationChoice[1]
+    print('datasets default : %s' % fieldname)
     self.default_dataset = DataSetsFilter(self, fieldname)
     print_tab_3(self.default_dataset, self.color_nb)
     print('those with %s are not selected' % (colorText('0', 'blue')))
@@ -492,7 +489,7 @@ def fonction_10(self):
 
     self.dts = get_answer4(text_to_prompt) #
     if ( self.dts == ''): # back
-        return 9
+        return 8
     elif ( self.dts == 'a'): # default
         return 10
     elif ( self.dts == 'c'): # default
@@ -511,16 +508,51 @@ def fonction_10(self):
 def fonction_11(self):
     screen_clear()
     print('vous appelez la fonction 11')
-    # add dataset from defaults
-    #print_tab_1(self.validations, self.color_nb)
-    #text_to_prompt= "number of the validation type, [" + colorText('b', self.color) + "]ack or [" + colorText('q', self.color) +"]uit. ? "
 
-    #self.validationChoice = get_answer3(text_to_prompt, self.validations) #
+    # get the self.releasesList_4/self.referencesList_4 lists of root files
+    rootFilesExtraction(self)
+
+    # extract to keep only for comparison choice
+    print('release')
+    #for elem in self.releasesList_4:
+    #    print(elem)
+    #    if re.search('Fast', elem[i]):
+    #        print(elem)
+    print('reference')
+    #for elem in self.referencesList_4:
+    #    print(elem)
+    #    if re.search('Fast', elem[i]): # must be searched with _13 extension & not _14 !
+    #        print(elem)
+
+    # extract to keep only for validation choice
+    print('release')
+    if self.validationChoice[0] != 'RECO' and self.validationChoice[0] != 'miniAOD':
+        tmp_list = []
+        for elem in self.releasesList_4:
+            #print(elem)# self.validationChoice[0]
+            for i in range(1, len(elem)):
+                if re.search(self.validationChoice[0], elem[i]) and not re.search('noPU', elem[i]): # noPU exclusion ! to be tested
+                    print(elem[i])
+                    elem.remove(elem[i])
+                    i -= 1
+            tmp_list.append(elem)
+    print(self.releasesList_4)
+    print(tmp_list)
+    print('reference')
+    if self.validationChoice[1] != 'RECO' and self.validationChoice[1] != 'miniAOD':
+        for elem in self.referencesList_4:
+            #print self.validationChoice[1]
+            for i in range(1, len(elem)):
+                if re.search(self.validationChoice[1], elem[i]) and not re.search('noPU', elem[i]): # noPU exclusion ! to be tested
+                    print(elem[i])
+
+    # get the self.releasesGT/self.referencesGT lists for GT
+    GlobalTagsExtraction(self)
 
     return 11
 
 def fonction_12(self):
-    screen_clear()
+    #screen_clear()
     print('vous appelez la fonction 12')
     # DB Flag choice
     if testZEE(self.datasets):
@@ -561,12 +593,14 @@ def rootFilesExtraction(self):
         for file in self.releasesList_3:
             if re.search(dts, file):
                 if re.search(self.release, file):
+                    print(file)
                     tmp_rel.append(str(file))
                 else:
                     tmp_ref.append(str(file))
         for file in self.referencesList_3:
             if re.search(dts, file):
                 if re.search(self.release, file):
+                    print(file)
                     tmp_rel.append(str(file))
                 else:
                     tmp_ref.append(str(file))
@@ -583,7 +617,7 @@ def GlobalTagsExtraction(self):
                     gt_tmp.append(aa[2])
         gt_tmp = sorted(set(gt_tmp))
         gt_tmp.insert(0, elem[0])
-        self.releasesGT1.append(gt_tmp)
+        self.releasesGT.append(gt_tmp)
     for elem in self.referencesList_4:
         gt_tmp = []
         for i in range(1, len(elem)):
@@ -593,4 +627,4 @@ def GlobalTagsExtraction(self):
                     gt_tmp.append(aa[2])
         gt_tmp = sorted(set(gt_tmp))
         gt_tmp.insert(0, elem[0])
-        self.referencesGT1.append(gt_tmp)
+        self.referencesGT.append(gt_tmp)

@@ -1,17 +1,15 @@
 #! /usr/bin/env python
 #-*-coding: utf-8 -*-
 
-import os,sys 
+import os,sys
 import re
 from time import sleep
 
 sys.path.append('/afs/cern.ch/user/a/archiron/lbin/ChiLib')
 
-from networkFunctions import list_search_0, list_search_1#, cmd_load_files
-#from functions import getDataSet, analyzeDTS
+from networkFunctions import list_search_0, list_search_1
 from functionsqV import *
 from defaultqV import *
-#from datasetsqV import *
 
 class quickVal():
     def __init__(self):
@@ -35,6 +33,8 @@ class quickVal():
         self.color_nb = color_nb
         self.comparisons = comparisons
         self.validations = validations
+        self.releaseExtent = ''
+        self.referenceExtent = ''
         self.default_dataset = []
         self.datasets = []
         self.DB_flags = []
@@ -106,53 +106,5 @@ class quickVal():
                 configFile.write('\n')
             configFile.write('#############################################################################\n')
             configFile.write('\n')
-
-        # ROOT files extraction for selected datasets
-        rootFilesExtraction(self)
-        print('')
-        # GT extraction from lists
-        for elem in self.releasesList_4:
-            gt_tmp = []
-            #gt_tmp.append(elem[0])
-            for i in range(1, len(elem)):
-                aa = explode_item(elem[i])
-                print(aa)
-                for dts in self.datasets:
-                    if re.search(dts, aa[0]):
-                        gt_tmp.append(aa[2])
-            gt_tmp = sorted(set(gt_tmp))
-            gt_tmp.insert(0, elem[0])
-            self.releasesGT.append(gt_tmp)
-        for elem in self.referencesList_4:
-            gt_tmp = []
-            #gt_tmp.append(elem[0])
-            for i in range(1, len(elem)):
-                aa = explode_item(elem[i])
-                print(aa)
-                for dts in self.datasets:
-                    if re.search(dts, aa[0]):
-                        gt_tmp.append(aa[2])
-            #print(sorted(set(gt_tmp)))
-            gt_tmp = sorted(set(gt_tmp))
-            gt_tmp.insert(0, elem[0])
-            #print(gt_tmp)
-            self.referencesGT.append(gt_tmp)
-        print('')
-        print('GT')
-        for elem in self.releasesGT:
-            print(elem)
-        print('')
-        for elem in self.referencesGT:
-            print(elem)
-        self.releasesGT1 = []
-        self.referencesGT1 = []
-        GlobalTagsExtraction(self)
-
-        print('***')
-        for elem in self.releasesGT1:
-            print(elem)
-        print('')
-        for elem in self.referencesGT1:
-            print(elem)
 
         print('end of run')
