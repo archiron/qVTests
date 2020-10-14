@@ -33,6 +33,7 @@ def DataSetsFilter_FullvsFullRECO(self):
     ["SingleElectronPt35", 0],
     ["SingleElectronPt35_UP15", 0], # 0 : not displayed
     ["SingleElectronPt1000", 0],
+    ["SingleEFlatPt2To100", 1],
     ["QCD_Pt_80_120_13", 0],
     ["TTbar_13", 0],
     ["ZEE_13", 0],
@@ -110,6 +111,7 @@ def DataSetsFilter_FastvsFullpmx(self):
 def DataSetsFilter_FullvsFullminiAOD(self):
     table=[
     ["SingleElectronPt10", 1],
+    ["SingleEFlatPt2To100", 1],
     ["TTbar_13", 1],
     ["ZEE_13", 1],
     ["TTbar_14TeV", 1],
