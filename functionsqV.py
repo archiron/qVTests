@@ -137,7 +137,7 @@ def print_tab_4(tab, color):
     for i in range(0, len(tab)):
         print('[%s] %s vs %s' % (colorText(str(i), color), tab[i][0], tab[i][1]))
 
-def print_tab_3(tab, color): # only for datasets
+def print_tab_3(tab, color): # only for default datasets
     print('')
 
     for i in range(0, len(tab), 1):
@@ -214,7 +214,7 @@ def get_answer1(text2prompt, tab1, tab2):
 
     return temp1, temp2
 
-def get_answer101(text2prompt, tab):
+def get_answer10X(text2prompt, tab):
     nb = []
     quitLoop = True
     print('')
@@ -518,6 +518,7 @@ def fonction_10(self):
         function_101(self)
         return 10
     elif ( self.dts == 'c'): # default
+        function_102(self)
         return 10
     elif ( self.dts == 'd'): # default
         self.datasets = []
@@ -535,10 +536,27 @@ def function_101(self):
     print('vous appelez la fonction 101')
     print_tab_3(self.default_dataset, 'blue') # all datasets with same color
     text_to_prompt= "enter the numbers of the datasets you want, separated by commas : "
-    numbers = get_answer101(text_to_prompt, self.default_dataset)
+    numbers = get_answer10X(text_to_prompt, self.default_dataset)
     #print(numbers)
     for i in numbers:
-        self.datasets.append(self.default_dataset[i][0])
+        self.datasets.append(str(self.default_dataset[i][0]))
+    print('datasets : ')
+    print(self.datasets)
+    return
+
+def function_102(self):
+    screen_clear()
+    print('vous appelez la fonction 102')
+
+    self.commonDatasets = set(self.datasetsList_1).intersection(set(self.datasetsList_2))
+    self.commonDatasets = list(self.commonDatasets) # get the common datasets for the comparisons
+    #print_tab(self.commonDatasets)
+    print_tab_1(self.commonDatasets, self.color) # all datasets with same color
+    text_to_prompt= "enter the numbers of the datasets you want, separated by commas : "
+    numbers = get_answer10X(text_to_prompt, self.commonDatasets)
+    #print(numbers)
+    for i in numbers:
+        self.datasets.append(str(self.commonDatasets[i]))
     print('datasets : ')
     print(self.datasets)
     return
