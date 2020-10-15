@@ -145,7 +145,7 @@ def print_tab_3(tab, color): # only for datasets
         #color1 = color
         if ( tab[i][1] == 0):
             color0 = 'blue'
-        print('%40s [%s]' % ( tab[i][0], colorText(str(tab[i][1]), color0) )) # 1 dataset per line
+        print('%40s [%s] - [%2d]' % ( tab[i][0], colorText(str(tab[i][1]), color0), i )) # 1 dataset per line
 
 def print_tab_2(tab, color): # only for tab with 2 elements
     print('')
@@ -213,6 +213,30 @@ def get_answer1(text2prompt, tab1, tab2):
             print('%s is not a number' % rel)
 
     return temp1, temp2
+
+def get_answer101(text2prompt, tab):
+    nb = []
+    quitLoop = True
+    print('')
+    while ( quitLoop ):
+        vals = raw_input(text2prompt)
+        #rel = input(text2prompt)  # Python 3
+        vals2 = vals.split(',')
+        print(vals, vals2)
+        for i in range(0, len(vals2)):
+            irel = ''
+            try:
+                irel = int(vals2[i])
+                if ( irel >= 0 and irel < len(tab) ):
+                    nb.append(irel)
+                    quitLoop = False
+                else:
+                    print('%d not in range [0, %d]' %(irel, len(tab)-1))
+                    quitLoop = True
+            except:
+                print('%s is not a number' % vals2[i])
+    #print(nb)
+    return nb
 
 def get_answer2(text2prompt, tab):
     quitLoop = True
@@ -485,12 +509,13 @@ def fonction_10(self):
     print('those with %s are not selected' % (colorText('0', 'blue')))
     print('those with %s are selected' % (colorText('1', self.color_nb)))
     text_to_prompt = "you can use the [" + colorText('d', self.color) + "]efault selected datasets, [" + colorText('b', self.color) + "]ack or [" + colorText('q', self.color) +"]uit.\n "
-    text_to_prompt += "you can [" + colorText('a', self.color) + "]dd datasets from those non selected, or [" + colorText('c', self.color) + "]hose between the common datasets : "
+    text_to_prompt += "you can [" + colorText('a', self.color) + "]dd datasets from those unselected, or [" + colorText('c', self.color) + "]hose between the common datasets : "
 
     self.dts = get_answer4(text_to_prompt) #
     if ( self.dts == ''): # back
         return 8
     elif ( self.dts == 'a'): # default
+        function_101(self)
         return 10
     elif ( self.dts == 'c'): # default
         return 10
@@ -505,6 +530,19 @@ def fonction_10(self):
 
     return 10
 
+def function_101(self):
+    screen_clear()
+    print('vous appelez la fonction 101')
+    print_tab_3(self.default_dataset, 'blue') # all datasets with same color
+    text_to_prompt= "enter the numbers of the datasets you want, separated by commas : "
+    numbers = get_answer101(text_to_prompt, self.default_dataset)
+    #print(numbers)
+    for i in numbers:
+        self.datasets.append(self.default_dataset[i][0])
+    print('datasets : ')
+    print(self.datasets)
+    return
+
 def fonction_11(self):
     screen_clear()
     print('vous appelez la fonction 11')
@@ -513,20 +551,20 @@ def fonction_11(self):
     rootFilesExtraction(self)
 
     # extract to keep only for comparison choice
-    print('release')
+    print('comparison choice for release')
     #for elem in self.releasesList_4:
     #    print(elem)
     #    if re.search('Fast', elem[i]):
     #        print(elem)
-    print('reference')
+    print('comparison choice for reference')
     #for elem in self.referencesList_4:
     #    print(elem)
     #    if re.search('Fast', elem[i]): # must be searched with _13 extension & not _14 !
     #        print(elem)
 
     # extract to keep only for validation choice
-    print('release')
-    if self.validationChoice[0] != 'RECO' and self.validationChoice[0] != 'miniAOD':
+    print('validation choice for release')
+    if self.validationChoice[0] != 'RECO' and self.validationChoice[0] != 'miniAOD': # PU
         tmp_list = []
         for elem in self.releasesList_4:
             #print(elem)# self.validationChoice[0]
@@ -536,10 +574,10 @@ def fonction_11(self):
                     elem.remove(elem[i])
                     i -= 1
             tmp_list.append(elem)
+        print(tmp_list)
     print(self.releasesList_4)
-    print(tmp_list)
-    print('reference')
-    if self.validationChoice[1] != 'RECO' and self.validationChoice[1] != 'miniAOD':
+    print('validation choice for reference')
+    if self.validationChoice[1] != 'RECO' and self.validationChoice[1] != 'miniAOD': # PU
         for elem in self.referencesList_4:
             #print self.validationChoice[1]
             for i in range(1, len(elem)):
