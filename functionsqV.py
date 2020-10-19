@@ -39,7 +39,7 @@ def sub_releases3(release, tab_files):
     i = 0
     temp = []
     for t in tab_files:
-        if ( re.search(release, t) ):
+        if ( re.search('__' + release + '-', t) ):
             #tt = explode_item(t)
             #temp.append(tt[0])
             temp.append(t)
@@ -594,8 +594,8 @@ def fonction_11(self):
                     if re.search(self.validationChoice[0], elem[i]) and not re.search('noPU', elem[i]): # noPU exclusion ! to be tested
                         #print(elem[i])
                         tmp_elem.append(elem[i])
-                print('tmp_elem')
-                print(tmp_elem)
+                #print('tmp_elem')
+                #print(tmp_elem)
                 tmp_list_rel.append(tmp_elem)
         else: # PU
             print('PU')
@@ -606,8 +606,8 @@ def fonction_11(self):
                     if re.search(self.validationChoice[0], elem[i]) and not re.search('noPU', elem[i]):  # noPU exclusion ! to be tested
                         #print(elem[i])
                         tmp_elem.append(elem[i])
-                print('tmp_elem')
-                print(tmp_elem)
+                #print('tmp_elem')
+                #print(tmp_elem)
                 tmp_list_rel.append(tmp_elem)
     else: # RECO or miniAOD
         print('RECO/miniAOD')
@@ -618,14 +618,15 @@ def fonction_11(self):
                 if not re.search('PU', elem[i]) and not re.search('pmx', elem[i]) or re.search('noPU', elem[i]):  # noPU inclusion ! to be tested
                     #print(elem[i])
                     tmp_elem.append(elem[i])
-            print('tmp_elem')
-            print(tmp_elem)
+            #print('tmp_elem')
+            #print(tmp_elem)
             tmp_list_rel.append(tmp_elem)
-    print('tmp_list_rel')
-    print(tmp_list_rel)
+    #print('tmp_list_rel')
+    #print(tmp_list_rel)
     self.releasesList_5 = tmp_list_rel
 
     print('validation choice for reference')
+    #print(self.referencesList_4)
     tmp_list_ref = []
     if self.validationChoice[1] != 'RECO' and self.validationChoice[1] != 'miniAOD': # PU or pmx
         if self.validationChoice[1] == 'pmx': # pmx
@@ -637,8 +638,8 @@ def fonction_11(self):
                     if re.search(self.validationChoice[1], elem[i]) and not re.search('noPU', elem[i]): # noPU exclusion ! to be tested
                         #print(elem[i])
                         tmp_elem.append(elem[i])
-                print('tmp_elem')
-                print(tmp_elem)
+                #print('tmp_elem')
+                #print(tmp_elem)
                 tmp_list_ref.append(tmp_elem)
         else: # PU
             print('PU')
@@ -649,8 +650,8 @@ def fonction_11(self):
                     if re.search(self.validationChoice[1], elem[i]) and not re.search('noPU', elem[i]):  # noPU exclusion ! to be tested
                         #print(elem[i])
                         tmp_elem.append(elem[i])
-                print('tmp_elem')
-                print(tmp_elem)
+                #print('tmp_elem')
+                #print(tmp_elem)
                 tmp_list_ref.append(tmp_elem)
     else: # RECO or miniAOD
         print('RECO/miniAOD')
@@ -661,23 +662,23 @@ def fonction_11(self):
                 if not re.search('PU', elem[i]) and not re.search('pmx', elem[i]) or re.search('noPU', elem[i]):  # noPU inclusion ! to be tested
                     #print(elem[i])
                     tmp_elem.append(elem[i])
-            print('tmp_elem')
-            print(tmp_elem)
+            #print('tmp_elem')
+            #print(tmp_elem)
             tmp_list_ref.append(tmp_elem)
-    print('tmp_list_ref')
-    print(tmp_list_ref)
+    #print('tmp_list_ref')
+    #print(tmp_list_ref)
     self.referencesList_5 = tmp_list_ref
-    print('longueur : %d' % len(tmp_list_rel))
-    print('longueur : %d' % len(tmp_list_ref))
-    print('longueur : %d' % len(self.releasesList_5))
-    print('longueur : %d' % len(self.referencesList_5))
+    #print('longueur : %d' % len(tmp_list_rel))
+    #print('longueur : %d' % len(tmp_list_ref))
+    #print('longueur : %d' % len(self.releasesList_5))
+    #print('longueur : %d' % len(self.referencesList_5))
 
     # get the self.releasesGT/self.referencesGT lists for GT
     GlobalTagsExtraction(self)
-    print('releases GT')
-    print(self.releasesGT)
-    print('references GT')
-    print(self.referencesGT)
+    #print('releases GT')
+    #print(self.releasesGT)
+    #print('references GT')
+    #print(self.referencesGT)
 
     return 11
 
@@ -738,10 +739,10 @@ def rootFilesExtraction(self):
         self.referencesList_4.append(tmp_ref)
 
 def GlobalTagsExtraction(self):
-    print('longueur : %d' % len(self.releasesList_5))
-    print('longueur : %d' % len(self.referencesList_5))
+    #print('longueur : %d' % len(self.releasesList_5))
+    #print('longueur : %d' % len(self.referencesList_5))
     for elem in self.releasesList_5:
-        print(elem)
+        #print(elem)
         gt_tmp = []
         for i in range(1, len(elem)):
             aa = explode_item(elem[i])
