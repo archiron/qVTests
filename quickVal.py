@@ -44,8 +44,10 @@ class quickVal():
                            DataLocation(self)[1][3]]
         self.Gev = [] # table for validations
         self.gev_tmp = []
-        self.releasesList_4 = []
-        self.referencesList_4 = []
+        self.releasesList_4 = [] # root files list for release
+        self.referencesList_4 = [] # root files list for reference
+        self.releasesList_5 = [] # root files list for release after validation choice
+        self.referencesList_5 = [] # root files list for reference after validation choice
         self.releasesGT = []
         self.referencesGT = []
 
