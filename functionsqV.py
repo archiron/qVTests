@@ -583,6 +583,7 @@ def fonction_11(self):
     # extract to keep only for validation choice
     print('validation choice for release')
     #print(self.releasesList_4)
+    '''
     tmp_list_rel = []
     if self.validationChoice[0] != 'RECO' and self.validationChoice[0] != 'miniAOD': # PU or pmx
         if self.validationChoice[0] == 'pmx': # pmx
@@ -623,10 +624,12 @@ def fonction_11(self):
             tmp_list_rel.append(tmp_elem)
     #print('tmp_list_rel')
     #print(tmp_list_rel)
-    self.releasesList_5 = tmp_list_rel
+    '''
+    self.releasesList_5 = getFilesList(self, self.releasesList_4) # tmp_list_rel
 
     print('validation choice for reference')
     #print(self.referencesList_4)
+    '''
     tmp_list_ref = []
     if self.validationChoice[1] != 'RECO' and self.validationChoice[1] != 'miniAOD': # PU or pmx
         if self.validationChoice[1] == 'pmx': # pmx
@@ -667,11 +670,8 @@ def fonction_11(self):
             tmp_list_ref.append(tmp_elem)
     #print('tmp_list_ref')
     #print(tmp_list_ref)
-    self.referencesList_5 = tmp_list_ref
-    #print('longueur : %d' % len(tmp_list_rel))
-    #print('longueur : %d' % len(tmp_list_ref))
-    #print('longueur : %d' % len(self.releasesList_5))
-    #print('longueur : %d' % len(self.referencesList_5))
+    '''
+    self.referencesList_5 = getFilesList(self, self.referencesList_4) # tmp_list_ref
 
     # get the self.releasesGT/self.referencesGT lists for GT
     GlobalTagsExtraction(self)
@@ -680,6 +680,8 @@ def fonction_11(self):
     #print('references GT')
     #print(self.referencesGT)
 
+    # rewrite GT list in a more convenient way
+    
     return 11
 
 def fonction_12(self):
@@ -760,3 +762,35 @@ def GlobalTagsExtraction(self):
         gt_tmp.insert(0, elem[0])
         self.referencesGT.append(gt_tmp)
     ''''''
+
+def getFilesList(self, tab):
+    tmp_list = []
+    if self.validationChoice[1] != 'RECO' and self.validationChoice[1] != 'miniAOD': # PU or pmx
+        if self.validationChoice[1] == 'pmx': # pmx
+            print('pmx')
+            for elem in tab:
+                tmp_elem = []
+                tmp_elem.append(elem[0])
+                for i in range(1, len(elem)):
+                    if re.search(self.validationChoice[1], elem[i]) and not re.search('noPU', elem[i]): # noPU exclusion ! to be tested
+                        tmp_elem.append(elem[i])
+                tmp_list.append(tmp_elem)
+        else: # PU
+            print('PU')
+            for elem in tab:
+                tmp_elem = []
+                tmp_elem.append(elem[0])
+                for i in range(1, len(elem)):
+                    if re.search(self.validationChoice[1], elem[i]) and not re.search('noPU', elem[i]):  # noPU exclusion ! to be tested
+                        tmp_elem.append(elem[i])
+                tmp_list.append(tmp_elem)
+    else: # RECO or miniAOD
+        print('RECO/miniAOD')
+        for elem in tab:
+            tmp_elem = []
+            tmp_elem.append(elem[0])
+            for i in range(1, len(elem)):
+                if not re.search('PU', elem[i]) and not re.search('pmx', elem[i]) or re.search('noPU', elem[i]):  # noPU inclusion ! to be tested
+                    tmp_elem.append(elem[i])
+            tmp_list.append(tmp_elem)
+    return tmp_list
