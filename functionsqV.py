@@ -132,6 +132,13 @@ def changeColor(color):
     else:
         return '[30m'
 
+def print_tab_5(tab, color): # only for GT
+    print('')
+
+    for i, elem in enumerate(tab):
+        aa = elem[1:]
+        print('[%s] - %s %s' % ( colorText(str(i), color), colorText(str(elem[0]), 'blue'), aa )) # 1 GT per line
+
 def print_tab_4(tab, color):
     print('')
     for i in range(0, len(tab)):
@@ -336,6 +343,33 @@ def get_answer5(text2prompt):
             temp = 'n'
         else:
             print('vous avez tapé : %s' % rel)
+
+    return temp
+
+def get_answer6(text2prompt, tab): # for GT
+    quitLoop = True
+    print('')
+    while ( quitLoop ):
+        rel = raw_input(text2prompt)
+        #rel = input(text2prompt)  # Python 3
+        if rel == 'q':
+            exit()
+        elif rel == 'b':
+            quitLoop = False
+            temp = ''
+        else:
+            print('vous avez tapé : %s' % rel)
+        irel = ''
+        try:
+            irel = int(rel)
+            if ( irel >= 0 and irel < len(tab) ):
+                quitLoop = False
+                temp = tab[int(rel)][0]
+            else:
+                print('%d is not into the range [0:%d]' % (irel, len(tab)-1))
+                quitLoop = True
+        except:
+            print('%s is not a number' % rel)
 
     return temp
 
@@ -686,10 +720,10 @@ def fonction_11(self):
         for i in range(1, len(elem)):
             tmp_GT.append(elem[i])
     print('GT releases')
-    print(self.releasesGT)
-    print('list of GT')
+    #print(self.releasesGT)
+    #print('list of GT')
     tmp_GT_rel = sorted(set(tmp_GT))
-    print(tmp_GT_rel)
+    #print(tmp_GT_rel)
     self.GT_rel = []
     for elem in tmp_GT_rel:
         tmp = []
@@ -699,17 +733,17 @@ def fonction_11(self):
                 if item1[i] == elem:
                     tmp.append(item1[0])
         self.GT_rel.append(tmp)
-    print(self.GT_rel)
+    #print(self.GT_rel)
 
     tmp_GT = []
     for elem in self.referencesGT:
         for i in range(1, len(elem)):
             tmp_GT.append(elem[i])
     print('GT references')
-    print(self.referencesGT)
-    print('list of GT')
+    #print(self.referencesGT)
+    #print('list of GT')
     tmp_GT_ref = sorted(set(tmp_GT))
-    print(tmp_GT_ref)
+    #print(tmp_GT_ref)
     self.GT_ref = []
     for elem in tmp_GT_ref:
         tmp = []
@@ -719,9 +753,17 @@ def fonction_11(self):
                 if item1[i] == elem:
                     tmp.append(item1[0])
         self.GT_ref.append(tmp)
-    print(self.GT_ref)
-    #stop
-    return 11
+    #print(self.GT_ref)
+
+    print_tab_5(self.GT_rel, self.color_nb)
+    text_to_prompt = "get a RELEASE GT number, [" + colorText('b', self.color) + "]ack or [" + colorText('q', self.color) +"]uit. ? "
+    GT = get_answer6(text_to_prompt, self.GT_rel)  #
+    if ( GT == ''): # back
+        return 9
+    else:
+        self.GT_rel = GT
+        #print('GT = %s' % GT)
+        return 11
 
 def fonction_12(self):
     #screen_clear()
@@ -765,7 +807,7 @@ def rootFilesExtraction(self):
         for file in self.releasesList_3:
             if re.search(dts, file):
                 if re.search(self.release, file):
-                    print(file)
+                    #print(file)
                     tmp_rel.append(str(file))
                 else:
                     tmp_ref.append(str(file))
