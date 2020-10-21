@@ -543,12 +543,12 @@ def fonction_10(self):
     print('those with %s are not selected' % (colorText('0', 'blue')))
     print('those with %s are selected' % (colorText('1', self.color_nb)))
     text_to_prompt = "you can use the [" + colorText('d', self.color) + "]efault selected datasets, [" + colorText('b', self.color) + "]ack or [" + colorText('q', self.color) +"]uit.\n "
-    text_to_prompt += "you can [" + colorText('a', self.color) + "]dd datasets from those unselected, or [" + colorText('c', self.color) + "]hose between the common datasets : "
+    text_to_prompt += "you can [" + colorText('s', self.color) + "]elect datasets from the list, or [" + colorText('c', self.color) + "]hose between the common datasets : "
 
     self.dts = get_answer4(text_to_prompt) #
     if ( self.dts == ''): # back
         return 8
-    elif ( self.dts == 'a'): # default
+    elif ( self.dts == 's'): # default
         function_101(self)
         return 10
     elif ( self.dts == 'c'): # default
