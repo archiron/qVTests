@@ -681,7 +681,46 @@ def fonction_11(self):
     #print(self.referencesGT)
 
     # rewrite GT list in a more convenient way
+    tmp_GT = []
+    for elem in self.releasesGT:
+        for i in range(1, len(elem)):
+            tmp_GT.append(elem[i])
+    print('GT releases')
+    print(self.releasesGT)
+    print('list of GT')
+    tmp_GT_rel = sorted(set(tmp_GT))
+    print(tmp_GT_rel)
+    self.GT_rel = []
+    for elem in tmp_GT_rel:
+        tmp = []
+        tmp.append(elem)
+        for item1 in self.releasesGT:
+            for i in range(1, len(item1)):
+                if item1[i] == elem:
+                    tmp.append(item1[0])
+        self.GT_rel.append(tmp)
+    print(self.GT_rel)
 
+    tmp_GT = []
+    for elem in self.referencesGT:
+        for i in range(1, len(elem)):
+            tmp_GT.append(elem[i])
+    print('GT references')
+    print(self.referencesGT)
+    print('list of GT')
+    tmp_GT_ref = sorted(set(tmp_GT))
+    print(tmp_GT_ref)
+    self.GT_ref = []
+    for elem in tmp_GT_ref:
+        tmp = []
+        tmp.append(elem)
+        for item1 in self.referencesGT:
+            for i in range(1, len(item1)):
+                if item1[i] == elem:
+                    tmp.append(item1[0])
+        self.GT_ref.append(tmp)
+    print(self.GT_ref)
+    #stop
     return 11
 
 def fonction_12(self):
