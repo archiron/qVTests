@@ -681,7 +681,7 @@ def fonction_11(self):
     #print(self.referencesGT)
 
     # rewrite GT list in a more convenient way
-    
+
     return 11
 
 def fonction_12(self):
