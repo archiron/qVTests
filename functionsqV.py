@@ -616,103 +616,13 @@ def fonction_11(self):
 
     # extract to keep only for validation choice
     print('validation choice for release')
-    #print(self.releasesList_4)
-    '''
-    tmp_list_rel = []
-    if self.validationChoice[0] != 'RECO' and self.validationChoice[0] != 'miniAOD': # PU or pmx
-        if self.validationChoice[0] == 'pmx': # pmx
-            print('pmx')
-            for elem in self.releasesList_4:
-                tmp_elem = []
-                tmp_elem.append(elem[0])
-                for i in range(1, len(elem)):
-                    if re.search(self.validationChoice[0], elem[i]) and not re.search('noPU', elem[i]): # noPU exclusion ! to be tested
-                        #print(elem[i])
-                        tmp_elem.append(elem[i])
-                #print('tmp_elem')
-                #print(tmp_elem)
-                tmp_list_rel.append(tmp_elem)
-        else: # PU
-            print('PU')
-            for elem in self.releasesList_4:
-                tmp_elem = []
-                tmp_elem.append(elem[0])
-                for i in range(1, len(elem)):
-                    if re.search(self.validationChoice[0], elem[i]) and not re.search('noPU', elem[i]):  # noPU exclusion ! to be tested
-                        #print(elem[i])
-                        tmp_elem.append(elem[i])
-                #print('tmp_elem')
-                #print(tmp_elem)
-                tmp_list_rel.append(tmp_elem)
-    else: # RECO or miniAOD
-        print('RECO/miniAOD')
-        for elem in self.releasesList_4:
-            tmp_elem = []
-            tmp_elem.append(elem[0])
-            for i in range(1, len(elem)):
-                if not re.search('PU', elem[i]) and not re.search('pmx', elem[i]) or re.search('noPU', elem[i]):  # noPU inclusion ! to be tested
-                    #print(elem[i])
-                    tmp_elem.append(elem[i])
-            #print('tmp_elem')
-            #print(tmp_elem)
-            tmp_list_rel.append(tmp_elem)
-    #print('tmp_list_rel')
-    #print(tmp_list_rel)
-    '''
     self.releasesList_5 = getFilesList(self, self.releasesList_4) # tmp_list_rel
 
     print('validation choice for reference')
-    #print(self.referencesList_4)
-    '''
-    tmp_list_ref = []
-    if self.validationChoice[1] != 'RECO' and self.validationChoice[1] != 'miniAOD': # PU or pmx
-        if self.validationChoice[1] == 'pmx': # pmx
-            print('pmx')
-            for elem in self.referencesList_4:
-                tmp_elem = []
-                tmp_elem.append(elem[0])
-                for i in range(1, len(elem)):
-                    if re.search(self.validationChoice[1], elem[i]) and not re.search('noPU', elem[i]): # noPU exclusion ! to be tested
-                        #print(elem[i])
-                        tmp_elem.append(elem[i])
-                #print('tmp_elem')
-                #print(tmp_elem)
-                tmp_list_ref.append(tmp_elem)
-        else: # PU
-            print('PU')
-            for elem in self.referencesList_4:
-                tmp_elem = []
-                tmp_elem.append(elem[0])
-                for i in range(1, len(elem)):
-                    if re.search(self.validationChoice[1], elem[i]) and not re.search('noPU', elem[i]):  # noPU exclusion ! to be tested
-                        #print(elem[i])
-                        tmp_elem.append(elem[i])
-                #print('tmp_elem')
-                #print(tmp_elem)
-                tmp_list_ref.append(tmp_elem)
-    else: # RECO or miniAOD
-        print('RECO/miniAOD')
-        for elem in self.referencesList_4:
-            tmp_elem = []
-            tmp_elem.append(elem[0])
-            for i in range(1, len(elem)):
-                if not re.search('PU', elem[i]) and not re.search('pmx', elem[i]) or re.search('noPU', elem[i]):  # noPU inclusion ! to be tested
-                    #print(elem[i])
-                    tmp_elem.append(elem[i])
-            #print('tmp_elem')
-            #print(tmp_elem)
-            tmp_list_ref.append(tmp_elem)
-    #print('tmp_list_ref')
-    #print(tmp_list_ref)
-    '''
     self.referencesList_5 = getFilesList(self, self.referencesList_4) # tmp_list_ref
 
     # get the self.releasesGT/self.referencesGT lists for GT
     GlobalTagsExtraction(self)
-    #print('releases GT')
-    #print(self.releasesGT)
-    #print('references GT')
-    #print(self.referencesGT)
 
     # rewrite GT list in a more convenient way
     tmp_GT = []
@@ -720,10 +630,7 @@ def fonction_11(self):
         for i in range(1, len(elem)):
             tmp_GT.append(elem[i])
     print('GT releases')
-    #print(self.releasesGT)
-    #print('list of GT')
     tmp_GT_rel = sorted(set(tmp_GT))
-    #print(tmp_GT_rel)
     self.GT_rel = []
     for elem in tmp_GT_rel:
         tmp = []
@@ -733,17 +640,14 @@ def fonction_11(self):
                 if item1[i] == elem:
                     tmp.append(item1[0])
         self.GT_rel.append(tmp)
-    #print(self.GT_rel)
+    print(self.GT_rel)
 
     tmp_GT = []
     for elem in self.referencesGT:
         for i in range(1, len(elem)):
             tmp_GT.append(elem[i])
     print('GT references')
-    #print(self.referencesGT)
-    #print('list of GT')
     tmp_GT_ref = sorted(set(tmp_GT))
-    #print(tmp_GT_ref)
     self.GT_ref = []
     for elem in tmp_GT_ref:
         tmp = []
@@ -753,7 +657,6 @@ def fonction_11(self):
                 if item1[i] == elem:
                     tmp.append(item1[0])
         self.GT_ref.append(tmp)
-    #print(self.GT_ref)
 
     print_tab_5(self.GT_rel, self.color_nb)
     text_to_prompt = "get a RELEASE GT number, [" + colorText('b', self.color) + "]ack or [" + colorText('q', self.color) +"]uit. ? "
@@ -766,8 +669,22 @@ def fonction_11(self):
         return 11
 
 def fonction_12(self):
-    #screen_clear()
+    screen_clear()
     print('vous appelez la fonction 12')
+
+    print_tab_5(self.GT_ref, self.color_nb)
+    text_to_prompt = "get a REFERENCE GT number, [" + colorText('b', self.color) + "]ack or [" + colorText('q', self.color) +"]uit. ? "
+    GT = get_answer6(text_to_prompt, self.GT_ref)  #
+    if ( GT == ''): # back
+        return 10
+    else:
+        self.GT_ref = GT
+        #print('GT = %s' % GT)
+        return 12
+
+def fonction_13(self):
+    #screen_clear()
+    print('vous appelez la fonction 13')
     # DB Flag choice
     if testZEE(self.datasets):
         text_to_prompt= "use Decision Box for ZEE, [" + colorText('y', self.color) + "]es/[" + colorText('n', self.color) + "o] [" + colorText('b', self.color) + "]ack or [" + colorText('q', self.color) +"]uit. ? "
@@ -777,18 +694,18 @@ def fonction_12(self):
         DB_flag = 'n'
 
     if DB_flag == '':
-        return 9
+        return 11
     elif DB_flag == 'y':
         for item in self.datasets:
             if item != 'ZEE_14':
                 self.DB_flags.append('False')
             else:
                 self.DB_flags.append('True')
-        return 12
+        return 13
     elif DB_flag == 'n':
         for i in range(0, len(self.datasets)):
             self.DB_flags.append('False')
-        return 12
+        return 13
 
 def testZEE(tab):
     test = False

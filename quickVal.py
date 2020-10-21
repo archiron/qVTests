@@ -49,12 +49,12 @@ class quickVal():
         self.releasesList_5 = [] # root files list for release after validation choice
         self.referencesList_5 = [] # root files list for reference after validation choice
         self.releasesGT = []
-        self.referencesGT = []
+        self.referencesGT = [] 
 
         i_back = 1
         while (i_back != 0):
             table=getattr(sys.modules[__name__], "fonction_%s" % str(i_back))(self)
-            i_back = (table + 1) % 13
+            i_back = (table + 1) % 14
             print('i_back : %d' % i_back)
             # include the differents choices into Gev
 
@@ -64,12 +64,15 @@ class quickVal():
         print(text_to_prompt)
         text_to_prompt = 'release extension : ' + colorText(self.releaseExtent, 'blue') + ' - reference extension : ' + colorText(self.referenceExtent, 'blue')
         print(text_to_prompt)
+        print(self.GT_rel)
+        print(self.GT_ref)
         print('')
         self.gev_tmp.append([str(self.release), str(self.reference)])
         self.gev_tmp.append([str(self.releaseExtent), str(self.referenceExtent)])
         self.gev_tmp.append(str(self.datasets))
         self.gev_tmp.append(str(self.comparisonChoice))
         self.gev_tmp.append(str(self.validationChoice))
+        self.gev_tmp.append([str(self.GT_rel), str(self.GT_ref)])
         self.gev_tmp.append(str(self.DB_flags))
         print(self.gev_tmp)
         self.Gev.append(self.gev_tmp)
@@ -102,7 +105,7 @@ class quickVal():
                 configFile.write(str(elem[2]) + ' , # datasets\n')
                 configFile.write('\'' + str(elem[3]) + '\' , # choice\n')
                 configFile.write(str(elem[4]) + ' , # relrefValtype RECO vs RECO\n')
-                # GT
+                configFile.write(str(elem[5]) + ' , # GT one couple rel/ref for all dataset\n')
                 # ROOT files
                 configFile.write(str(self.DB_flags) + ', # DB flag\n')
                 configFile.write('\n')
