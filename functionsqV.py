@@ -310,9 +310,9 @@ def get_answer4(text2prompt):
         elif rel == 'd':
             quitLoop = False
             temp = 'd'
-        elif rel == 'a':
+        elif rel == 's':
             quitLoop = False
-            temp = 'a'
+            temp = 's'
         elif rel == 'c':
             quitLoop = False
             temp = 'c'
@@ -640,7 +640,14 @@ def fonction_11(self):
                 if item1[i] == elem:
                     tmp.append(item1[0])
         self.GT_rel.append(tmp)
-    print(self.GT_rel)
+    #print(self.GT_rel)
+    # reduce the list to kept only those corresponding to ALL datasets
+    tt_rel = []
+    for elem in self.GT_rel:
+        if len(elem[1:]) == len(self.datasets):
+            tt_rel.append(elem)
+    self.GT_rel = tt_rel
+    #print(self.GT_rel)
 
     tmp_GT = []
     for elem in self.referencesGT:
@@ -657,6 +664,17 @@ def fonction_11(self):
                 if item1[i] == elem:
                     tmp.append(item1[0])
         self.GT_ref.append(tmp)
+    #print(self.GT_ref)
+    # reduce the list to kept only those corresponding to ALL datasets
+    tt_ref = []
+    for elem in self.GT_ref:
+        if len(elem[1:]) == len(self.datasets):
+            tt_ref.append(elem)
+    self.GT_ref = tt_ref
+    #print(self.GT_ref)
+
+    if len(self.GT_rel) == 0 or len(self.GT_ref) == 0 :
+        return 9 # back to datasets choice
 
     print_tab_5(self.GT_rel, self.color_nb)
     text_to_prompt = "get a RELEASE GT number, [" + colorText('b', self.color) + "]ack or [" + colorText('q', self.color) +"]uit. ? "
@@ -666,6 +684,11 @@ def fonction_11(self):
     else:
         self.GT_rel = GT
         #print('GT = %s' % GT)
+        for elem in self.releasesList_5:
+            for i in range(1, len(elem)):
+                if re.search(self.GT_rel, elem[i]):
+                    print(elem[i])
+                    self.relRootFilesList.append(elem[i])
         return 11
 
 def fonction_12(self):
@@ -679,7 +702,13 @@ def fonction_12(self):
         return 10
     else:
         self.GT_ref = GT
-        #print('GT = %s' % GT)
+        print('GT = %s' % GT)
+        print(GT)
+        for elem in self.referencesList_5:
+            for i in range(1, len(elem)):
+                if re.search(GT, elem[i]):
+                    print(elem[i])
+                    self.refRootFilesList.append(elem[i])
         return 12
 
 def fonction_13(self):

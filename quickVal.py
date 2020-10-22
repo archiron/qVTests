@@ -49,7 +49,9 @@ class quickVal():
         self.releasesList_5 = [] # root files list for release after validation choice
         self.referencesList_5 = [] # root files list for reference after validation choice
         self.releasesGT = []
-        self.referencesGT = [] 
+        self.referencesGT = []
+        self.relRootFilesList = []
+        self.refRootFilesList = []
 
         i_back = 1
         while (i_back != 0):
@@ -66,6 +68,8 @@ class quickVal():
         print(text_to_prompt)
         print(self.GT_rel)
         print(self.GT_ref)
+        print(self.relRootFilesList)
+        print(self.refRootFilesList)
         print('')
         self.gev_tmp.append([str(self.release), str(self.reference)])
         self.gev_tmp.append([str(self.releaseExtent), str(self.referenceExtent)])
