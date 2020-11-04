@@ -784,7 +784,7 @@ def fonction_14(self):
             self.configFile.write('\'' + str(elem[3]) + '\' , # choice\n')
             self.configFile.write(str(elem[4]) + ' , # relrefValtype RECO vs RECO\n')
             self.configFile.write(str(elem[5]) + ' , # GT one couple rel/ref for all dataset\n')
-            # ROOT files
+            self.configFile.write('[\'\', \'\'] , # relref files one couple rel/ref for each dataset\n')
             self.configFile.write(str(self.DB_flags) + ', # DB flag\n')
             self.configFile.write('\n')
         self.configFile.write('#############################################################################\n')
