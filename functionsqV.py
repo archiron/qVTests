@@ -842,6 +842,7 @@ def fonction_15(self):
                 self.configFile.write('[\'\', \'\'] , # relref files one couple rel/ref for each dataset\n')
                 self.configFile.write(str(self.DB_flags) + ', # DB flag\n')
                 self.configFile.write('\n')
+                ind += 1
             self.configFile.write('#############################################################################\n')
             self.configFile.write('\n')
         else:
