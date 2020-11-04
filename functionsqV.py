@@ -171,7 +171,7 @@ def print_tab_1(tab, color):
     else: # general case
         for i in range(0, len(tab), 2):
             if (i+1 == len(tab)):
-                print('%50s [%2d]' % (tab[i], i))
+                print( '%40s [%s]' % ( tab[i], colorText(str(i), color) ) )
             else: #
                 affiche_2(i, tab, color)
 
@@ -582,6 +582,8 @@ def function_102(self):
     screen_clear()
     print('vous appelez la fonction 102')
 
+    # peut etre un test a faire si len(commonDatasets) = 0 !
+
     self.commonDatasets = set(self.datasetsList_1).intersection(set(self.datasetsList_2))
     self.commonDatasets = list(self.commonDatasets) # get the common datasets for the comparisons
     #print_tab(self.commonDatasets)
@@ -735,6 +737,62 @@ def fonction_13(self):
         for i in range(0, len(self.datasets)):
             self.DB_flags.append('False')
         return 13
+
+def fonction_14(self):
+    #screen_clear()
+    print('vous appelez la fonction 14')
+    # Summary
+    print('RESUME : ')
+    text_to_prompt = 'RELEASE : ' + colorText(self.release, 'blue') + ' - REFERENCE : ' + colorText(self.reference, 'blue')
+    print(text_to_prompt)
+    text_to_prompt = 'release extension : ' + colorText(self.releaseExtent, 'blue') + ' - reference extension : ' + colorText(self.referenceExtent, 'blue')
+    print(text_to_prompt)
+    print(self.GT_rel)
+    print(self.GT_ref)
+    print(self.relRootFilesList)
+    print(self.refRootFilesList)
+    print('')
+    self.gev_tmp.append([str(self.release), str(self.reference)])
+    self.gev_tmp.append([str(self.releaseExtent), str(self.referenceExtent)])
+    self.gev_tmp.append(str(self.datasets))
+    self.gev_tmp.append(str(self.comparisonChoice))
+    self.gev_tmp.append(str(self.validationChoice))
+    self.gev_tmp.append([str(self.GT_rel), str(self.GT_ref)])
+    self.gev_tmp.append(str(self.DB_flags))
+    print(self.gev_tmp)
+    self.Gev.append(self.gev_tmp)
+    print(self.Gev)
+
+    if self.configFile:
+        print('config file OK')
+        self.configFile.write('#! /usr/bin/env python\n')
+        self.configFile.write('#-*-coding: utf-8 -*-\n')
+        self.configFile.write('\n')
+        self.configFile.write('import os,sys\n')
+        self.configFile.write('\n')
+        self.configFile.write('#############################################################################\n')
+        self.configFile.write('# global data\n')
+        self.configFile.write('web_repo = ' + str([self.location, self.extension]) + '\n')
+        self.configFile.write('\n')
+        ind = 0
+        for elem in self.Gev:
+            self.configFile.write('# personalization ' + str(ind + 1) + '\n')
+            self.configFile.write('GeV_' + str(ind + 1) + ' = [\n')
+            self.configFile.write(str(unicode(elem[0])) + ' , # release/reference\n')
+            self.configFile.write(str(elem[1]) + ' , # relref_extent\n')
+            self.configFile.write(str(elem[2]) + ' , # datasets\n')
+            self.configFile.write('\'' + str(elem[3]) + '\' , # choice\n')
+            self.configFile.write(str(elem[4]) + ' , # relrefValtype RECO vs RECO\n')
+            self.configFile.write(str(elem[5]) + ' , # GT one couple rel/ref for all dataset\n')
+            # ROOT files
+            self.configFile.write(str(self.DB_flags) + ', # DB flag\n')
+            self.configFile.write('\n')
+        self.configFile.write('#############################################################################\n')
+        self.configFile.write('\n')
+    else:
+        print('no config file open')
+        exit()
+    return 14
 
 def testZEE(tab):
     test = False

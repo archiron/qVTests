@@ -53,15 +53,21 @@ class quickVal():
         self.relRootFilesList = []
         self.refRootFilesList = []
 
+        print('config.py file creation')
+        try:
+            self.configFile = open('configFile.py', 'w+') #
+        except IOError:
+            print("Could not open file!")
+
         i_back = 1
         while (i_back != 0):
             table=getattr(sys.modules[__name__], "fonction_%s" % str(i_back))(self)
-            i_back = (table + 1) % 14
+            i_back = (table + 1) % 15
             print('i_back : %d' % i_back)
             # include the differents choices into Gev
 
         #screen_clear()
-        print('RESUME : ')
+        '''print('RESUME : ')
         text_to_prompt = 'RELEASE : ' + colorText(self.release, 'blue') + ' - REFERENCE : ' + colorText(self.reference, 'blue')
         print(text_to_prompt)
         text_to_prompt = 'release extension : ' + colorText(self.releaseExtent, 'blue') + ' - reference extension : ' + colorText(self.referenceExtent, 'blue')
@@ -85,35 +91,31 @@ class quickVal():
         print('suite ...')
         #stop
 
-        print('config.py file creation')
-        try:
-            configFile = open('configFile.py', 'w+') #
-        except IOError:
-            print("Could not open file!")
-        if configFile:
-            configFile.write('#! /usr/bin/env python\n')
-            configFile.write('#-*-coding: utf-8 -*-\n')
-            configFile.write('\n')
-            configFile.write('import os,sys\n')
-            configFile.write('\n')
-            configFile.write('#############################################################################\n')
-            configFile.write('# global data\n')
-            configFile.write('web_repo = ' + str([self.location, self.extension]) + '\n')
-            configFile.write('\n')
+        if self.configFile:
+            self.configFile.write('#! /usr/bin/env python\n')
+            self.configFile.write('#-*-coding: utf-8 -*-\n')
+            self.configFile.write('\n')
+            self.configFile.write('import os,sys\n')
+            self.configFile.write('\n')
+            self.configFile.write('#############################################################################\n')
+            self.configFile.write('# global data\n')
+            self.configFile.write('web_repo = ' + str([self.location, self.extension]) + '\n')
+            self.configFile.write('\n')
             ind = 0
             for elem in self.Gev:
-                configFile.write('# personalization ' + str(ind+1) + '\n')
-                configFile.write('GeV_'+ str(ind+1) +' = [\n')
-                configFile.write(str(unicode(elem[0])) + ' , # release/reference\n')
-                configFile.write(str(elem[1]) + ' , # relref_extent\n')
-                configFile.write(str(elem[2]) + ' , # datasets\n')
-                configFile.write('\'' + str(elem[3]) + '\' , # choice\n')
-                configFile.write(str(elem[4]) + ' , # relrefValtype RECO vs RECO\n')
-                configFile.write(str(elem[5]) + ' , # GT one couple rel/ref for all dataset\n')
+                self.configFile.write('# personalization ' + str(ind+1) + '\n')
+                self.configFile.write('GeV_'+ str(ind+1) +' = [\n')
+                self.configFile.write(str(unicode(elem[0])) + ' , # release/reference\n')
+                self.configFile.write(str(elem[1]) + ' , # relref_extent\n')
+                self.configFile.write(str(elem[2]) + ' , # datasets\n')
+                self.configFile.write('\'' + str(elem[3]) + '\' , # choice\n')
+                self.configFile.write(str(elem[4]) + ' , # relrefValtype RECO vs RECO\n')
+                self.configFile.write(str(elem[5]) + ' , # GT one couple rel/ref for all dataset\n')
                 # ROOT files
-                configFile.write(str(self.DB_flags) + ', # DB flag\n')
-                configFile.write('\n')
-            configFile.write('#############################################################################\n')
-            configFile.write('\n')
+                self.configFile.write(str(self.DB_flags) + ', # DB flag\n')
+                self.configFile.write('\n')
+            self.configFile.write('#############################################################################\n')
+            self.configFile.write('\n')'''
 
-        print('end of run')
+        self.configFile.close()
+        print('... et fin')
