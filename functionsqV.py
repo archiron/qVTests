@@ -736,13 +736,13 @@ def fonction_13(self):
         self.DB_flags = []
         for item in self.datasets:
             if item != 'ZEE_14':
-                self.DB_flags.append('False')
+                self.DB_flags.append(False)
             else:
-                self.DB_flags.append('True')
+                self.DB_flags.append(True)
         return 13
     elif DB_flag == 'n':
         for i in range(0, len(self.datasets)):
-            self.DB_flags.append('False')
+            self.DB_flags.append(False)
         return 13
 
 def fonction_14(self):
@@ -763,9 +763,10 @@ def fonction_14(self):
     self.gev_tmp.append([str(self.release), str(self.reference)])
     self.gev_tmp.append([str(self.releaseExtent), str(self.referenceExtent)])
     self.gev_tmp.append(str(self.datasets))
-    self.gev_tmp.append(str(self.comparisonChoice))
+    #self.gev_tmp.append(str(self.comparisonChoice))
+    self.gev_tmp.append(str(self.comparisonChoice[0] + 'vs' + self.comparisonChoice[1]))
     self.gev_tmp.append(str(self.validationChoice))
-    self.gev_tmp.append([str(self.GT_rel), str(self.GT_ref)])
+    self.gev_tmp.append([str(self.release) + '-' + str(self.GT_rel), str(self.reference) + '-' + str(self.GT_ref)])
     self.gev_tmp.append(str(self.DB_flags))
     print(self.gev_tmp)
     self.Gev.append(self.gev_tmp)
@@ -809,7 +810,7 @@ def fonction_15(self):
                 self.configFile.write(str(elem[5]) + ' , # GT one couple rel/ref for all dataset\n')
                 self.configFile.write('[\'\', \'\'] , # relref files one couple rel/ref for each dataset\n')
                 self.configFile.write(str(self.DB_flags) + ', # DB flag\n')
-                self.configFile.write('\n')
+                self.configFile.write(']\n')
                 ind += 1
             self.configFile.write('#############################################################################\n')
             self.configFile.write('\n')
