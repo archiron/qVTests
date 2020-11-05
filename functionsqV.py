@@ -121,6 +121,14 @@ def changeColor(color):
     else:
         return '[30m'
 
+def print_tab_6(tab, color, rel, ref):
+    print('')
+    for i in range(0, len(tab)):
+        if ( ( tab[i][0] == 'RECO' and tab[i][1] == 'miniAOD' ) or ( tab[i][0] == 'pmx' and tab[i][1] == 'PU' ) ):
+            print( '[%s] %s vs %s [%s]' % ( colorText(str(i), color), tab[i][0], tab[i][1], colorText(rel, 'blue') ) )
+        else:
+            print( '[%s] %s [%s] vs %s [%s]' % ( colorText(str(i), color), tab[i][0], colorText(rel, 'blue'), tab[i][1], colorText(ref, 'blue') ) )
+
 def print_tab_5(tab, color): # only for GT
     print('')
 
@@ -516,7 +524,8 @@ def fonction_9(self):
     screen_clear()
     #print('vous appelez la fonction 9')
     # validation choice
-    print_tab_4(self.validations, self.color_nb)
+    #print_tab_4(self.validations, self.color_nb)
+    print_tab_6(self.validations, self.color_nb, self.release, self.reference)
     text_to_prompt= "number of the validation type, [" + colorText('b', self.color) + "]ack or [" + colorText('q', self.color) +"]uit. ? "
 
     self.validationChoice = get_answer3(text_to_prompt, self.validations) #
