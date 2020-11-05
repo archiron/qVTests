@@ -5,24 +5,25 @@ import os,sys
 import re
 from time import sleep
 
-sys.path.append('/afs/cern.ch/user/a/archiron/lbin/ChiLib')
+#sys.path.append('/afs/cern.ch/user/a/archiron/lbin/ChiLib')
+sys.path.append('/eos/project-c/cmsweb/www/egamma/validation/Electrons/ChiLib/')
 
 from networkFunctions import list_search_0
 from functionsqV import *
 from defaultqV import *
+from datasetsqV import DataLocation
 
 class quickVal():
     def __init__(self):
         screen_clear()
-        print('begin to run')
+        print('begin to run with version %s' % colorText(str(version), 'blue'))
         actual_dir = os.getcwd()
-        print('actual_dir : %s' % actual_dir)
-        print('\nEach number/string must be validated with return !\n')
+        print('actual dir for work : %s' % actual_dir)
+        print('\nEach number/string must be validated with RETURN !\n')
 
         check_terminal_size(self)
 
-        text_to_prompt= "Release family for the validation "
-        print(text_to_prompt)  #
+        print("\nRelease family for the validation ")  #
         sleep(1)
 
         print('loading releases list')
@@ -43,7 +44,7 @@ class quickVal():
 
         print('config.py file creation')
         try:
-            self.configFile = open('configFile.py', 'w') #
+            self.configFile = open('config.py', 'w') #
         except IOError:
             print("Could not open file!")
 
@@ -54,4 +55,4 @@ class quickVal():
             print('i_back : %d' % i_back)
 
         self.configFile.close()
-        print('... et fin')
+        print('... End')

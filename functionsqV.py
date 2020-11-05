@@ -7,7 +7,7 @@ from time import sleep
 
 sys.path.append('/afs/cern.ch/user/a/archiron/lbin/ChiLib')
 
-from networkFunctions import list_search_1 #, cmd_load_files
+from networkFunctions import list_search_1
 from datasetsqV import *
 
 def sub_releases(tab_files):
@@ -24,9 +24,7 @@ def sub_releases2(release, tab_files):
     import re
     i = 0
     temp = []
-    #print('release : ', release)
     for t in tab_files:
-        #print('t : ', t)
         if ( re.search(release, t) ):
             tt = explode_item(t)
             temp.append(tt[0])
@@ -40,8 +38,6 @@ def sub_releases3(release, tab_files):
     temp = []
     for t in tab_files:
         if ( re.search('__' + release + '-', t) ):
-            #tt = explode_item(t)
-            #temp.append(tt[0])
             temp.append(t)
         i += 1
     temp = sorted(set(temp)) # , reverse=True
@@ -55,11 +51,8 @@ def explode_item(item):
     # splitting with __ : TTbar_13 CMSSW_7_4_0_pre8-PUpmx50ns_MCRUN2_74_V6_gs_pre7-v1
     # splitting second term with - : TTbar_13 CMSSW_7_4_0_pre8 PUpmx50ns_MCRUN2_74_V6_gs_pre7-v1
 
-    #print('item : ', item)
     temp_item = item[22:] # DQM_V0001_R000000001__ removed
-    #print('item 22 : ', temp_item)
     temp_item = temp_item[:-12] # __DQMIO.root removed
-    #print('item -12 : ', temp_item)
     temp_item = temp_item[6:] # RelVal removed
     temp_item = temp_item.split('__')
     temp_item2 = temp_item[1].split('-', 1)
@@ -79,7 +72,6 @@ def screen_clear():
         _ = os.system('cls')
 
 def check_terminal_size(self):
-    #print("Number of columns and Rows: ", self.terminal_size())
     if (terminal_size()[0] < 150): # too less cols
         print("not enough columns [%d]. Must be at least 150." % terminal_size()[0])
         exit()
@@ -96,16 +88,13 @@ def terminal_size():
         struct.pack('HHHH', 0, 0, 0, 0)))
     return tw, th, hp, wp
 
-def affiche_1(i, tab, color): # not used
-    #print('%50s [%2d]' % (tab[i], i))
-    print('%40s [%s]' % (tab[i], colorText(str(i), color)))
+#def affiche_1(i, tab, color): # not used
+#    print('%40s [%s]' % (tab[i], colorText(str(i), color)))
 
 def affiche_2(i, tab, color): # not used
-    #print('%50s [%2d] %50s [%2d]' % (tab[i], i, tab[i+1], i+1))
     print('%40s [%s] %40s [%s]' % ( tab[i], colorText(str(i), color), tab[i+1], colorText(str(i+1), color) ) )
 
 def affiche_3(i, tab, color): # not used
-    #print('%50s [%2d] %50s [%2d] %50s [%2d]' % (tab[i], i, tab[i+1], i+1, tab[i+2], i+2))
     print('%40s [%s] %40s [%s] %40s [%s]' % ( tab[i], colorText(str(i), color), tab[i+1], colorText(str(i+1), color), tab[i+2], colorText(str(i+2), color) ) )
 
 def changeColor(color):
@@ -149,7 +138,6 @@ def print_tab_3(tab, color): # only for default datasets
 
     for i in range(0, len(tab), 1):
         color0 = color
-        #color1 = color
         if ( tab[i][1] == 0):
             color0 = 'blue'
         print('%40s [%s] - [%2d]' % ( tab[i][0], colorText(str(tab[i][1]), color0), i )) # 1 dataset per line
@@ -157,7 +145,6 @@ def print_tab_3(tab, color): # only for default datasets
 def print_tab_2(tab, color): # only for tab with 2 elements
     print('')
     for i in range(0, len(tab)):
-        #print(' [%d] %50s' % (i, tab[i]))
         print('[%s] %40s' % (colorText(str(i), color), tab[i]))
 
 def print_tab_1(tab, color):
@@ -183,7 +170,6 @@ def get_answerText(text2prompt):
     print('')
     while ( quitLoop ):
         rel = raw_input(text2prompt)
-        #rel = input(text2prompt)  # Python 3
         if rel == 'q':
             exit()
         elif rel == 'b':
@@ -205,7 +191,7 @@ def get_answer1(text2prompt, tab1, tab2):
         if rel == 'q':
             exit()
         else:
-            print('vous avez tapé : %s' % rel)
+            print('you typed : %s' % rel)
         irel = ''
         try:
             irel = int(rel)
@@ -245,7 +231,7 @@ def get_answer10X(text2prompt, tab):
     #print(nb)
     return nb
 
-def get_answer2(text2prompt, tab):
+'''def get_answer2(text2prompt, tab):
     quitLoop = True
     print('')
     while ( quitLoop ):
@@ -254,7 +240,7 @@ def get_answer2(text2prompt, tab):
         if rel == 'q':
             exit()
         else:
-            print('vous avez tapé : %s' % rel)
+            print('you typed : %s' % rel)
         irel = ''
         try:
             irel = int(rel)
@@ -267,7 +253,7 @@ def get_answer2(text2prompt, tab):
         except:
             print('%s is not a number' % rel)
 
-    return temp
+    return temp'''
 
 def get_answer3(text2prompt, tab):
     quitLoop = True
@@ -281,7 +267,7 @@ def get_answer3(text2prompt, tab):
             quitLoop = False
             temp = ''
         else:
-            print('vous avez tapé : %s' % rel)
+            print('you typed : %s' % rel)
         irel = ''
         try:
             irel = int(rel)
@@ -319,7 +305,7 @@ def get_answer4(text2prompt):
             quitLoop = False
             temp = 'c'
         else:
-            print('vous avez tapé : %s' % rel)
+            print('you typed : %s' % rel)
 
     return temp
 
@@ -344,7 +330,7 @@ def get_answer5(text2prompt):
             quitLoop = False
             temp = 'n'
         else:
-            print('vous avez tapé : %s' % rel)
+            print('you typed : %s' % rel)
 
     return temp
 
@@ -360,7 +346,7 @@ def get_answer6(text2prompt, tab): # for GT
             quitLoop = False
             temp = ''
         else:
-            print('vous avez tapé : %s' % rel)
+            print('you typed : %s' % rel)
         irel = ''
         try:
             irel = int(rel)
@@ -377,20 +363,19 @@ def get_answer6(text2prompt, tab): # for GT
 
 def fonction_1(self):
     screen_clear()
-    print('vous appelez la fonction 1')
+    #print('vous appelez la fonction 1')
 
     print_tab_2(self.web_location, self.color_nb)
     text_to_prompt= "number of the folder choice or [" + colorText('q', self.color) +"]uit. ? "
     self.location, self.extension = get_answer1(text_to_prompt, self.web_location, self.web_extension)
     print('WEB LOCATION : %s' % colorText(self.location, 'blue')) # now we have the web folder location
-    #self.gev_tmp.append(self.location) # seems to be inefficient
     sleep(1)
 
     return 1
 
 def fonction_2(self):
-    #screen_clear()
-    print('vous appelez la fonction 2')
+    screen_clear()
+    #print('vous appelez la fonction 2')
     # initialization
     self.default_dataset = []
     self.datasets = []
@@ -412,25 +397,21 @@ def fonction_2(self):
     # here we get the release list
 
     self.releasesList_1 = list_search_1(self.releaseFamily) # all the releases
-    print('there is %d files for %s' % (len(self.releasesList_1), self.releaseFamily))
-    #self.releaseFamily2 = self.releaseFamily[:-1] # not used ?
+    #print('there is %d files for %s' % (len(self.releasesList_1), self.releaseFamily))
 
     self.releasesList_2 = sub_releases(self.releasesList_1) # extract the releases CMSSW_X_Y_Z...
-    #for item in self.releasesList_2:
-    #    print(item)
 
     return 2
 
 def fonction_3(self):
-    #screen_clear()
-    print('vous appelez la fonction 3')
+    screen_clear()
+    #print('vous appelez la fonction 3')
     print_tab_1(self.releasesList_2, self.color_nb)
     text_to_prompt= "number of the RELEASE, [" + colorText('b', self.color) + "]ack or [" + colorText('q', self.color) +"]uit. ? "
     self.release = get_answer3(text_to_prompt, self.releasesList_2)
 
     if self.release != '':
         print('RELEASE : %s' % self.release) # now we have the release
-
         print('')
         self.releasesList_3 = sub_releases3(self.release, self.releasesList_1) # extract the list of the root files for the chosen release
         self.datasetsList_1 = sub_releases2(self.release, self.releasesList_3) # extract the datasets of the root files for the chosen release
@@ -439,8 +420,8 @@ def fonction_3(self):
         return 1
 
 def fonction_4(self):
-    #screen_clear()
-    print('vous appelez la fonction 4')
+    screen_clear()
+    #print('vous appelez la fonction 4')
     text_to_prompt= "Reference family for the validation "
     print(text_to_prompt)  #
 
@@ -465,8 +446,8 @@ def fonction_4(self):
         return 2
 
 def fonction_5(self):
-    #screen_clear()
-    print('vous appelez la fonction 5')
+    screen_clear()
+    #print('vous appelez la fonction 5')
     print_tab_1(self.referencesList_2, self.color_nb)
     text_to_prompt= "number of the REFERENCE, [" + colorText('b', self.color) + "]ack or [" + colorText('q', self.color) +"]uit. ? "
     self.reference = get_answer3(text_to_prompt, self.referencesList_2)
@@ -476,15 +457,13 @@ def fonction_5(self):
         print('')
         self.referencesList_3 = sub_releases3(self.reference, self.referencesList_1) # extract the list of the root files for the chosen reference
         self.datasetsList_2 = sub_releases2(self.reference, self.referencesList_3) # extract the datasets of the root files for the chosen reference
-
-        #print(self.referencesList_3)
         return 5
     else:
         return 3
 
 def fonction_6(self):
-    #screen_clear()
-    print('vous appelez la fonction 6')
+    screen_clear()
+    #print('vous appelez la fonction 6')
     # web folder name customization
     # text to add into folder name for release
 
@@ -503,8 +482,8 @@ def fonction_6(self):
             return 6
 
 def fonction_7(self):
-    #screen_clear()
-    print('vous appelez la fonction 7')
+    screen_clear()
+    #print('vous appelez la fonction 7')
     # web folder name customization
     # text to add into folder name for reference
 
@@ -523,8 +502,8 @@ def fonction_7(self):
             return 7
 
 def fonction_8(self):
-    #screen_clear()
-    print('vous appelez la fonction 8')
+    screen_clear()
+    #print('vous appelez la fonction 8')
     # comparison choice
     print_tab_4(self.comparisons, self.color_nb)
     text_to_prompt= "number of the comparison type, [" + colorText('b', self.color) + "]ack or [" + colorText('q', self.color) +"]uit. ? "
@@ -534,8 +513,8 @@ def fonction_8(self):
     return 8
 
 def fonction_9(self):
-    #screen_clear()
-    print('vous appelez la fonction 9')
+    screen_clear()
+    #print('vous appelez la fonction 9')
     # validation choice
     print_tab_4(self.validations, self.color_nb)
     text_to_prompt= "number of the validation type, [" + colorText('b', self.color) + "]ack or [" + colorText('q', self.color) +"]uit. ? "
@@ -553,8 +532,8 @@ def fonction_9(self):
     return 9
 
 def fonction_10(self):
-    #screen_clear()
-    print('vous appelez la fonction 10')
+    screen_clear()
+    #print('vous appelez la fonction 10')
     # datasets choice
     fieldname = 'DataSetsFilter_' + self.comparisonChoice[0] + 'vs' + self.comparisonChoice[1] + self.validationChoice[0]
     if self.validationChoice[1] == 'miniAOD':
@@ -588,41 +567,39 @@ def fonction_10(self):
     return 10
 
 def function_101(self):
-    #screen_clear()
-    print('vous appelez la fonction 101')
+    screen_clear()
+    #print('vous appelez la fonction 101')
     print_tab_3(self.default_dataset, self.color_nb) # all datasets with same color
     text_to_prompt= "enter the numbers of the datasets you want, separated by commas : "
     numbers = get_answer10X(text_to_prompt, self.default_dataset)
-    print(numbers)
+    #print(numbers)
     self.datasets = []
     for i in numbers:
         self.datasets.append(str(self.default_dataset[i][0]))
-    print('datasets 101 : ')
-    print(self.datasets)
+    #print('datasets 101 : ')
+    #print(self.datasets)
     return
 
 def function_102(self):
-    #screen_clear()
-    print('vous appelez la fonction 102')
+    screen_clear()
+    #print('vous appelez la fonction 102')
 
-    # peut etre un test a faire si len(commonDatasets) = 0 !
+    # perhaps make a test if len(commonDatasets) = 0 !
 
     self.commonDatasets = set(self.datasetsList_1).intersection(set(self.datasetsList_2))
     self.commonDatasets = list(self.commonDatasets) # get the common datasets for the comparisons
-    #print_tab(self.commonDatasets)
     print_tab_1(self.commonDatasets, self.color) # all datasets with same color
     text_to_prompt= "enter the numbers of the datasets you want, separated by commas : "
     numbers = get_answer10X(text_to_prompt, self.commonDatasets)
-    #print(numbers)
     for i in numbers:
         self.datasets.append(str(self.commonDatasets[i]))
-    print('datasets 102 : ')
-    print(self.datasets)
+    #print('datasets 102 : ')
+    #print(self.datasets)
     return
 
 def fonction_11(self):
-    #screen_clear()
-    print('vous appelez la fonction 11')
+    screen_clear()
+    #print('vous appelez la fonction 11')
     self.releasesGT = []
     self.referencesGT = []
     self.relRootFilesList = []
@@ -647,27 +624,21 @@ def fonction_11(self):
     #        print(elem)
 
     # extract to keep only for validation choice
-    print('validation choice for release')
+    #print('validation choice for release')
     self.releasesList_5 = getFilesList(self, self.releasesList_4) # tmp_list_rel
-    #print(self.releasesList_5)
-    print('validation choice for reference')
+    #print('validation choice for reference')
     self.referencesList_5 = getFilesList(self, self.referencesList_4) # tmp_list_ref
-    #print(self.referencesList_4)
 
     # get the self.releasesGT/self.referencesGT lists for GT
     print('GT extraction')
     GlobalTagsExtraction(self)
-    #print('self.releasesGT')
-    #print(self.releasesGT)
-    print('self.referencesGT')
-    print(self.referencesGT)
 
     # rewrite GT list in a more convenient way
     tmp_GT = []
     for elem in self.releasesGT:
         for i in range(1, len(elem)):
             tmp_GT.append(elem[i])
-    print('GT releases')
+    #print('GT releases')
     tmp_GT_rel = sorted(set(tmp_GT))
     self.GT_rel = []
     for elem in tmp_GT_rel:
@@ -678,20 +649,20 @@ def fonction_11(self):
                 if item1[i] == elem:
                     tmp.append(item1[0])
         self.GT_rel.append(tmp)
-    print(self.GT_rel)
+    #print(self.GT_rel)
     # reduce the list to kept only those corresponding to ALL datasets
     tt_rel = []
     for elem in self.GT_rel:
         if len(elem[1:]) == len(self.datasets):
             tt_rel.append(elem)
     self.GT_rel = tt_rel
-    print(self.GT_rel)
+    #print(self.GT_rel)
 
     tmp_GT = []
     for elem in self.referencesGT:
         for i in range(1, len(elem)):
             tmp_GT.append(elem[i])
-    print('GT references')
+    #print('GT references')
     tmp_GT_ref = sorted(set(tmp_GT))
     self.GT_ref = []
     for elem in tmp_GT_ref:
@@ -702,14 +673,14 @@ def fonction_11(self):
                 if item1[i] == elem:
                     tmp.append(item1[0])
         self.GT_ref.append(tmp)
-    print(self.GT_ref)
+    #print(self.GT_ref)
     # reduce the list to kept only those corresponding to ALL datasets
     tt_ref = []
     for elem in self.GT_ref:
         if len(elem[1:]) == len(self.datasets):
             tt_ref.append(elem)
     self.GT_ref = tt_ref
-    print(self.GT_ref)
+    #print(self.GT_ref)
 
     if len(self.GT_rel) == 0 or len(self.GT_ref) == 0 :
         print(colorText('len(self.GT_rel) == 0 or len(self.GT_ref) == 0', 'red'))
@@ -722,17 +693,16 @@ def fonction_11(self):
         return 9
     else:
         self.GT_rel = GT
-        #print('GT = %s' % GT)
         for elem in self.releasesList_5:
             for i in range(1, len(elem)):
                 if re.search(self.GT_rel, elem[i]):
-                    print(elem[i])
+                    #print(elem[i])
                     self.relRootFilesList.append(elem[i])
         return 11
 
 def fonction_12(self):
-    #screen_clear()
-    print('vous appelez la fonction 12')
+    screen_clear()
+    #print('vous appelez la fonction 12')
 
     print_tab_5(self.GT_ref, self.color_nb)
     text_to_prompt = "get a REFERENCE GT number, [" + colorText('b', self.color) + "]ack or [" + colorText('q', self.color) +"]uit. ? "
@@ -741,23 +711,22 @@ def fonction_12(self):
         return 10
     else:
         self.GT_ref = GT
-        print('GT = %s' % GT)
-        print(GT)
+        #print('GT = %s' % GT)
+        #print(GT)
         for elem in self.referencesList_5:
             for i in range(1, len(elem)):
                 if re.search(GT, elem[i]):
-                    print(elem[i])
+                    #print(elem[i])
                     self.refRootFilesList.append(elem[i])
         return 12
 
 def fonction_13(self):
-    #screen_clear()
-    print('vous appelez la fonction 13')
+    screen_clear()
+    #print('vous appelez la fonction 13')
     # DB Flag choice
     if testZEE(self.datasets):
         text_to_prompt= "use Decision Box for ZEE, [" + colorText('y', self.color) + "]es/[" + colorText('n', self.color) + "o] [" + colorText('b', self.color) + "]ack or [" + colorText('q', self.color) +"]uit. ? "
         DB_flag = get_answer5(text_to_prompt) #
-        print('DB flag : %s' % DB_flag)
     else:
         DB_flag = 'n'
 
@@ -777,10 +746,10 @@ def fonction_13(self):
         return 13
 
 def fonction_14(self):
-    #screen_clear()
-    print('vous appelez la fonction 14')
+    screen_clear()
+    #print('vous appelez la fonction 14')
     # Summary
-    print('RESUME : ')
+    print('SUMMARY : ')
     text_to_prompt = 'RELEASE : ' + colorText(self.release, 'blue') + ' - REFERENCE : ' + colorText(self.reference, 'blue')
     print(text_to_prompt)
     text_to_prompt = 'release extension : ' + colorText(self.releaseExtent, 'blue') + ' - reference extension : ' + colorText(self.referenceExtent, 'blue')
@@ -800,13 +769,12 @@ def fonction_14(self):
     self.gev_tmp.append(str(self.DB_flags))
     print(self.gev_tmp)
     self.Gev.append(self.gev_tmp)
-    #print(self.Gev)
 
     return 14
 
 def fonction_15(self):
-    #screen_clear()
-    print('vous appelez la fonction 15')
+    screen_clear()
+    #print('vous appelez la fonction 15')
     # New set ?
     text_to_prompt = "Adding another set of validation ?, [" + colorText('y', self.color) + "]es/["
     text_to_prompt += colorText('n', self.color) + "o], [" + colorText( 'b', self.color)
@@ -819,7 +787,7 @@ def fonction_15(self):
         return 1
     elif answer4new == 'n': # so we close after writing into config file
         if self.configFile:
-            print('config file OK')
+            print('config file OK for writing')
             self.configFile.write('#! /usr/bin/env python\n')
             self.configFile.write('#-*-coding: utf-8 -*-\n')
             self.configFile.write('\n')
@@ -865,35 +833,24 @@ def rootFilesExtraction(self):
         tmp_ref = []
         tmp_rel.append(dts)
         tmp_ref.append(dts)
-        print('releasesList_3')
         for file in self.releasesList_3:
-            print(file)
+            #print(file)
             if re.search(dts, file):
                 if re.search(self.release, file):
-                    print('rel ', file)
+                    #print('rel ', file)
                     tmp_rel.append(str(file))
-                #else:
-                #    print('ref ', file)
-                #    tmp_ref.append(str(file))
-        print('referencesList_3')
+
         for file in self.referencesList_3:
-            print(file)
+            #print(file)
             if re.search(dts, file):
                 if re.search(self.reference, file):
-                    print('ref ', file)
+                    #print('ref ', file)
                     tmp_ref.append(str(file))
-                #else:
-                #    print('ref ', file)
-                #    tmp_ref.append(str(file))
         self.releasesList_4.append(tmp_rel)
         self.referencesList_4.append(tmp_ref)
-        #print(self.referencesList_4)
 
 def GlobalTagsExtraction(self):
-    #print('longueur : %d' % len(self.releasesList_5))
-    #print('longueur : %d' % len(self.referencesList_5))
     for elem in self.releasesList_5:
-        #print(elem)
         gt_tmp = []
         for i in range(1, len(elem)):
             aa = explode_item(elem[i])
@@ -910,13 +867,12 @@ def GlobalTagsExtraction(self):
         gt_tmp = sorted(set(gt_tmp))
         gt_tmp.insert(0, elem[0])
         self.referencesGT.append(gt_tmp)
-    ''''''
 
 def getFilesList(self, tab):
     tmp_list = []
     if self.validationChoice[1] != 'RECO' and self.validationChoice[1] != 'miniAOD': # PU or pmx
         if self.validationChoice[1] == 'pmx': # pmx
-            print('pmx')
+            #print('pmx')
             for elem in tab:
                 tmp_elem = []
                 tmp_elem.append(elem[0])
@@ -925,7 +881,7 @@ def getFilesList(self, tab):
                         tmp_elem.append(elem[i])
                 tmp_list.append(tmp_elem)
         else: # PU
-            print('PU')
+            #print('PU')
             for elem in tab:
                 tmp_elem = []
                 tmp_elem.append(elem[0])
@@ -934,7 +890,7 @@ def getFilesList(self, tab):
                         tmp_elem.append(elem[i])
                 tmp_list.append(tmp_elem)
     else: # RECO or miniAOD
-        print('RECO/miniAOD')
+        #print('RECO/miniAOD')
         for elem in tab:
             tmp_elem = []
             tmp_elem.append(elem[0])
