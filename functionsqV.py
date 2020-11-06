@@ -239,7 +239,7 @@ def get_answer10X(text2prompt, tab):
     #print(nb)
     return nb
 
-'''def get_answer2(text2prompt, tab):
+def get_answer2(text2prompt):
     quitLoop = True
     print('')
     while ( quitLoop ):
@@ -247,21 +247,16 @@ def get_answer10X(text2prompt, tab):
         #rel = input(text2prompt)  # Python 3
         if rel == 'q':
             exit()
+        elif rel == 'b': # back
+            quitLoop = False
+            temp = 'b'
+        elif rel == 'c': # continue
+            quitLoop = False
+            temp = 'c'
         else:
             print('you typed : %s' % rel)
-        irel = ''
-        try:
-            irel = int(rel)
-            if ( irel >= 0 and irel < len(tab) ):
-                quitLoop = False
-                temp = tab[int(rel)]
-            else:
-                print('%d is not into the range [0:%d]' % (irel, len(tab)-1))
-                quitLoop = True
-        except:
-            print('%s is not a number' % rel)
 
-    return temp'''
+    return temp
 
 def get_answer3(text2prompt, tab):
     quitLoop = True
@@ -375,8 +370,8 @@ def fonction_1(self):
 
     print_tab_2(self.web_location, self.color_nb)
     text_to_prompt = "number of the folder choice or [" + colorText('q', self.color) +"]uit. ? "
-    text_to_prompt += "                    [" + colorText('h', self.color) + "]elp - ["
-    text_to_prompt += colorText('s', self.color) + "]tatus "  
+    text_to_prompt += "                    [" + colorText('h', self.color) + "]elp"
+    #text_to_prompt += colorText('s', self.color) + "]tatus "
     self.location, self.extension = get_answer1(text_to_prompt, self.web_location, self.web_extension)
     print('WEB LOCATION : %s' % colorText(self.location, 'blue')) # now we have the web folder location
     sleep(1)
@@ -798,6 +793,14 @@ def fonction_14(self):
     print(self.relRootFilesList)
     print(self.refRootFilesList)
     print('')
+    #sleep(1)
+    text_to_prompt = "[" + colorText('c', self.color) + "]ontinue, [" + colorText( 'b', self.color) + "]ack or [" + colorText('q', self.color) +"]uit. ? "
+    answer_14 = get_answer2(text_to_prompt)
+    if answer_14 == 'b':
+        return 12
+    else: # must have only 2 answers
+        return 14
+
     # include the differents choices into Gev
     self.gev_tmp.append([str(self.release), str(self.reference)])
     self.gev_tmp.append([str(self.releaseExtent), str(self.referenceExtent)])
