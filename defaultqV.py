@@ -3,9 +3,9 @@
 
 import os,sys
 
-version = '0.52'
-# minor bug in comparisons list in defaultqV.py.
-# add an upgrade in presentation for validation choice (ask by Florian).
+version = '0.52.1'
+# minor change for input presentation.
+# begin integration for an help and a status (asked by Florian).
 
 comparisons = [['Full', 'Full'], ['Fast', 'Fast'], ['Fast', 'Full']]
 #validations = [['RECO', 'RECO'], ['RECO', 'miniAOD'], ['PU25', 'PU25'], ['PUpmx25', 'PUpmx25'], ['PUpmx25', 'PU25'], ['miniAOD', 'miniAOD']] # PU25 instead of PU25ns to take news HGal cases into account.
