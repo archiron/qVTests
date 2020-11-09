@@ -4,6 +4,7 @@
 import os,sys
 import re
 from time import sleep
+from helpqV import *
 
 sys.path.append('/afs/cern.ch/user/a/archiron/lbin/ChiLib')
 
@@ -173,7 +174,7 @@ def print_tab_1(tab, color):
 def colorText(sometext, color):
     return '\033' + changeColor(color) + sometext + '\033[0m'
 
-def get_answerText(text2prompt):
+def get_answerText(text2prompt, nb):
     quitLoop = True
     print('')
     while ( quitLoop ):
@@ -183,6 +184,12 @@ def get_answerText(text2prompt):
         elif rel == 'b':
             quitLoop = False
             text = 'back'
+        elif rel == 'h':
+            if (nb == 6):
+                help(fonction_6)
+            elif (nb == 7):
+                help(fonction_7)
+            return "h"
         else:
             print('vous avez tapé : %s' % rel)
             quitLoop = False
@@ -198,6 +205,9 @@ def get_answer1(text2prompt, tab1, tab2):
         #rel = input(text2prompt)  # Python 3
         if rel == 'q':
             exit()
+        elif rel == 'h':
+            help(fonction_1)
+            return "h", 0
         else:
             print('you typed : %s' % rel)
         irel = ''
@@ -258,7 +268,7 @@ def get_answer2(text2prompt):
 
     return temp
 
-def get_answer3(text2prompt, tab):
+def get_answer3(text2prompt, tab, nb):
     quitLoop = True
     print('')
     while ( quitLoop ):
@@ -269,6 +279,20 @@ def get_answer3(text2prompt, tab):
         elif rel == 'b':
             quitLoop = False
             temp = ''
+        elif rel == 'h':
+            if (nb == 2):
+                help(fonction_2)
+            elif (nb == 3):
+                help(fonction_3)
+            elif (nb == 4):
+                help(fonction_4)
+            elif (nb == 5):
+                help(fonction_5)
+            elif (nb == 8):
+                help(fonction_8)
+            elif (nb == 9):
+                help(fonction_9)
+            return "h"
         else:
             print('you typed : %s' % rel)
         irel = ''
@@ -307,12 +331,15 @@ def get_answer4(text2prompt):
         elif rel == 'c':
             quitLoop = False
             temp = 'c'
+        elif rel == 'h':
+            help(fonction_10)
+            return "h"
         else:
             print('you typed : %s' % rel)
 
     return temp
 
-def get_answer5(text2prompt):
+def get_answer5(text2prompt, nb):
     quitLoop = True
     print('')
     while ( quitLoop ):
@@ -332,12 +359,18 @@ def get_answer5(text2prompt):
         elif rel == 'n':
             quitLoop = False
             temp = 'n'
+        elif rel == 'h':
+            if (nb == 13):
+                help(fonction_13)
+            elif (nb == 15):
+                help(fonction_15)
+            return "h"
         else:
             print('you typed : %s' % rel)
 
     return temp
 
-def get_answer6(text2prompt, tab): # for GT
+def get_answer6(text2prompt, tab, nb): # for GT
     quitLoop = True
     print('')
     while ( quitLoop ):
@@ -348,6 +381,12 @@ def get_answer6(text2prompt, tab): # for GT
         elif rel == 'b':
             quitLoop = False
             temp = ''
+        elif rel == 'h':
+            if (nb == 11):
+                help(fonction_11)
+            elif (nb == 12):
+                help(fonction_12)
+            return "h"
         else:
             print('you typed : %s' % rel)
         irel = ''
@@ -365,6 +404,7 @@ def get_answer6(text2prompt, tab): # for GT
     return temp
 
 def fonction_1(self):
+    """aide de fonction_1"""
     screen_clear()
     #print('vous appelez la fonction 1')
 
@@ -373,12 +413,15 @@ def fonction_1(self):
     text_to_prompt += "                    [" + colorText('h', self.color) + "]elp"
     #text_to_prompt += colorText('s', self.color) + "]tatus "
     self.location, self.extension = get_answer1(text_to_prompt, self.web_location, self.web_extension)
-    print('WEB LOCATION : %s' % colorText(self.location, 'blue')) # now we have the web folder location
-    sleep(1)
-
-    return 1
+    if (self.location=='h'):
+        return 0
+    else:
+        print('WEB LOCATION : %s' % colorText(self.location, 'blue'))  # now we have the web folder location
+        sleep(1)
+        return 1
 
 def fonction_2(self):
+    """aide de fonction_2"""
     screen_clear()
     #print('vous appelez la fonction 2')
     # initialization
@@ -397,29 +440,31 @@ def fonction_2(self):
     text_to_prompt = "number of the RELEASE family or [" + colorText('q', self.color) +"]uit. ? "
     text_to_prompt += "                    [" + colorText('h', self.color) + "]elp - ["
     text_to_prompt += colorText('s', self.color) + "]tatus "  
-    self.releaseFamily = get_answer3(text_to_prompt, self.list_0)
-    print('RELEASE FAMILY : %s' % colorText(self.releaseFamily, 'blue')) # now we have the release family
-    sleep(1)
-
-    # here we get the release list
-
-    self.releasesList_1 = list_search_1(self.releaseFamily) # all the releases
-    #print('there is %d files for %s' % (len(self.releasesList_1), self.releaseFamily))
-
-    self.releasesList_2 = sub_releases(self.releasesList_1) # extract the releases CMSSW_X_Y_Z...
-
-    return 2
+    self.releaseFamily = get_answer3(text_to_prompt, self.list_0, 2)
+    if self.releaseFamily == "h":
+        return 1
+    else:
+        print('RELEASE FAMILY : %s' % colorText(self.releaseFamily, 'blue')) # now we have the release family
+        sleep(1)
+        # here we get the release list
+        self.releasesList_1 = list_search_1(self.releaseFamily) # all the releases
+        #print('there is %d files for %s' % (len(self.releasesList_1), self.releaseFamily))
+        self.releasesList_2 = sub_releases(self.releasesList_1) # extract the releases CMSSW_X_Y_Z...
+        return 2
 
 def fonction_3(self):
+    """aide de fonction_3"""
     screen_clear()
     #print('vous appelez la fonction 3')
     print_tab_1(self.releasesList_2, self.color_nb)
     text_to_prompt = "number of the RELEASE, [" + colorText('b', self.color) + "]ack or [" + colorText('q', self.color) +"]uit. ? "
     text_to_prompt += "                    [" + colorText('h', self.color) + "]elp - ["
     text_to_prompt += colorText('s', self.color) + "]tatus "  
-    self.release = get_answer3(text_to_prompt, self.releasesList_2)
+    self.release = get_answer3(text_to_prompt, self.releasesList_2, 3)
 
-    if self.release != '':
+    if self.release == "h":
+        return 2
+    elif self.release != '':
         print('RELEASE : %s' % self.release) # now we have the release
         print('')
         self.releasesList_3 = sub_releases3(self.release, self.releasesList_1) # extract the list of the root files for the chosen release
@@ -429,6 +474,7 @@ def fonction_3(self):
         return 1
 
 def fonction_4(self):
+    """aide de fonction_4"""
     screen_clear()
     #print('vous appelez la fonction 4')
     text_to_prompt= "Reference family for the validation "
@@ -440,8 +486,10 @@ def fonction_4(self):
     text_to_prompt = "number of the REFERENCE family, [" + colorText('b', self.color) + "]ack or [" + colorText('q', self.color) +"]uit. ? "
     text_to_prompt += "                    [" + colorText('h', self.color) + "]elp - ["
     text_to_prompt += colorText('s', self.color) + "]tatus "  
-    self.referenceFamily = get_answer3(text_to_prompt, self.list_0)
-    if self.referenceFamily != '':
+    self.referenceFamily = get_answer3(text_to_prompt, self.list_0, 4)
+    if self.referenceFamily == "h":
+        return 3
+    elif self.referenceFamily != '':
         print('REFERENCE FAMILY : %s' % colorText(self.referenceFamily, 'blue')) # now we have the reference family
         sleep(1)
 
@@ -457,15 +505,18 @@ def fonction_4(self):
         return 2
 
 def fonction_5(self):
+    """aide de fonction_5"""
     screen_clear()
     #print('vous appelez la fonction 5')
     print_tab_1(self.referencesList_2, self.color_nb)
     text_to_prompt = "number of the REFERENCE, [" + colorText('b', self.color) + "]ack or [" + colorText('q', self.color) +"]uit. ? "
     text_to_prompt += "                    [" + colorText('h', self.color) + "]elp - ["
     text_to_prompt += colorText('s', self.color) + "]tatus "  
-    self.reference = get_answer3(text_to_prompt, self.referencesList_2)
+    self.reference = get_answer3(text_to_prompt, self.referencesList_2, 5)
 
-    if self.reference != '':
+    if self.reference == "h":
+        return 4
+    elif self.reference != '':
         print('REFERENCE : %s' % self.reference) # now we have the reference
         print('')
         self.referencesList_3 = sub_releases3(self.reference, self.referencesList_1) # extract the list of the root files for the chosen reference
@@ -475,6 +526,7 @@ def fonction_5(self):
         return 3
 
 def fonction_6(self):
+    """aide de fonction_6"""
     screen_clear()
     #print('vous appelez la fonction 6')
     # web folder name customization
@@ -485,8 +537,10 @@ def fonction_6(self):
     text_to_prompt += "                    [" + colorText('h', self.color) + "]elp - ["
     text_to_prompt += colorText('s', self.color) + "]tatus "  
 
-    self.releaseExtent = get_answerText(text_to_prompt) # get a text
-    if (len(self.releaseExtent) == 0):
+    self.releaseExtent = get_answerText(text_to_prompt, 6) # get a text
+    if (self.releaseExtent == 'h'):
+        return 5
+    elif (len(self.releaseExtent) == 0):
         print("no extension for release.")
         return 6
     else:
@@ -497,6 +551,7 @@ def fonction_6(self):
             return 6
 
 def fonction_7(self):
+    """aide de fonction_7"""
     screen_clear()
     #print('vous appelez la fonction 7')
     # web folder name customization
@@ -507,8 +562,10 @@ def fonction_7(self):
     text_to_prompt += "                    [" + colorText('h', self.color) + "]elp - ["
     text_to_prompt += colorText('s', self.color) + "]tatus "  
 
-    self.referenceExtent = get_answerText(text_to_prompt) # get a text
-    if (len(self.referenceExtent) == 0):
+    self.referenceExtent = get_answerText(text_to_prompt, 7) # get a text
+    if (self.referenceExtent == 'h'):
+        return 6
+    elif (len(self.referenceExtent) == 0):
         print("no extension for reference.")
         return 7
     else:
@@ -519,6 +576,7 @@ def fonction_7(self):
             return 7
 
 def fonction_8(self):
+    """aide de fonction_8"""
     screen_clear()
     #print('vous appelez la fonction 8')
     # comparison choice
@@ -527,11 +585,15 @@ def fonction_8(self):
     text_to_prompt += "                    [" + colorText('h', self.color) + "]elp - ["
     text_to_prompt += colorText('s', self.color) + "]tatus "  
 
-    self.comparisonChoice = get_answer3(text_to_prompt, self.comparisons) #
+    self.comparisonChoice = get_answer3(text_to_prompt, self.comparisons, 8) #
 
-    return 8
+    if self.comparisonChoice == "h":
+        return 7
+    else:
+        return 8
 
 def fonction_9(self):
+    """aide de fonction_9"""
     screen_clear()
     #print('vous appelez la fonction 9')
     # validation choice
@@ -541,19 +603,24 @@ def fonction_9(self):
     text_to_prompt += "                    [" + colorText('h', self.color) + "]elp - ["
     text_to_prompt += colorText('s', self.color) + "]tatus "  
 
-    self.validationChoice = get_answer3(text_to_prompt, self.validations) #
-    if ( self.validationChoice[0] == 'RECO' and self.validationChoice[1] == 'miniAOD' ):
-        self.reference = self.release
-        self.referencesList_3 = self.releasesList_3
-        self.datasetsList_2 = self.datasetsList_1
-    if ( self.validationChoice[0] == 'pmx' and self.validationChoice[1] == 'PU' ):
-        self.reference = self.release
-        self.referencesList_3 = self.releasesList_3
-        self.datasetsList_2 = self.datasetsList_1
+    self.validationChoice = get_answer3(text_to_prompt, self.validations, 9) #
 
-    return 9
+    if self.validationChoice == "h":
+        return 8
+    else:
+        #print(self.validationChoice)
+        if ( self.validationChoice[0] == 'RECO' and self.validationChoice[1] == 'miniAOD' ):
+            self.reference = self.release
+            self.referencesList_3 = self.releasesList_3
+            self.datasetsList_2 = self.datasetsList_1
+        if ( self.validationChoice[0] == 'pmx' and self.validationChoice[1] == 'PU' ):
+            self.reference = self.release
+            self.referencesList_3 = self.releasesList_3
+            self.datasetsList_2 = self.datasetsList_1
+        return 9
 
 def fonction_10(self):
+    """aide de fonction_10"""
     screen_clear()
     #print('vous appelez la fonction 10')
     # datasets choice
@@ -574,6 +641,8 @@ def fonction_10(self):
     self.datasets = []
     if ( self.dts == ''): # back
         return 8
+    elif (self.dts == 'h'):
+        return 9
     elif ( self.dts == 's'): # default
         function_101(self)
         return 10
@@ -591,6 +660,7 @@ def fonction_10(self):
     return 10
 
 def function_101(self):
+    """aide de fonction_101"""
     screen_clear()
     #print('vous appelez la fonction 101')
     print_tab_3(self.default_dataset, self.color_nb) # all datasets with same color
@@ -607,6 +677,7 @@ def function_101(self):
     return
 
 def function_102(self):
+    """aide de fonction_102"""
     screen_clear()
     #print('vous appelez la fonction 102')
 
@@ -626,6 +697,7 @@ def function_102(self):
     return
 
 def fonction_11(self):
+    """aide de fonction_11"""
     screen_clear()
     #print('vous appelez la fonction 11')
     self.releasesGT = []
@@ -718,9 +790,11 @@ def fonction_11(self):
     text_to_prompt = "get a RELEASE GT number, [" + colorText('b', self.color) + "]ack or [" + colorText('q', self.color) +"]uit. ? "
     text_to_prompt += "                    [" + colorText('h', self.color) + "]elp - ["
     text_to_prompt += colorText('s', self.color) + "]tatus "  
-    GT = get_answer6(text_to_prompt, self.GT_rel)  #
+    GT = get_answer6(text_to_prompt, self.GT_rel, 11)  #
     if ( GT == ''): # back
         return 9
+    elif ( GT == 'h'):
+        return 10
     else:
         self.GT_rel = GT
         for elem in self.releasesList_5:
@@ -731,6 +805,7 @@ def fonction_11(self):
         return 11
 
 def fonction_12(self):
+    """aide de fonction_12"""
     screen_clear()
     #print('vous appelez la fonction 12')
 
@@ -738,9 +813,11 @@ def fonction_12(self):
     text_to_prompt = "get a REFERENCE GT number, [" + colorText('b', self.color) + "]ack or [" + colorText('q', self.color) +"]uit. ? "
     text_to_prompt += "                    [" + colorText('h', self.color) + "]elp - ["
     text_to_prompt += colorText('s', self.color) + "]tatus "  
-    GT = get_answer6(text_to_prompt, self.GT_ref)  #
+    GT = get_answer6(text_to_prompt, self.GT_ref, 12)  #
     if ( GT == ''): # back
         return 10
+    elif (GT == 'h'):
+        return 11
     else:
         self.GT_ref = GT
         #print('GT = %s' % GT)
@@ -753,6 +830,7 @@ def fonction_12(self):
         return 12
 
 def fonction_13(self):
+    """aide de fonction_13"""
     screen_clear()
     #print('vous appelez la fonction 13')
     # DB Flag choice
@@ -760,12 +838,14 @@ def fonction_13(self):
         text_to_prompt= "use Decision Box for ZEE, [" + colorText('y', self.color) + "]es/[" + colorText('n', self.color) + "o] [" + colorText('b', self.color) + "]ack or [" + colorText('q', self.color) +"]uit. ? "
         text_to_prompt += "                    [" + colorText('h', self.color) + "]elp - [" 
         text_to_prompt += colorText('s', self.color) + "]tatus "  
-        DB_flag = get_answer5(text_to_prompt) #
+        DB_flag = get_answer5(text_to_prompt, 13) #
     else:
         DB_flag = 'n'
 
     if DB_flag == '':
         return 11
+    elif DB_flag == 'h':
+        return 12
     elif DB_flag == 'y':
         self.DB_flags = []
         for item in self.datasets:
@@ -780,6 +860,7 @@ def fonction_13(self):
         return 13
 
 def fonction_14(self):
+    """aide de fonction_14"""
     screen_clear()
     #print('vous appelez la fonction 14')
     # Summary
@@ -821,6 +902,7 @@ def fonction_14(self):
         return 14
 
 def fonction_15(self):
+    """aide de fonction_15"""
     screen_clear()
     #print('vous appelez la fonction 15')
     # New set ?
@@ -829,10 +911,12 @@ def fonction_15(self):
     text_to_prompt += "]ack or [" + colorText('q', self.color) + "]uit. ? "
     text_to_prompt += "                    [" + colorText('h', self.color) + "]elp - ["
     text_to_prompt += colorText('s', self.color) + "]tatus "  
-    answer4new = get_answer5(text_to_prompt)  #
+    answer4new = get_answer5(text_to_prompt, 15)  #
     print('answer for new set : %s' % answer4new)
     if answer4new == '': # back
         return 12
+    elif answer4new == 'h':
+        return 14
     elif answer4new == 'y': # back to release choice
         return 1
     elif answer4new == 'n': # so we close after writing into config file
