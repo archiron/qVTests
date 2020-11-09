@@ -786,12 +786,18 @@ def fonction_14(self):
     print('SUMMARY : ')
     text_to_prompt = 'RELEASE : ' + colorText(self.release, 'blue') + ' - REFERENCE : ' + colorText(self.reference, 'blue')
     print(text_to_prompt)
-    text_to_prompt = 'release extension : ' + colorText(self.releaseExtent, 'blue') + ' - reference extension : ' + colorText(self.referenceExtent, 'blue')
+    text_to_prompt = 'release extension : \'' + colorText(self.releaseExtent, 'blue') + '\' - reference extension : \'' + colorText(self.referenceExtent, 'blue') + '\''
     print(text_to_prompt)
-    print(self.GT_rel)
-    print(self.GT_ref)
-    print(self.relRootFilesList)
-    print(self.refRootFilesList)
+    print('Datasets : ' + ' '.join("{:s}".format(colorText(x, 'blue')) for x in self.datasets))
+    print('Comparison choice : %s vs %s' % (colorText(str(self.comparisonChoice[0]), 'blue'), colorText(str(self.comparisonChoice[1]), 'blue')))
+    print('Validation type : %s vs %s' % (colorText(str(self.validationChoice[0]), 'blue'), colorText(str(self.validationChoice[1]), 'blue')))
+    print('Global Tag[s] : %s - %s' %(self.GT_rel, self.GT_ref))
+    print('%s list of the ROOT files : ' % colorText(self.release, 'blue'))
+    for elem in self.relRootFilesList:
+        print(elem)
+    print('%s list of the ROOT files : ' % colorText(self.reference, 'blue'))
+    for elem in self.refRootFilesList:
+        print(elem)
     print('')
     #sleep(1)
     text_to_prompt = "[" + colorText('c', self.color) + "]ontinue, [" + colorText( 'b', self.color) + "]ack or [" + colorText('q', self.color) +"]uit. ? "
@@ -799,21 +805,20 @@ def fonction_14(self):
     if answer_14 == 'b':
         return 12
     else: # must have only 2 answers
+        #return 14
+
+        # include the differents choices into Gev
+        self.gev_tmp.append([str(self.release), str(self.reference)])
+        self.gev_tmp.append([str(self.releaseExtent), str(self.referenceExtent)])
+        self.gev_tmp.append(str(self.datasets))
+        self.gev_tmp.append(str(self.comparisonChoice[0] + 'vs' + self.comparisonChoice[1]))
+        self.gev_tmp.append(str(self.validationChoice))
+        self.gev_tmp.append([str(self.release) + '-' + str(self.GT_rel), str(self.reference) + '-' + str(self.GT_ref)])
+        self.gev_tmp.append(str(self.DB_flags))
+        print(self.gev_tmp)
+        self.Gev.append(self.gev_tmp)
+
         return 14
-
-    # include the differents choices into Gev
-    self.gev_tmp.append([str(self.release), str(self.reference)])
-    self.gev_tmp.append([str(self.releaseExtent), str(self.referenceExtent)])
-    self.gev_tmp.append(str(self.datasets))
-    #self.gev_tmp.append(str(self.comparisonChoice))
-    self.gev_tmp.append(str(self.comparisonChoice[0] + 'vs' + self.comparisonChoice[1]))
-    self.gev_tmp.append(str(self.validationChoice))
-    self.gev_tmp.append([str(self.release) + '-' + str(self.GT_rel), str(self.reference) + '-' + str(self.GT_ref)])
-    self.gev_tmp.append(str(self.DB_flags))
-    print(self.gev_tmp)
-    self.Gev.append(self.gev_tmp)
-
-    return 14
 
 def fonction_15(self):
     screen_clear()
