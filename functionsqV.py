@@ -936,7 +936,8 @@ def fonction_14(self):
     #sleep(1)
     text_to_prompt = "[" + colorText('c', self.color) + "]ontinue, [" + colorText( 'b', self.color) + "]ack or [" + colorText('q', self.color) +"]uit. ? "
     answer_14 = get_answer2(text_to_prompt)
-    if answer_14 == 'b':
+    if answer_14 == 'b': # back
+        self.gev_tmp = [] # to be sure that gev_temp is empty
         return 12
     else: # must have only 2 answers
         # include the differents choices into Gev
@@ -964,6 +965,7 @@ def fonction_15(self):
     answer4new = get_answer5(self, text_to_prompt, 15)  #
     print('answer for new set : %s' % answer4new)
     if answer4new == '': # back
+        self.Gev = self.Gev[:-1]
         return 12
     elif answer4new == 'h':
         return 14

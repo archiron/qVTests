@@ -3,9 +3,8 @@
 
 import os,sys
 
-version = '0.55'
-# add a status (summary in a lot of fonction_XX(). Still need to write all text for help !!
-# corrections about "back" function.
+version = '0.55.1'
+# bug with 'back' function in fonction_15 solved.
 
 comparisons = [['Full', 'Full'], ['Fast', 'Fast'], ['Fast', 'Full']]
 #validations = [['RECO', 'RECO'], ['RECO', 'miniAOD'], ['PU25', 'PU25'], ['PUpmx25', 'PUpmx25'], ['PUpmx25', 'PU25'], ['miniAOD', 'miniAOD']] # PU25 instead of PU25ns to take news HGal cases into account.
