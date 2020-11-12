@@ -430,10 +430,12 @@ def get_answer6(self, text2prompt, tab, nb): # for GT
     return temp
 
 def fonction_1(self):
-    """aide de fonction_1"""
+    """Folder location :
+    it is the path you want to use on eos to store the validations you will make.
+    """
     screen_clear()
     #print('vous appelez la fonction 1')
-
+    print('Pictures & web pages can be located on 2 eos folders : Dev or Releases.')
     print_tab_2(self.web_location, self.color_nb)
     text_to_prompt = "number of the folder choice or [" + colorText('q', self.color) +"]uit. ? "
     text_to_prompt += "                    [" + colorText('h', self.color) + "]elp"
@@ -447,7 +449,11 @@ def fonction_1(self):
         return 1
 
 def fonction_2(self):
-    """aide de fonction_2"""
+    """RELEASE family :
+    Before to choose the release you want to validate you need to choose its family.
+    For the all next steps, this release to validate is named as : RELEASE
+    in opposition of the release which is used as reference which is named REFERENCE.
+    """
     screen_clear()
     #print('vous appelez la fonction 2')
     # initialization
@@ -468,6 +474,7 @@ def fonction_2(self):
     self.relRootFilesList = []
     self.refRootFilesList = []
 
+    print('RELEASE family for the validation ')
     # get the list for RELEASE
     print_tab_1(self.list_0, self.color_nb)
 
@@ -489,9 +496,13 @@ def fonction_2(self):
         return 2
 
 def fonction_3(self):
-    """aide de fonction_3"""
+    """RELEASE :
+    Inside the chosen family, choose the release you want to validate.
+    Be careful of all possibilities
+    """
     screen_clear()
     #print('vous appelez la fonction 3')
+    print('RELEASE to validate choice')
     print_tab_1(self.releasesList_2, self.color_nb)
     text_to_prompt = "number of the RELEASE, [" + colorText('b', self.color) + "]ack or [" + colorText('q', self.color) +"]uit. ? "
     text_to_prompt += "                    [" + colorText('h', self.color) + "]elp - ["
@@ -510,11 +521,12 @@ def fonction_3(self):
         return 1
 
 def fonction_4(self):
-    """aide de fonction_4"""
+    """REFERENCE family :
+    As for the release, before to choose the release you want to use as a reference you need to choose its family
+    """
     screen_clear()
     #print('vous appelez la fonction 4')
-    text_to_prompt= "Reference family for the validation "
-    print(text_to_prompt)  #
+    print('REFERENCE family for the validation ')  #
 
     # get the list for REFERENCE
     print_tab_1(self.list_0, self.color_nb)
@@ -541,9 +553,12 @@ def fonction_4(self):
         return 2
 
 def fonction_5(self):
-    """aide de fonction_5"""
+    """REFERENCE :
+    Inside the chosen family, choose the releference.
+    Be careful of all possibilities"""
     screen_clear()
     #print('vous appelez la fonction 5')
+    print('REFERENCE choice')
     print_tab_1(self.referencesList_2, self.color_nb)
     text_to_prompt = "number of the REFERENCE, [" + colorText('b', self.color) + "]ack or [" + colorText('q', self.color) +"]uit. ? "
     text_to_prompt += "                    [" + colorText('h', self.color) + "]elp - ["
@@ -562,7 +577,13 @@ def fonction_5(self):
         return 3
 
 def fonction_6(self):
-    """aide de fonction_6"""
+    """RELEASE folder extension :
+    The web page & the pictures are saved into a folder which is generally of the form
+    1X_Y_Z_[preK]_DQM_std/dev (see help from the first choice) for last releases.
+    For some validations such as 2021 or PHASE2 there can be some pbms with the path :
+    without personalization, all validations could be written into the same release folder.
+    In order to avoid that, we add an extension to personalize those paths.
+    """
     screen_clear()
     #print('vous appelez la fonction 6')
     # web folder name customization
@@ -584,10 +605,18 @@ def fonction_6(self):
             return 4
         else:
             print('extension for release : %s' % self.releaseExtent)
+            self.path = self.location + self.release[6:] + '_' + self.releaseExtent + '_DQM_' + self.extension
+            print('path for location : %s' % self.path)
+            sleep(1)
             return 6
 
 def fonction_7(self):
-    """aide de fonction_7"""
+    """REFERENCE folder extension :
+    In a same form as for RELEASE extent, for some validations there can be some pbms with the path :
+    without personalization, some validations such as tests for a new gcc version, or a ROOT one
+    could be written into the same reference folder.
+    In order to avoid that, we add an extension to personalize those paths.
+"""
     screen_clear()
     #print('vous appelez la fonction 7')
     # web folder name customization
@@ -609,10 +638,16 @@ def fonction_7(self):
             return 5
         else:
             print('extension for reference : %s' % self.referenceExtent)
+            path = self.path + '/FullvsFull_' + self.reference[6:] + '_' + self.referenceExtent
+            print('path for location : %s' % path)
+            sleep(1)
             return 7
 
 def fonction_8(self):
-    """aide de fonction_8"""
+    """Comparison :
+    here we define the type of comparizon we want to make : Full vs Full, Fast vs Fast or Fast vs Full.
+    This choice will be integrated into the full path where the web pages are saved.
+    """
     screen_clear()
     #print('vous appelez la fonction 8')
     # comparison choice
@@ -633,6 +668,9 @@ def fonction_8(self):
         self.comparisonChoice = ['', '']
         return 7
     else:
+        self.path += '/' + self.comparisonChoice[0] + 'vs' + self.comparisonChoice[1] + '/' + self.reference[6:] + '_' + self.referenceExtent
+        print('complete path for location : %s' % self.path)
+        sleep(1)
         return 8
 
 def fonction_9(self):
