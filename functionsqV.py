@@ -645,13 +645,14 @@ def fonction_7(self):
 
 def fonction_8(self):
     """Comparison :
-    here we define the type of comparizon we want to make : Full vs Full, Fast vs Fast or Fast vs Full.
+    here we define the type of comparison we want to make : Full vs Full, Fast vs Fast or Fast vs Full.
     This choice will be integrated into the full path where the web pages are saved.
     """
     screen_clear()
     #print('vous appelez la fonction 8')
     # comparison choice
     self.comparisonChoice = ['', '']
+    print('which type of comparison do you want ? ')
     print_tab_4(self.comparisons, self.color_nb)
     text_to_prompt = "number of the comparison type, [" + colorText('b', self.color) + "]ack or [" + colorText('q', self.color) +"]uit. ? "
     text_to_prompt += "                    [" + colorText('h', self.color) + "]elp - ["
@@ -674,11 +675,16 @@ def fonction_8(self):
         return 8
 
 def fonction_9(self):
-    """aide de fonction_9"""
+    """Validation :
+    What sort of comparison do you want : standard RECO vs RECO or miniAOD, PU vs PU or pmx vs pmx, ... ?
+    Note that for pmx & miniAOD, this choice is integrated into the complete path.
+    Also note that if you chose RECO vs miniAOD or pmx vs PU, the REFERENCE becomes the RELEASE !
+    """
     screen_clear()
     #print('vous appelez la fonction 9')
     # validation choice
     self.validationChoice = ['', '']
+    print('which validation do you want ? ')
     print_tab_6(self.validations, self.color_nb, self.release, self.reference)
     text_to_prompt = "number of the validation type, [" + colorText('b', self.color) + "]ack or [" + colorText('q', self.color) +"]uit. ? "
     text_to_prompt += "                    [" + colorText('h', self.color) + "]elp - ["
@@ -705,10 +711,18 @@ def fonction_9(self):
         return 9
 
 def fonction_10(self):
-    """aide de fonction_10"""
+    """DATASETS :
+    the base of the comparisons are the datasets. In the operations to be made we distinguish 2 sets of datasets.
+    - default datasets : defined into the datasetqV.py file and used classically for the validations.
+    Those default are presented with a number [0/1], 1 defining that the dataset is selected \"by default\" and 0 unselected.
+    - common datasets : these are the datasets inherited from all the datasets common to the RELEASE and the REFERENCE.
+    You can chose to use the default datasets (hit d), a lot of them (hit t) or chose some into the commons (hit c).
+    For the 2 last choices, from the list you have to hit the numbers of the chosen datasets, separated by commas.
+    """
     screen_clear()
     #print('vous appelez la fonction 10')
     # datasets choice
+    print('Datasets to be compared : ')
     fieldname = 'DataSetsFilter_' + self.comparisonChoice[0] + 'vs' + self.comparisonChoice[1] + self.validationChoice[0]
     if self.validationChoice[1] == 'miniAOD':
         fieldname = 'DataSetsFilter_' + self.comparisonChoice[0] + 'vs' + self.comparisonChoice[1] + self.validationChoice[1]
@@ -748,9 +762,13 @@ def fonction_10(self):
     #return 10
 
 def function_101(self):
-    """aide de fonction_101"""
+    """DEFAULT DATASETS :
+    into this list, chose the datasets by their number, separated by commas.
+    then hit return.
+    """
     #screen_clear()
     #print('vous appelez la fonction 101')
+    print('Select from default datasets : ')
     print_tab_3(self.default_dataset, self.color_nb) # all datasets with same color
     text_to_prompt = "enter the numbers of the datasets you want, separated by commas : "
     #text_to_prompt += "                    [" + colorText('h', self.color) + "]elp - ["
@@ -765,12 +783,15 @@ def function_101(self):
     return
 
 def function_102(self):
-    """aide de fonction_102"""
+    """COMMON DATASETS :
+    into this list, chose the datasets by their number, separated by commas.
+    then, hit return.
+    """
     screen_clear()
     #print('vous appelez la fonction 102')
 
     # perhaps make a test if len(commonDatasets) = 0 !
-
+    print('Select from common datasets : ')
     self.commonDatasets = set(self.datasetsList_1).intersection(set(self.datasetsList_2))
     self.commonDatasets = list(self.commonDatasets) # get the common datasets for the comparisons
     print_tab_1(self.commonDatasets, self.color) # all datasets with same color
@@ -785,7 +806,13 @@ def function_102(self):
     return
 
 def fonction_11(self):
-    """aide de fonction_11"""
+    """Global Tag selection for RELEASE :
+    We can extract some ROOT files which are coherent with the precedent choices.
+    From those files, we can extract the Global Tags.
+    Be careful in this list, there is no precision for GT for 2021 or PHASE2 validations.
+    This function is clearly made for a Full vs Full validation since no datasets are useful for Fast vs Fast/Full validations.
+    This will be updated next year.
+    """
     screen_clear()
     #print('vous appelez la fonction 11')
     self.releasesGT = []
@@ -796,7 +823,7 @@ def fonction_11(self):
     self.referencesList_4 = []  # root files list for reference
 
     # get the self.releasesList_4/self.referencesList_4 lists of root files
-    print('root files extraction')
+    print('ROOT files extraction')
     rootFilesExtraction(self)
 
     # extract to keep only for comparison choice
@@ -874,6 +901,7 @@ def fonction_11(self):
         print(colorText('len(self.GT_rel) == 0 or len(self.GT_ref) == 0', 'red'))
         return 9 # back to datasets choice
 
+    print('Choose a GT for %s from the list below ' % self.release)
     print_tab_5(self.GT_rel, self.color_nb)
     text_to_prompt = "get a RELEASE GT number, [" + colorText('b', self.color) + "]ack or [" + colorText('q', self.color) +"]uit. ? "
     text_to_prompt += "                    [" + colorText('h', self.color) + "]elp - ["
@@ -893,10 +921,14 @@ def fonction_11(self):
         return 11
 
 def fonction_12(self):
-    """aide de fonction_12"""
+    """Global Tag selection for REFERENCE :
+    Same as for RELEASE Global Tags.
+    Be careful in this list, there is no precision for GT for 2021 or PHASE2 validations.
+    """
     screen_clear()
     #print('vous appelez la fonction 12')
 
+    print('Choose a GT for %s from the list below ' % self.reference)
     print_tab_5(self.GT_ref, self.color_nb)
     text_to_prompt = "get a REFERENCE GT number, [" + colorText('b', self.color) + "]ack or [" + colorText('q', self.color) +"]uit. ? "
     text_to_prompt += "                    [" + colorText('h', self.color) + "]elp - ["
@@ -918,7 +950,10 @@ def fonction_12(self):
         return 12
 
 def fonction_13(self):
-    """aide de fonction_13"""
+    """Decision Box :
+    a dev module which use a decision box tools for ZEE.
+    This tool use some Kolmogorov tests and produce some pictures (3x those of the ZEE web page !) which can be used for validation control.
+    """
     screen_clear()
     #print('vous appelez la fonction 13')
     # DB Flag choice
@@ -949,7 +984,9 @@ def fonction_13(self):
         return 13
 
 def fonction_14(self):
-    """aide de fonction_14"""
+    """SUMMARY :
+    display (as the \'status\' function the summary of all the choices.
+    """
     screen_clear()
     #print('vous appelez la fonction 14')
     # Summary
@@ -992,7 +1029,11 @@ def fonction_14(self):
         return 14
 
 def fonction_15(self):
-    """aide de fonction_15"""
+    """NEW SET :
+    asking for a new set of choices for validation. We can made a lot of validations
+    such as RECO vs RECO, RECO vs miniAOD and PU vs PU for a couple of (RELEASE/REFERENCE) for one case,
+    and others tests for another case.
+    """
     screen_clear()
     #print('vous appelez la fonction 15')
     # New set ?
