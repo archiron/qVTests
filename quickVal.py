@@ -23,8 +23,9 @@ class quickVal():
 
         check_terminal_size(self)
 
+        self.t2s = time2sleep
         print("\nRelease family for the validation ")  #
-        sleep(1)
+        sleep(self.t2s)
 
         print('loading releases list')
         self.list_0 = list_search_0()

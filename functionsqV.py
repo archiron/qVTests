@@ -4,7 +4,6 @@
 import os,sys
 import re
 from time import sleep
-from helpqV import *
 
 sys.path.append('/afs/cern.ch/user/a/archiron/lbin/ChiLib')
 
@@ -192,7 +191,7 @@ def get_answerText(self, text2prompt, nb):
             return "h"
         elif rel == 's':
             displaySummary(self)
-            sleep(2)
+            sleep(self.t2s)
             return "h"
         else:
             print('vous avez tapé : %s' % rel)
@@ -299,7 +298,7 @@ def get_answer3(self, text2prompt, tab, nb):
             return "h"
         elif rel == 's':
             displaySummary(self)
-            sleep(2)
+            sleep(self.t2s)
             return "h"
         else:
             print('you typed : %s' % rel)
@@ -346,7 +345,7 @@ def get_answer4(self, text2prompt):
         elif rel == 's':
             quitLoop = False
             displaySummary(self)
-            sleep(2)
+            sleep(self.t2s)
             temp = "h"
         else:
             print('you typed : %s' % rel)
@@ -383,7 +382,7 @@ def get_answer5(self, text2prompt, nb):
         elif rel == 's':
             quitLoop = False
             displaySummary(self)
-            sleep(2)
+            sleep(self.t2s)
             return "h"
         else:
             print('you typed : %s' % rel)
@@ -411,7 +410,7 @@ def get_answer6(self, text2prompt, tab, nb): # for GT
         elif rel == 's':
             quitLoop = False
             displaySummary(self)
-            sleep(2)
+            sleep(self.t2s)
             return "h"
         else:
             print('you typed : %s' % rel)
@@ -445,7 +444,7 @@ def fonction_1(self):
         return 0
     else:
         print('WEB LOCATION : %s' % colorText(self.location, 'blue'))  # now we have the web folder location
-        sleep(1)
+        sleep(self.t2s)
         return 1
 
 def fonction_2(self):
@@ -488,7 +487,7 @@ def fonction_2(self):
         return 1
     else:
         print('RELEASE FAMILY : %s' % colorText(self.releaseFamily, 'blue')) # now we have the release family
-        sleep(1)
+        sleep(self.t2s)
         # here we get the release list
         self.releasesList_1 = list_search_1(self.releaseFamily) # all the releases
         #print('there is %d files for %s' % (len(self.releasesList_1), self.releaseFamily))
@@ -539,7 +538,7 @@ def fonction_4(self):
         return 3
     elif self.referenceFamily != '':
         print('REFERENCE FAMILY : %s' % colorText(self.referenceFamily, 'blue')) # now we have the reference family
-        sleep(1)
+        sleep(self.t2s)
 
         # here we get the reference list
 
@@ -599,6 +598,9 @@ def fonction_6(self):
         return 5
     elif (len(self.releaseExtent) == 0):
         print("no extension for release.")
+        self.path = self.location + self.release[6:] + '_DQM_' + self.extension
+        print('path for location : %s' % self.path)
+        sleep(self.t2s)
         return 6
     else:
         if (self.releaseExtent == 'back'):
@@ -607,7 +609,7 @@ def fonction_6(self):
             print('extension for release : %s' % self.releaseExtent)
             self.path = self.location + self.release[6:] + '_' + self.releaseExtent + '_DQM_' + self.extension
             print('path for location : %s' % self.path)
-            sleep(1)
+            sleep(self.t2s)
             return 6
 
 def fonction_7(self):
@@ -632,6 +634,9 @@ def fonction_7(self):
         return 6
     elif (len(self.referenceExtent) == 0):
         print("no extension for reference.")
+        path = self.path + '/FullvsFull_' + self.reference[6:]
+        print('path for location : %s' % path)
+        sleep(self.t2s)
         return 7
     else:
         if (self.referenceExtent == 'back'):
@@ -640,7 +645,7 @@ def fonction_7(self):
             print('extension for reference : %s' % self.referenceExtent)
             path = self.path + '/FullvsFull_' + self.reference[6:] + '_' + self.referenceExtent
             print('path for location : %s' % path)
-            sleep(1)
+            sleep(self.t2s)
             return 7
 
 def fonction_8(self):
@@ -669,9 +674,12 @@ def fonction_8(self):
         self.comparisonChoice = ['', '']
         return 7
     else:
-        self.path += '/' + self.comparisonChoice[0] + 'vs' + self.comparisonChoice[1] + '/' + self.reference[6:] + '_' + self.referenceExtent
+        if (len(self.referenceExtent) == 0):
+            self.path += '/' + self.comparisonChoice[0] + 'vs' + self.comparisonChoice[1] + '_' + self.reference[6:]
+        else:
+            self.path += '/' + self.comparisonChoice[0] + 'vs' + self.comparisonChoice[1] + '_' + self.reference[6:] + '_' + self.referenceExtent
         print('complete path for location : %s' % self.path)
-        sleep(1)
+        sleep(self.t2s)
         return 8
 
 def fonction_9(self):
@@ -1008,7 +1016,7 @@ def fonction_14(self):
     print('')'''
 
     displaySummary(self)
-    #sleep(1)
+    sleep(self.t2s)
     text_to_prompt = "[" + colorText('c', self.color) + "]ontinue, [" + colorText( 'b', self.color) + "]ack or [" + colorText('q', self.color) +"]uit. ? "
     answer_14 = get_answer2(text_to_prompt)
     if answer_14 == 'b': # back
