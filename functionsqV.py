@@ -440,6 +440,10 @@ def fonction_1(self):
     text_to_prompt += "                    [" + colorText('h', self.color) + "]elp"
     #text_to_prompt += colorText('s', self.color) + "]tatus "
     self.location, self.extension = get_answer1(text_to_prompt, self.web_location, self.web_extension)
+    #self.logFile.seek(0)
+    self.logFile.write('1 - self.location : %s\n' % self.location)
+    #self.logFile.seek(0)
+    self.logFile.write('1 - self.extension : %s\n' % self.extension)
     if (self.location=='h'):
         return 0
     else:
@@ -487,11 +491,14 @@ def fonction_2(self):
         return 1
     else:
         print('RELEASE FAMILY : %s' % colorText(self.releaseFamily, 'blue')) # now we have the release family
+        self.logFile.write('2 - RELEASE FAMILY : %s' % colorText(self.releaseFamily, 'blue') + '\n')
         sleep(self.t2s)
         # here we get the release list
         self.releasesList_1 = list_search_1(self.releaseFamily) # all the releases
+        self.logFile.write('2 - get all the releases for the release family' + '\n')
         #print('there is %d files for %s' % (len(self.releasesList_1), self.releaseFamily))
         self.releasesList_2 = sub_releases(self.releasesList_1) # extract the releases CMSSW_X_Y_Z...
+        self.logFile.write('2 - get all the releases' + '\n')
         return 2
 
 def fonction_3(self):
@@ -512,9 +519,12 @@ def fonction_3(self):
         return 2
     elif self.release != '':
         print('RELEASE : %s' % self.release) # now we have the release
+        self.logFile.write('3 - RELEASE : %s' % self.release + '\n')
         print('')
         self.releasesList_3 = sub_releases3(self.release, self.releasesList_1) # extract the list of the root files for the chosen release
+        self.logFile.write('3 - get the list of the root files of the release' + '\n')
         self.datasetsList_1 = sub_releases2(self.release, self.releasesList_3) # extract the datasets of the root files for the chosen release
+        self.logFile.write('3 - get the datasets of the release' + '\n')
         return 3
     else:
         return 1
@@ -538,15 +548,18 @@ def fonction_4(self):
         return 3
     elif self.referenceFamily != '':
         print('REFERENCE FAMILY : %s' % colorText(self.referenceFamily, 'blue')) # now we have the reference family
+        self.logFile.write('4 - REFERENCE FAMILY : %s' % colorText(self.referenceFamily, 'blue')  + '\n')
         sleep(self.t2s)
 
         # here we get the reference list
 
         self.referencesList_1 = list_search_1(self.referenceFamily) # all the references
-        print('there is %d files for %s' % (len(self.referencesList_1), self.referenceFamily))
+        self.logFile.write('4 - get all the releases for the reference family' + '\n')
+        #print('there is %d files for %s' % (len(self.referencesList_1), self.referenceFamily))
         #self.referenceFamily2 = self.referenceFamily[:-1] # not used ?
 
         self.referencesList_2 = sub_releases(self.referencesList_1) # extract the references CMSSW_X_Y_Z...
+        self.logFile.write('4 - get all the releases' + '\n')
         return 4
     else:
         return 2
@@ -568,9 +581,12 @@ def fonction_5(self):
         return 4
     elif self.reference != '':
         print('REFERENCE : %s' % self.reference) # now we have the reference
+        self.logFile.write('5 - REFERENCE : %s' % self.release + '\n')
         print('')
         self.referencesList_3 = sub_releases3(self.reference, self.referencesList_1) # extract the list of the root files for the chosen reference
+        self.logFile.write('5 - get the list of the root files of the reference' + '\n')
         self.datasetsList_2 = sub_releases2(self.reference, self.referencesList_3) # extract the datasets of the root files for the chosen reference
+        self.logFile.write('5 - get the datasets of the reference' + '\n')
         return 5
     else:
         return 3
@@ -598,6 +614,7 @@ def fonction_6(self):
         return 5
     elif (len(self.releaseExtent) == 0):
         print("no extension for release.")
+        self.logFile.write('6 - no extension for release.' + '\n')
         self.path = self.location + self.release[6:] + '_DQM_' + self.extension
         print('path for location : %s' % self.path)
         sleep(self.t2s)
@@ -607,6 +624,7 @@ def fonction_6(self):
             return 4
         else:
             print('extension for release : %s' % self.releaseExtent)
+            self.logFile.write('6 - extension for release : %s' % self.releaseExtent + '\n')
             self.path = self.location + self.release[6:] + '_' + self.releaseExtent + '_DQM_' + self.extension
             print('path for location : %s' % self.path)
             sleep(self.t2s)
@@ -634,6 +652,7 @@ def fonction_7(self):
         return 6
     elif (len(self.referenceExtent) == 0):
         print("no extension for reference.")
+        self.logFile.write("7 - no extension for reference." + '\n')
         path = self.path + '/FullvsFull_' + self.reference[6:]
         print('path for location : %s' % path)
         sleep(self.t2s)
@@ -643,6 +662,7 @@ def fonction_7(self):
             return 5
         else:
             print('extension for reference : %s' % self.referenceExtent)
+            self.logFile.write('7 - extension for reference : %s' % self.referenceExtent + '\n')
             path = self.path + '/FullvsFull_' + self.reference[6:] + '_' + self.referenceExtent
             print('path for location : %s' % path)
             sleep(self.t2s)
@@ -664,8 +684,9 @@ def fonction_8(self):
     text_to_prompt += colorText('s', self.color) + "]tatus "  
 
     self.comparisonChoice = get_answer3(self, text_to_prompt, self.comparisons, 8) #
-    print('cC : ')
+    print('comparaisonChoice : ')
     print(self.comparisonChoice)
+    self.logFile.write('8 - comparaisonChoice : %s vs %s' % (self.comparisonChoice[0], self.comparisonChoice[1] + '\n'))
 
     if self.comparisonChoice == '':
         self.comparisonChoice = ['', '']
@@ -679,6 +700,7 @@ def fonction_8(self):
         else:
             self.path += '/' + self.comparisonChoice[0] + 'vs' + self.comparisonChoice[1] + '_' + self.reference[6:] + '_' + self.referenceExtent
         print('complete path for location : %s' % self.path)
+        self.logFile.write('8 - complete path for location : %s' % self.path + '\n')
         sleep(self.t2s)
         return 8
 
@@ -699,6 +721,7 @@ def fonction_9(self):
     text_to_prompt += colorText('s', self.color) + "]tatus "  
 
     self.validationChoice = get_answer3(self, text_to_prompt, self.validations, 9) #
+    self.logFile.write('9 - validationChoice : %s vs %s' % (self.validationChoice[0], self.validationChoice[1]) + '\n')
 
     if self.validationChoice == '':
         self.validationChoice = ['', '']
@@ -711,11 +734,15 @@ def fonction_9(self):
         if ( self.validationChoice[0] == 'RECO' and self.validationChoice[1] == 'miniAOD' ):
             self.reference = self.release
             self.referencesList_3 = self.releasesList_3
+            self.logFile.write('9 - get the references list' + '\n')
             self.datasetsList_2 = self.datasetsList_1
+            self.logFile.write('9 - get the datasets list' + '\n')
         if ( self.validationChoice[0] == 'pmx' and self.validationChoice[1] == 'PU' ):
             self.reference = self.release
             self.referencesList_3 = self.releasesList_3
+            self.logFile.write('9 - get the references list' + '\n')
             self.datasetsList_2 = self.datasetsList_1
+            self.logFile.write('9 - get the datasets list' + '\n')
         return 9
 
 def fonction_10(self):
@@ -747,22 +774,29 @@ def fonction_10(self):
     self.datasets = []
     self.dts = get_answer4(self, text_to_prompt) #
     #print(self.datasets)
+    self.logFile.write('10 - get datasets' + '\n')
     if ( self.dts == ''): # back
         return 8
     elif (self.dts == 'h'):
         return 9
     elif ( self.dts == 't'): # default
+        self.logFile.write('10 - peek datasets into default list' + '\n')
         function_101(self)
+        self.logFile.write('10 - done' + '\n')
         return 10
     elif ( self.dts == 'c'): # default
+        self.logFile.write('10 - choose datasets into common ones' + '\n')
         function_102(self)
+        self.logFile.write('10 - done' + '\n')
         return 10
     elif ( self.dts == 'd'): # default
         print('d')
         for item in self.default_dataset:
             #print(item)
+            self.logFile.write('10 - get datasets from default' + '\n')
             if item[1] == 1:
                 self.datasets.append(item[0])
+                self.logFile.write('10 - %s\n' % item[0])
         #print('datasets : ')
         #print(self.datasets)
         return 10
@@ -786,6 +820,7 @@ def function_101(self):
     self.datasets = []
     for i in numbers:
         self.datasets.append(str(self.default_dataset[i][0]))
+        self.logFile.write('101 - %s\n' % str(self.default_dataset[i][0]))
     #print('datasets 101 : ')
     #print(self.datasets)
     return
@@ -809,6 +844,7 @@ def function_102(self):
     numbers = get_answer10X(text_to_prompt, self.commonDatasets)
     for i in numbers:
         self.datasets.append(str(self.commonDatasets[i]))
+        self.logFile.write('102 - %s\n' % str(self.commonDatasets[i]))
     #print('datasets 102 : ')
     #print(self.datasets)
     return
@@ -833,6 +869,7 @@ def fonction_11(self):
     # get the self.releasesList_4/self.referencesList_4 lists of root files
     print('ROOT files extraction')
     rootFilesExtraction(self)
+    self.logFile.write('11 - ROOT files extraction OK' + '\n')
 
     # extract to keep only for comparison choice
     #print('comparison choice for release')
@@ -855,8 +892,10 @@ def fonction_11(self):
     # get the self.releasesGT/self.referencesGT lists for GT
     print('GT extraction')
     GlobalTagsExtraction(self)
+    self.logFile.write('11 - GT extraction OK' + '\n')
 
     # rewrite GT list in a more convenient way
+    self.logFile.write('11 - rewrite GT list in a more convenient way' + '\n')
     tmp_GT = []
     for elem in self.releasesGT:
         for i in range(1, len(elem)):
@@ -874,6 +913,7 @@ def fonction_11(self):
         self.GT_rel.append(tmp)
     #print(self.GT_rel)
     # reduce the list to kept only those corresponding to ALL datasets
+    self.logFile.write('11 - reduce the list to kept only those corresponding to ALL datasets' + '\n')    
     tt_rel = []
     for elem in self.GT_rel:
         if len(elem[1:]) == len(self.datasets):
@@ -898,6 +938,7 @@ def fonction_11(self):
         self.GT_ref.append(tmp)
     #print(self.GT_ref)
     # reduce the list to kept only those corresponding to ALL datasets
+    self.logFile.write('11 - reduce the list to kept only those corresponding to ALL datasets' + '\n')
     tt_ref = []
     for elem in self.GT_ref:
         if len(elem[1:]) == len(self.datasets):
@@ -926,6 +967,7 @@ def fonction_11(self):
                 if re.search(self.GT_rel, elem[i]):
                     #print(elem[i])
                     self.relRootFilesList.append(elem[i])
+                    self.logFile.write('11 - get the GT list for release' + '\n')
         return 11
 
 def fonction_12(self):
@@ -955,6 +997,7 @@ def fonction_12(self):
                 if re.search(GT, elem[i]):
                     #print(elem[i])
                     self.refRootFilesList.append(elem[i])
+                    self.logFile.write('12 - get the GT list for reference' + '\n')
         return 12
 
 def fonction_13(self):
@@ -984,11 +1027,13 @@ def fonction_13(self):
                 self.DB_flags.append(False)
             else:
                 self.DB_flags.append(True)
+                self.logFile.write('13 - set a DB flag for ZEE' + '\n')
         return 13
     elif DB_flag == 'n':
         self.DB_flags = []
         for i in range(0, len(self.datasets)):
             self.DB_flags.append(False)
+            self.logFile.write('13 - no GT at all' + '\n')
         return 13
 
 def fonction_14(self):
@@ -1033,6 +1078,7 @@ def fonction_14(self):
         self.gev_tmp.append(str(self.DB_flags))
         print(self.gev_tmp)
         self.Gev.append(self.gev_tmp)
+        self.logFile.write('14 - save in RAM the set of validation' + '\n')
 
         return 14
 
@@ -1057,6 +1103,7 @@ def fonction_15(self):
     elif answer4new == 'h':
         return 14
     elif answer4new == 'y': # back to release choice
+        self.logFile.write('15 - ask for a new set of validation' + '\n')
         return 1
     elif answer4new == 'n': # so we close after writing into config file
         if self.configFile:
@@ -1084,7 +1131,8 @@ def fonction_15(self):
                 self.configFile.write(str(self.DB_flags) + ', # DB flag\n')
                 self.configFile.write(']\n')
                 ind += 1
-            self.configFile.write('#############################################################################\n')
+            self.logFile.write('15 - write into config.py file' + '\n')
+	    self.configFile.write('#############################################################################\n')
             self.configFile.write('\n')
         else:
             print('no config file open')

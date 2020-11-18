@@ -12,6 +12,7 @@ from networkFunctions import list_search_0
 from functionsqV import *
 from defaultqV import *
 from datasetsqV import DataLocation
+from datetime import datetime
 
 class quickVal():
     def __init__(self):
@@ -47,7 +48,17 @@ class quickVal():
         try:
             self.configFile = open('config.py', 'w') #
         except IOError:
-            print("Could not open file!")
+            print("Could not open config.py file!")
+	    exit()
+        print('config.log file creation')
+        try:
+            self.logFile = open('config.log', 'w+') #
+        except IOError:
+            print("Could not open config.log file!")
+            exit()
+
+        tps = datetime.now().strftime("%d/%m/%Y, %H:%M:%S")
+        self.logFile.write('\n' + tps + '\n')
 
         i_back = 1
         while (i_back != 0):
@@ -56,4 +67,5 @@ class quickVal():
             print('i_back : %d' % i_back)
 
         self.configFile.close()
+        self.logFile.close()
         print('... End')
