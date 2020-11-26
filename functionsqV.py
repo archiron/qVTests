@@ -344,8 +344,14 @@ def get_answer4(self, text2prompt):
             temp = "h"
         elif rel == 's':
             quitLoop = False
-            displaySummary(self)
-            sleep(self.t2s)
+            # keep the old help text
+            old_text = fonction_10.__doc__
+            print('fonction_10 : %s' % old_text)
+            # give a new help text
+            staticmethod(fonction_10).__func__.__doc__ = displaySummary2(self)
+            help(fonction_10)
+            # give the old help text back
+            staticmethod(fonction_10).__func__.__doc__ = old_text
             temp = "h"
         else:
             print('you typed : %s' % rel)
@@ -1043,22 +1049,6 @@ def fonction_14(self):
     screen_clear()
     #print('vous appelez la fonction 14')
     # Summary
-    '''print('SUMMARY : ')
-    text_to_prompt = 'RELEASE : ' + colorText(self.release, 'blue') + ' - REFERENCE : ' + colorText(self.reference, 'blue')
-    print(text_to_prompt)
-    text_to_prompt = 'release extension : \'' + colorText(self.releaseExtent, 'blue') + '\' - reference extension : \'' + colorText(self.referenceExtent, 'blue') + '\''
-    print(text_to_prompt)
-    print('Datasets : ' + ' '.join("{:s}".format(colorText(x, 'blue')) for x in self.datasets))
-    print('Comparison choice : %s vs %s' % (colorText(str(self.comparisonChoice[0]), 'blue'), colorText(str(self.comparisonChoice[1]), 'blue')))
-    print('Validation type : %s vs %s' % (colorText(str(self.validationChoice[0]), 'blue'), colorText(str(self.validationChoice[1]), 'blue')))
-    print('Global Tag[s] : %s - %s' %(self.GT_rel, self.GT_ref))
-    print('%s list of the ROOT files : ' % colorText(self.release, 'blue'))
-    for elem in self.relRootFilesList:
-        print(elem)
-    print('%s list of the ROOT files : ' % colorText(self.reference, 'blue'))
-    for elem in self.refRootFilesList:
-        print(elem)
-    print('')'''
 
     displaySummary(self)
     sleep(self.t2s)
@@ -1240,3 +1230,22 @@ def displaySummary(self):
         print(elem)
     print('')
     return
+
+def displaySummary2(self):
+    # Summary
+    statusText = 'SUMMARY : \n'
+    statusText += 'RELEASE : ' + self.release + ' - REFERENCE : ' + self.reference + '\n'
+    statusText += 'release extension : \'' + self.releaseExtent + '\' - reference extension : \'' + self.referenceExtent + '\'' + '\n'
+    statusText += 'Datasets : ' + ' '.join("{:s}".format(x) for x in self.datasets)
+    statusText += 'Comparison choice : %s vs %s' % (str(self.comparisonChoice[0]), str(self.comparisonChoice[1])) + '\n'
+    statusText += 'Validation type : %s vs %s' % (str(self.validationChoice[0]), str(self.validationChoice[1])) + '\n'
+    statusText += 'Global Tag[s] : %s - %s' %(self.GT_rel, self.GT_ref) +'\n'
+    statusText += '%s list of the ROOT files : ' % self.release + '\n'
+    for elem in self.relRootFilesList:
+        statusText += elem + '\n'
+    statusText += '%s list of the ROOT files : ' % self.reference +'\n'
+    for elem in self.refRootFilesList:
+        statusText += elem + '\n'
+    statusText += '' + '\n'
+
+    return statusText

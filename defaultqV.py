@@ -1,10 +1,11 @@
 #! /usr/bin/env python
 #-*-coding: utf-8 -*-
 
-import os,sys
+#import os,sys
 
-version = '0.57'
-# add a log file to keep a trace of all operations -> done.
+version = '0.57.2'
+# remove os, sys call.
+# implemente another status function by modifying the help of each function.
 
 comparisons = [['Full', 'Full'], ['Fast', 'Fast'], ['Fast', 'Full']]
 #validations = [['RECO', 'RECO'], ['RECO', 'miniAOD'], ['PU25', 'PU25'], ['PUpmx25', 'PUpmx25'], ['PUpmx25', 'PU25'], ['miniAOD', 'miniAOD']] # PU25 instead of PU25ns to take news HGal cases into account.
