@@ -3,9 +3,8 @@
 
 #import os,sys
 
-version = '0.57.2'
-# remove os, sys call.
-# implemente another status function by modifying the help of each function.
+version = '0.57.3'
+# put the modificating help function into a common function (displayStatus()).
 
 comparisons = [['Full', 'Full'], ['Fast', 'Fast'], ['Fast', 'Full']]
 #validations = [['RECO', 'RECO'], ['RECO', 'miniAOD'], ['PU25', 'PU25'], ['PUpmx25', 'PUpmx25'], ['PUpmx25', 'PU25'], ['miniAOD', 'miniAOD']] # PU25 instead of PU25ns to take news HGal cases into account.

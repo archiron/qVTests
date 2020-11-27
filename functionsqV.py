@@ -344,14 +344,19 @@ def get_answer4(self, text2prompt):
             temp = "h"
         elif rel == 's':
             quitLoop = False
+            '''
             # keep the old help text
             old_text = fonction_10.__doc__
             print('fonction_10 : %s' % old_text)
             # give a new help text
-            staticmethod(fonction_10).__func__.__doc__ = displaySummary2(self)
+            staticmethod(fonction_10).__func__.__doc__ = displaySummaryText(self)
             help(fonction_10)
             # give the old help text back
             staticmethod(fonction_10).__func__.__doc__ = old_text
+            '''
+            print('=====')
+            displayStatus(self, fonction_10)
+            print('=====')
             temp = "h"
         else:
             print('you typed : %s' % rel)
@@ -760,7 +765,7 @@ def fonction_10(self):
     You can chose to use the default datasets (hit d), a lot of them (hit t) or chose some into the commons (hit c).
     For the 2 last choices, from the list you have to hit the numbers of the chosen datasets, separated by commas.
     """
-    screen_clear()
+    #screen_clear()
     #print('vous appelez la fonction 10')
     # datasets choice
     print('Datasets to be compared : ')
@@ -1231,7 +1236,7 @@ def displaySummary(self):
     print('')
     return
 
-def displaySummary2(self):
+def displaySummaryText(self):
     # Summary
     statusText = 'SUMMARY : \n'
     statusText += 'RELEASE : ' + self.release + ' - REFERENCE : ' + self.reference + '\n'
@@ -1249,3 +1254,15 @@ def displaySummary2(self):
     statusText += '' + '\n'
 
     return statusText
+
+def displayStatus(self, functionName): # to be seen later
+    print('displayStatus')
+    # keep the old help text
+    old_text = functionName.__doc__
+    print('fonction_10 : %s' % old_text)
+    # give a new help text
+    staticmethod(functionName).__func__.__doc__ = displaySummaryText(self)
+    help(functionName)
+    # give the old help text back
+    staticmethod(functionName).__func__.__doc__ = old_text
+    return
