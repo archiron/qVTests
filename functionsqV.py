@@ -170,6 +170,29 @@ def print_tab_1(tab, color):
             else: #
                 affiche_2(i, tab, color)
 
+def print_tab_0(self, tab, color, a): # only for fonction_3 & fonction_5
+    print('')
+    if ((len(tab) % 2) == 0):
+        for i in range(0, len(tab), 2):
+            nb1 = nbDatasets(self, tab[i], a)
+            nb2 = nbDatasets(self, tab[i+1], a)
+            print('%40s [%s] - (%d) %40s [%s] - (%d)' % ( tab[i], colorText(str(i), color), nb1, tab[i+1], colorText(str(i+1), color), nb2 ) )
+    elif ((len(tab) % 3) == 0):
+        for i in range(0, len(tab), 3):
+            nb1 = nbDatasets(self, tab[i], a)
+            nb2 = nbDatasets(self, tab[i+1], a)
+            nb3 = nbDatasets(self, tab[i+2], a)
+            print('%40s [%s] - (%d) %40s [%s] - (%d) %40s [%s] - (%d)' % ( tab[i], colorText(str(i), color), nb1, tab[i+1], colorText(str(i+1), color), nb2,  tab[i+2], colorText(str(i+2), color), nb3 ) )
+    else: # general case
+        for i in range(0, len(tab), 2):
+            if (i+1 == len(tab)):
+                nb1 = nbDatasets(self, tab[i], a)
+                print( '%40s [%s]' % ( tab[i], colorText(str(i), color) ) )
+            else: #
+                nb1 = nbDatasets(self, tab[i], a)
+                nb2 = nbDatasets(self, tab[i + 1], a)
+                print('%40s [%s] - (%d) %40s [%s] - (%d)' % ( tab[i], colorText(str(i), color), nb1, tab[i+1], colorText(str(i+1), color), nb2 ) )
+
 def colorText(sometext, color):
     return '\033' + changeColor(color) + sometext + '\033[0m'
 
@@ -519,12 +542,23 @@ def fonction_2(self):
 def fonction_3(self):
     """RELEASE :
     Inside the chosen family, choose the release you want to validate.
-    Be careful of all possibilities
+    Be careful of all possibilities.
+    inside brackets, there is the number of the release.
+    inside parentheses, the is the number of availables datasets.
     """
     screen_clear()
     #print('vous appelez la fonction 3')
+    ###### TEMPORARY ######
+    i = 0
+    for release in self.releasesList_2: # for each release
+        tempReleaseList = sub_releases3(release, self.releasesList_1) # extract the list of the root files for each release
+        tempDatasetsList = sub_releases2(release, tempReleaseList)  # extract the datasets of the root files for the chosen release
+        print('%40s [%s]     -     (%s)' % (release, colorText(str(i), self.color_nb), len(tempDatasetsList)))
+        #print(tempDatasetsList)
+        i += 1
+    ###### TEMPORARY ######
     print('RELEASE to validate choice')
-    print_tab_1(self.releasesList_2, self.color_nb)
+    print_tab_0(self, self.releasesList_2, self.color_nb, 'rel')
     text_to_prompt = "number of the RELEASE, [" + colorText('b', self.color) + "]ack or [" + colorText('q', self.color) +"]uit. ? "
     text_to_prompt += "                    [" + colorText('h', self.color) + "]elp - ["
     text_to_prompt += colorText('s', self.color) + "]tatus "  
@@ -582,11 +616,14 @@ def fonction_4(self):
 def fonction_5(self):
     """REFERENCE :
     Inside the chosen family, choose the releference.
-    Be careful of all possibilities"""
+    Be careful of all possibilities
+    inside brackets, there is the number of the release.
+    inside parentheses, the is the number of availables datasets.
+    """
     screen_clear()
     #print('vous appelez la fonction 5')
     print('REFERENCE choice')
-    print_tab_1(self.referencesList_2, self.color_nb)
+    print_tab_0(self, self.referencesList_2, self.color_nb, 'ref')
     text_to_prompt = "number of the REFERENCE, [" + colorText('b', self.color) + "]ack or [" + colorText('q', self.color) +"]uit. ? "
     text_to_prompt += "                    [" + colorText('h', self.color) + "]elp - ["
     text_to_prompt += colorText('s', self.color) + "]tatus "  
@@ -1269,3 +1306,14 @@ def displayStatus(self, functionName): # to be seen later
     # give the old help text back
     staticmethod(functionName).__func__.__doc__ = old_text
     return
+
+def nbDatasets(self, release, a):
+    if ( a == 'rel' ):
+        tempReleaseList = sub_releases3(release, self.releasesList_1)  # extract the list of the root files for each release
+        tempDatasetsList = sub_releases2(release, tempReleaseList)  # extract the datasets of the root files for the chosen release
+        nb = len(tempDatasetsList)
+    else: # a == 'ref'
+        tempReleaseList = sub_releases3(release, self.referencesList_1)  # extract the list of the root files for each release
+        tempDatasetsList = sub_releases2(release, tempReleaseList)  # extract the datasets of the root files for the chosen release
+        nb = len(tempDatasetsList)
+    return nb

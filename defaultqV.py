@@ -3,9 +3,8 @@
 
 #import os,sys
 
-version = '0.60'
-# All status function rewritten.
-# minor bug in comparaisonChoice & comparaisonValidation write into logFile corrected.
+version = '0.61'
+# Add an indication (nb of availables datasets) for each release/reference to help for choice and avoid empty common datasets.
 
 comparisons = [['Full', 'Full'], ['Fast', 'Fast'], ['Fast', 'Full']]
 #validations = [['RECO', 'RECO'], ['RECO', 'miniAOD'], ['PU25', 'PU25'], ['PUpmx25', 'PUpmx25'], ['PUpmx25', 'PU25'], ['miniAOD', 'miniAOD']] # PU25 instead of PU25ns to take news HGal cases into account.
