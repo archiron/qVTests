@@ -190,8 +190,10 @@ def get_answerText(self, text2prompt, nb):
                 help(fonction_7)
             return "h"
         elif rel == 's':
-            displaySummary(self)
-            sleep(self.t2s)
+            if (nb == 6):
+                displayStatus(self, fonction_6)
+            elif (nb == 7):
+                displayStatus(self, fonction_7)
             return "h"
         else:
             print('vous avez tapé : %s' % rel)
@@ -297,8 +299,18 @@ def get_answer3(self, text2prompt, tab, nb):
                 help(fonction_9)
             return "h"
         elif rel == 's':
-            displaySummary(self)
-            sleep(self.t2s)
+            if (nb == 2):
+                displayStatus(self, fonction_2)
+            elif (nb == 3):
+                displayStatus(self, fonction_3)
+            elif (nb == 4):
+                displayStatus(self, fonction_4)
+            elif (nb == 5):
+                displayStatus(self, fonction_5)
+            elif (nb == 8):
+                displayStatus(self, fonction_8)
+            elif (nb == 9):
+                displayStatus(self, fonction_9)
             return "h"
         else:
             print('you typed : %s' % rel)
@@ -344,19 +356,7 @@ def get_answer4(self, text2prompt):
             temp = "h"
         elif rel == 's':
             quitLoop = False
-            '''
-            # keep the old help text
-            old_text = fonction_10.__doc__
-            print('fonction_10 : %s' % old_text)
-            # give a new help text
-            staticmethod(fonction_10).__func__.__doc__ = displaySummaryText(self)
-            help(fonction_10)
-            # give the old help text back
-            staticmethod(fonction_10).__func__.__doc__ = old_text
-            '''
-            print('=====')
             displayStatus(self, fonction_10)
-            print('=====')
             temp = "h"
         else:
             print('you typed : %s' % rel)
@@ -392,8 +392,10 @@ def get_answer5(self, text2prompt, nb):
             return "h"
         elif rel == 's':
             quitLoop = False
-            displaySummary(self)
-            sleep(self.t2s)
+            if (nb == 13):
+                displayStatus(self, fonction_13)
+            elif (nb == 15):
+                displayStatus(self, fonction_15)
             return "h"
         else:
             print('you typed : %s' % rel)
@@ -420,8 +422,10 @@ def get_answer6(self, text2prompt, tab, nb): # for GT
             return "h"
         elif rel == 's':
             quitLoop = False
-            displaySummary(self)
-            sleep(self.t2s)
+            if (nb == 13):
+                displayStatus(self, fonction_11)
+            elif (nb == 15):
+                displayStatus(self, fonction_12)
             return "h"
         else:
             print('you typed : %s' % rel)
@@ -697,7 +701,6 @@ def fonction_8(self):
     self.comparisonChoice = get_answer3(self, text_to_prompt, self.comparisons, 8) #
     print('comparaisonChoice : ')
     print(self.comparisonChoice)
-    self.logFile.write('8 - comparaisonChoice : %s vs %s' % (self.comparisonChoice[0], self.comparisonChoice[1] + '\n'))
 
     if self.comparisonChoice == '':
         self.comparisonChoice = ['', '']
@@ -732,7 +735,6 @@ def fonction_9(self):
     text_to_prompt += colorText('s', self.color) + "]tatus "  
 
     self.validationChoice = get_answer3(self, text_to_prompt, self.validations, 9) #
-    self.logFile.write('9 - validationChoice : %s vs %s' % (self.validationChoice[0], self.validationChoice[1]) + '\n')
 
     if self.validationChoice == '':
         self.validationChoice = ['', '']
@@ -742,6 +744,7 @@ def fonction_9(self):
             return 8
     else:
         #print(self.validationChoice)
+        self.logFile.write('9 - validationChoice : %s vs %s' % (self.validationChoice[0], self.validationChoice[1]) + '\n')
         if ( self.validationChoice[0] == 'RECO' and self.validationChoice[1] == 'miniAOD' ):
             self.reference = self.release
             self.referencesList_3 = self.releasesList_3
@@ -765,7 +768,7 @@ def fonction_10(self):
     You can chose to use the default datasets (hit d), a lot of them (hit t) or chose some into the commons (hit c).
     For the 2 last choices, from the list you have to hit the numbers of the chosen datasets, separated by commas.
     """
-    #screen_clear()
+    screen_clear()
     #print('vous appelez la fonction 10')
     # datasets choice
     print('Datasets to be compared : ')
