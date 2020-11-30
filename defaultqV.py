@@ -3,8 +3,8 @@
 
 #import os,sys
 
-version = '0.61.2'
-# remove answerqV.py file because of fonction_XX access.
+version = '0.61.3'
+# cleaning some import.
 
 comparisons = [['Full', 'Full'], ['Fast', 'Fast'], ['Fast', 'Full']]
 #validations = [['RECO', 'RECO'], ['RECO', 'miniAOD'], ['PU25', 'PU25'], ['PUpmx25', 'PUpmx25'], ['PUpmx25', 'PU25'], ['miniAOD', 'miniAOD']] # PU25 instead of PU25ns to take news HGal cases into account.
@@ -13,6 +13,5 @@ validations = [['RECO', 'RECO'], ['RECO', 'miniAOD'], ['PU', 'PU'], ['pmx', 'pmx
 color = 'green' # color for the shell highlights #
 color_nb = 'lightyellow'
 time2sleep = 1
-
 
 
