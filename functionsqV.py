@@ -261,9 +261,9 @@ def get_answer6(self, text2prompt, tab, nb): # for GT
             return "h"
         elif rel == 's':
             quitLoop = False
-            if (nb == 13):
+            if (nb == 11):
                 displayStatus(self, fonction_11)
-            elif (nb == 15):
+            elif (nb == 12):
                 displayStatus(self, fonction_12)
             return "h"
         else:
@@ -611,6 +611,10 @@ def fonction_10(self):
     - common datasets : these are the datasets inherited from all the datasets common to the RELEASE and the REFERENCE.
     You can chose to use the default datasets (hit d), a lot of them (hit t) or chose some into the commons (hit c).
     For the 2 last choices, from the list you have to hit the numbers of the chosen datasets, separated by commas.
+    The default datasets are compared to the common ones.
+    - if all defaults are in commons, continue
+    - is some of the default datasets are missing, a WARNING sentence is displayed.
+    - if none of the default datasets are present, the pgm sent you back to release family choice because no validation is possible.
     """
     screen_clear()
     #print('vous appelez la fonction 10')
@@ -620,8 +624,17 @@ def fonction_10(self):
     if self.validationChoice[1] == 'miniAOD':
         fieldname = 'DataSetsFilter_' + self.comparisonChoice[0] + 'vs' + self.comparisonChoice[1] + self.validationChoice[1]
     print('datasets default : %s' % fieldname)
-    self.default_dataset = DataSetsFilter(self, fieldname)
+    #self.default_dataset = DataSetsFilter(self, fieldname) # moved into getDatasetsDefault into options file.
+    interLen, dtsLen = getDatasetsDefault(self, fieldname)
+    if interLen == 0: # no datasets
+        print(colorText('\n\tNO DATASETS AVAILABLE FOR VALIDATION\n', 'red'))
+        self.logFile.write('10 - NO DATASETS AVAILABLE FOR VALIDATION !' + '\n')
+        sleep(3)
+        return 1
     print_tab_3(self.default_dataset, self.color_nb)
+    if interLen < dtsLen:
+        print(colorText('\n\tSOME DATASETS ARE MISSING !\n', 'red'))
+        self.logFile.write('10 - SOME DATASETS ARE MISSING !' + '\n')
     print('those with %s are not selected' % (colorText('0', 'blue')))
     print('those with %s are selected' % (colorText('1', self.color_nb)))
     text_to_prompt = "you can use the [" + colorText('d', self.color) + "]efault selected datasets, [" + colorText('b', self.color) + "]ack or [" + colorText('q', self.color) +"]uit.\n "
@@ -693,8 +706,8 @@ def function_102(self):
 
     # perhaps make a test if len(commonDatasets) = 0 !
     print('Select from common datasets : ')
-    self.commonDatasets = set(self.datasetsList_1).intersection(set(self.datasetsList_2))
-    self.commonDatasets = list(self.commonDatasets) # get the common datasets for the comparisons
+    #self.commonDatasets = set(self.datasetsList_1).intersection(set(self.datasetsList_2)) # moved into getDatasetsDefault into options file
+    #self.commonDatasets = list(self.commonDatasets) # get the common datasets for the comparisons. # moved into getDatasetsDefault into options file.
     print_tab_1(self.commonDatasets, self.color) # all datasets with same color
     text_to_prompt = "enter the numbers of the datasets you want, separated by commas : "
     #text_to_prompt += "                    [" + colorText('h', self.color) + "]elp - ["

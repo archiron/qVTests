@@ -181,3 +181,30 @@ def getFilesList(self, tab):
             tmp_list.append(tmp_elem)
     return tmp_list
 
+def getDatasetsDefault(self, fieldname):
+    self.default_dataset = DataSetsFilter(self, fieldname)
+    self.commonDatasets = set(self.datasetsList_1).intersection(set(self.datasetsList_2))
+    defaults =[]
+    for elem in self.default_dataset:
+        if elem[1] == 1:
+            defaults.append(elem[0])
+    #print(defaults)
+    intersection = set(self.commonDatasets).intersection(set(defaults))
+    self.commonDatasets = list(self.commonDatasets) # get the common datasets for the comparisons.
+    #print('default', self.default_dataset)
+    len_default = 0
+    for elem in self.default_dataset:
+        len_default += elem[1]
+    #print('len default : %s' % len_default)
+    #print('inter avec common')
+    intersection = list(intersection)
+    #print(intersection)
+    len_inter = len(intersection)
+    if len_inter > 0:
+        for el1 in self.default_dataset:
+            el1[1] = 0
+            for el2 in intersection:
+                if el1[0] == el2:
+                    el1[1] = 1
+    #print(self.default_dataset)
+    return len_inter, len_default
