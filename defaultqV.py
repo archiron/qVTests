@@ -3,9 +3,8 @@
 
 #import os,sys
 
-version = '0.61.1'
-# Explode the functionsqV.py into 4 files.
-# minor bug from nb of datasets into release/reference choice.
+version = '0.61.2'
+# remove answerqV.py file because of fonction_XX access.
 
 comparisons = [['Full', 'Full'], ['Fast', 'Fast'], ['Fast', 'Full']]
 #validations = [['RECO', 'RECO'], ['RECO', 'miniAOD'], ['PU25', 'PU25'], ['PUpmx25', 'PUpmx25'], ['PUpmx25', 'PU25'], ['miniAOD', 'miniAOD']] # PU25 instead of PU25ns to take news HGal cases into account.
