@@ -13,6 +13,7 @@ from functionsqV import *
 from defaultqV import *
 from datasetsqV import DataLocation
 from datetime import datetime
+from optionsqV import screen_clear, check_terminal_size
 
 class quickVal():
     def __init__(self):
@@ -49,7 +50,7 @@ class quickVal():
             self.configFile = open('config.py', 'w') #
         except IOError:
             print("Could not open config.py file!")
-	    exit()
+            exit()
         print('config.log file creation')
         try:
             self.logFile = open('config.log', 'w+') #
