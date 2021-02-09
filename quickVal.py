@@ -64,7 +64,7 @@ class quickVal():
         i_back = 1
         while (i_back != 0):
             table=getattr(sys.modules[__name__], "fonction_%s" % str(i_back))(self)
-            i_back = (table + 1) % 16
+            i_back = (table + 1) % 17
             print('i_back : %d' % i_back)
 
         self.configFile.close()

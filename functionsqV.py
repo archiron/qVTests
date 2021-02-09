@@ -27,12 +27,16 @@ def get_answerText(self, text2prompt, nb):
                 help(fonction_6)
             elif (nb == 7):
                 help(fonction_7)
+            elif (nb == 131):
+                help(fonction_131)
             return "h"
         elif rel == 's':
             if (nb == 6):
                 displayStatus(self, fonction_6)
             elif (nb == 7):
                 displayStatus(self, fonction_7)
+            elif (nb == 131):
+                displayStatus(self, fonction_131)
             return "h"
         else:
             print('vous avez tapé : %s' % rel)
@@ -899,6 +903,7 @@ def fonction_13(self):
             else:
                 self.DB_flags.append(True)
                 self.logFile.write('13 - set a DB flag for ZEE' + '\n')
+        function_131(self)
         return 13
     elif DB_flag == 'n':
         self.DB_flags = []
@@ -906,6 +911,34 @@ def fonction_13(self):
             self.DB_flags.append(False)
             self.logFile.write('13 - no GT at all' + '\n')
         return 13
+
+def function_131(self):
+    """KS_reference_release :
+    Once you have called the Decision Box, you need to chose a release to compare.
+    the form is complete (i.e. CMSSW_11_2_0_pre11_2021).
+    if the answer is empty, there the decision Box flag is set to False.
+    """
+    #screen_clear()
+    #print('vous appelez la fonction 131')
+    self.KS_release = ''
+    print('give the KS_reference_release : ')
+    text_to_prompt = "enter the release you want to use for KS comparison : "
+    self.KS_release = get_answerText(self, text_to_prompt, 131) # get a text
+    if (self.KS_release == 'h'):
+        return 12
+    elif (len(self.KS_release) == 0):
+        print("no KS release.")
+        self.logFile.write('131 - no KS release.' + '\n')
+        return 13
+    else:
+        if (self.KS_release == 'back'):
+            return 12
+        else:
+            print('KS release : %s' % self.KS_release)
+            self.logFile.write('131 - extension for release : %s' % self.KS_release + '\n')
+            sleep(self.t2s)
+            return 13
+    return
 
 def fonction_14(self):
     """SUMMARY :
